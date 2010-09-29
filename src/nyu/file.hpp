@@ -1,12 +1,12 @@
-#ifndef NYAH_FILE_HPP
-#define NYAH_FILE_HPP
+#ifndef NYU_FILE_HPP
+#define NYU_FILE_HPP
 
-#include <nyah/mousedeer/grammar/nyah.hpp>
-#include <nyah/mousedeer/error/file.hpp>
+#include <nyu/grammar/nyah.hpp>
+#include <nyu/error/file.hpp>
 
 #include <chilon/getset.hpp>
 
-namespace nyah { namespace mousedeer {
+namespace nyu {
 
 class file {
     typedef chilon::parser::source_code_stream<
@@ -39,7 +39,7 @@ class file {
     }
 };
 
-} }
+}
 
 #endif
 

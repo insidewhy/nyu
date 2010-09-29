@@ -1,15 +1,15 @@
  * 0.5
-     * mousedeer: grammar -> chilon::parser translator
-     * mousedeer: grammar/*.nyah -> mousedeer::grammar::*
+     * nyu: grammar -> chilon::parser translator
+     * nyu: grammar/*.nyah -> nyu::grammar::*
  * 0.6
      * nyah parser (using grammar/nyah.nyah)
-     * mousedeer: nyah -> C++0x backend.
-     * mousedeer: add class style node rules
+     * nyu: nyah -> C++0x backend.
+     * nyu: add class style node rules
  * 0.7
      * nyah::std - vector, variant, tuple
      * nyah::parser like chilon::parser
-     * mousedeer: replace chilon::parser with nyah::parser
+     * nyu: replace chilon::parser with nyah::parser
  * 0.8
      * nyah::llvm
  * 0.9
-     * mousedeer: nyah -> llvm backend.
+     * nyu: nyah -> llvm backend.

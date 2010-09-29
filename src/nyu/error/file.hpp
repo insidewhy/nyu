@@ -1,9 +1,9 @@
-#ifndef NYAH_MOUSEDEER_ERROR_FILE_HPP
-#define NYAH_MOUSEDEER_ERROR_FILE_HPP
+#ifndef NYU_ERROR_FILE_HPP
+#define NYU_ERROR_FILE_HPP
 
 #include <stdexcept>
 
-namespace nyah { namespace mousedeer { namespace error {
+namespace nyu { namespace error {
 
 struct file : std::runtime_error {
     file(char const * const error, std::string const& file_path)
@@ -26,5 +26,5 @@ struct parsing : file {
       : file(error, file_path) {}
 };
 
-} } }
+} }
 #endif

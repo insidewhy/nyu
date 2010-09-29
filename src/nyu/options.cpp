@@ -1,5 +1,5 @@
-#include <nyah/mousedeer/options.hpp>
-#include <nyah/mousedeer/config.hpp>
+#include <nyu/options.hpp>
+#include <nyu/config.hpp>
 
 #include <chilon/conf/cmd/command_line.hpp>
 #include <chilon/parser/joined.hpp>
@@ -9,7 +9,7 @@
 
 #include <sstream>
 
-namespace nyah { namespace mousedeer {
+namespace nyu {
 
 namespace cmd_line = chilon::conf::cmd;
 
@@ -73,4 +73,4 @@ std::string options::include(std::vector<chilon::range> const& path) {
     return "";
 }
 
-} }
+}

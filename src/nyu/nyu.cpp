@@ -1,5 +1,5 @@
-#include <nyah/mousedeer/cpp/builder.hpp>
-#include <nyah/mousedeer/options.hpp>
+#include <nyu/cpp/builder.hpp>
+#include <nyu/options.hpp>
 
 #include <chilon/print.hpp>
 
@@ -15,14 +15,15 @@
 // #define MOUSEBEAR_VERSION "994 (maryam the butcher)"
 // #define MOUSEBEAR_VERSION "993 (friendly beard)"
 // #define MOUSEDEER_VERSION "992 (rose almost 3000 mousedear)"
-#define MOUSEDEER_VERSION "991 (raging mousedeer)"
+// #define MOUSEDEER_VERSION "991 (raging mousedeer)"
+#define NYU_VERSION "0.1 (displacing nyu)"
 
-namespace nyah { namespace mousedeer {
+namespace nyu {
 
 inline int main(int argc, char *argv[]) {
     options opts;
 
-    char const header[] = "mousedeer "   MOUSEDEER_VERSION "\nusage: mousedeer [arguments] <grammar files to process>";
+    char const header[] = "nyu " NYU_VERSION "\nusage: nyu [arguments] <grammar files to process>";
     int nPositionals = opts.parse_command_line(header, argc, argv);
 
     if (0 == nPositionals) return 1;
@@ -48,8 +49,8 @@ inline int main(int argc, char *argv[]) {
     return 0;
 }
 
-} }
+}
 
 int main(int argc, char *argv[]) {
-    return nyah::mousedeer::main(argc, argv);
+    return nyu::main(argc, argv);
 }

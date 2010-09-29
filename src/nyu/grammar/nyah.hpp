@@ -1,9 +1,9 @@
-#ifndef NYAH_MOUSEDEER_GRAMMAR_NYAH_HPP
-#define NYAH_MOUSEDEER_GRAMMAR_NYAH_HPP
+#ifndef NYU_GRAMMAR_NYAH_HPP
+#define NYU_GRAMMAR_NYAH_HPP
 
-#include <nyah/mousedeer/grammar/grammar.hpp>
+#include <nyu/grammar/grammar.hpp>
 
-namespace nyah { namespace mousedeer { namespace grammar { namespace nyah {
+namespace nyu { namespace grammar { namespace nyah {
 
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;
@@ -32,5 +32,5 @@ typedef sequence<
 typedef sequence<
     many<Include>, many_plus<Module> > Grammar;
 
-} } } }
+} } }
 #endif

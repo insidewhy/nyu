@@ -1,352 +1,126 @@
 !html
 head {
-    %title nyah - open source community language
+    %title nyu - PEG based parser generator
     link(rel=stylesheet, type=text/css, href=css/global.css)
 }
 
 !body
 
-%h1 Nyah
+%h1 Nyu
 
 #links {
     links:
-    %a(href=http://github.com/tuxjay/nyah) source
-    %a(href=cplusplus.html) nyah vs c++(0x)
+    %a(href=http://github.com/tuxjay/nyu) source
     %a(href=#status) status
 }
 
-%p { Nyah is a programming language designed to allow code to be written that performs as well as or better than traditional systems languages like C and C++ but with the expressiveness of a scripting language like python or ruby. Nyah is typed, but uses type inference so types can usually be omitted. Nyah has strong meta-programming capabilities. It uses the | %a(href=http://llvm.org) LLVM | compiler infrastructure to generate object code and will generate JVM bytecode if garbage collection is turned on. The main goal for Nyah is to be a community language designed with input from a large group of people. The grammar of nyah can be modified at compile time to allow diverging opinions to be expressed within the same language. Features that offend and please a group of programmers can be removed and added to taste when a project is begun. }
+%p { Nyu is a parser generator system with a PEG based input language. Nyu uses | a(href=http://chilon.net/papers/tbpeg.pdf)TBPEG | based PEGs which are capability of creating an AST type from a language grammar, in addition to creating a parser capable of storing data directly to this tree. }
 
-%h2 Aims
-%p Nyah borrows and improves upon features found in other languages, especially C++0x, scala and D. It also adds concepts not found in any other language.
-
-%ul {
-    %li Improve the powerful meta-programming functionalities of C++0x and D whilst simplifying the syntax.
-    %li Exceed the type inference and DSL building capabilities of scala.
-    %li Provide a fast and free MIT licensed compiler implementation.
-    %li Provide a powerful and intelligent compiler which will infer information to save developers from repetitive typing when safe to do so.
-    %li Optional garbage collection. Nyah should target both the JVM and the LLVM to allow it to be used both with and without a garbage collector.
-    %li Object orientated (including multiple inheritance), meta, functional and declarative programming styles are supported.
-}
-
-%h2 Syntax can be extended/modified at compile time.
-
-%p New features can be added to the language and the compiler from within nyah code itself. This not only allows many powerful features to be expressed neatly in the language, but makes nyah an ideal "compiler toolkit". It is conceivable to import the syntax of a pre-existing language into nyah, for example, the nyah grammar module allows PEG based parsers to be expressed directly in a PEG based notation within the language. This variant of PEGs allows AST building capabilities to be expressed with the parsing grammar. This allows powerful modifications and extensions to be expressed neatly and simply. The nyah parser itself is implemented with this module which allows extensions and modifications to the core language to be made with reasonable ease and flexibility.
-
-%h2 Fast, powerful, non-verbose meta-programming
-
-%p Whilst the goals are ambitious the nyah compiler achieves them neatly by approaching compilation in a unique way. The compiler outputs assembly code during the compilation process to allow it to run meta-functions and interpret grammar modifications quickly. Whilst this approach adds another layer of indirection which would make the compilation of traditional code slightly slower, it allows code that takes advantage of meta-programming to be compiled very quickly. It also allows type inference to be more powerful than a language like scala. In nyah even functions that recursively call other meta-functions can benefit from return type inference.
-
-%h2 Variables
-
+%h2 Using % to parse joined sequences
 %pre <<EOF
-    // Initialisation and assignment.
-    a : uint = 0
+    @grammar list
+    Spacing    <- \s
 
-    // Type of b is inferred by compiler.
-    b := 0
+    // Spacing allowed between elements in a sequence, ^ disallows spacing.
+    Identifier <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
 
-    // Construct object on stack.
-    v_stack := vector[int]()
+    // % Joins identifier with a comma. Spacing can be around join (^% disallows this).
+    Grammar    <- "[" (Identifier % ",") "]"
 
-    // Construct object on heap.
-    v_heap := new vector[int]()
-
-    // Make a reference.
-    v_heap_ref :& = v_heap
+    // stores: vector<string>
+    // parses: [ hello, king ]
+    // as:     vector<string>("hello", "king")
 EOF
 
-%h2 Semicolons
-
-%p Semicolons are only needed where necessary to resolve ambiguity. In order for this to work, binary operators should not appear at the beginning of a new line.
-
+%h2 Using &lt;= to create types
 %pre <<EOF
-    // This is fine.
-    a := 1 + 2 +
-        3
+    @grammar mathematics_basic
+    Spacing   <- \s
 
-    // This is two statements: (b := 1 + 2) and (+3)
-    b := 1 + 2
-        + 3
+    // <int- stores resulting parsed string as int
+    Number    < int - [0-9]+
+
+    // <= creates a new type, the storage type of these rules aren't 
+    // collapsed into those of parent expressions.
+    Product   <= Number %+ "*"
+
+    // %+ is like % but at least one join item must be stored.
+    Addition  <= Product %+ "+"
+    Grammar   <- Addition+
+
+    // stores: vector<Addition>
+    // creates:
+    //     class Product {
+    //          value_: vector<int>
+    //     }
+    //     class Addition {
+    //          value_: vector<Product>
+    //     }
+    // parses: 4 + 2
+    // as:     [ Addition[Product[4], Product[2]] ]
+    // parses: 4
+    // as:     [ Addition[Product[4]] ]
+    // parses: 4 7
+    // as:     [ Addition[Product[4]], Addition[Product[7]]]
 EOF
 
-%h2 Control structures
-
+%h2 "Using |% to recursively collapse unjoined nodes"
 %pre <<EOF
-    // Declare two functions.
-    // (= value) is equivalent to (return value) at function scope.
-    def bread { = "bread" }
-    def uncle { return "uncle" }
+    @grammar mathematics
+    Spacing   <- \s
+    Number    < int - [0-9]+
 
-    // if/else can return values.
-    a := false
-    b := if (a) =1; else =2
-    c := a ? 1 : 2
+    // |% parses the same data as %+ but stores parsed data differently.
+    // The node is only created if the join matches more than one item, otherwise
+    // it stores the item to the left of the |%. The resulting type of the whole
+    // expression is a variant that can store either type.
+    Product   <= Number  |% "*"
 
-    // while can return a value if it has a return statement. In which
-    // case the result of the value on the last iteration will be used.
-    // This can also be used for foreach and for loops. "return" should
-    // be used in order to return data from a function within a loop.
-    str  := "pumpo"
-    iter := str.begin
-    first_m :=  while (*iter != "m") = ++iter
+    // The types in the variant of Product are collapsed into the storage of 
+    // Addition's variant.
+    // e.g. Product can store variant<Product, int>
+    // Addition stores: variant<Addition, storage type of Product>
+    //          expand: variant<Addition, variant<Product, int>>
+    //        collapse: variant<Addition, Product, int>
 
-    // for loop.
-    for (i := 0; i < 10; ++i) println(i)
+    Addition  <= Product |% "+"
 
-    // Range based for loop.
-    v := vector(1, 2, 3, 4)
-    foreach (i ; v) println(i)
+    Grammar   <- Addition+
 
-    // Use two values at a time in loop.
-    foreach (i1, i2 ; v) println(i1, ", ", i2)
+    // stores: vector< variant<int, Product, Addition> >
+    // creates:
+    //     class Product {
+    //          value_: vector<int>
+    //     }
+    //     class Addition {
+    //          value_: vector<variant<int, Product>>
+    //     }
+    // parses: 4 + 2
+    // as:     [ Addition[4, 2] ]
+    // parses: 4
+    // as:     [ 4 ]
+    // parses: 4 7
+    // as:     [ 4, 7 ]
+    // parses: 4 + 2 * 7
+    // as:     [ Addition[4, Product[2, 7]] ]
 EOF
 
-%h2 Functions
+%h2 Further Reading
 
-%pre <<EOF
-    // A function with a single statement.
-    def add(a:const int, b:const int):int
-        return a + b
-
-    // Return type can always be omitted, in which case it is inferred
-    // by the compiler.
-    def subtract(a:const int, b:const int) = a - b
-
-    // A function containing several statements.
-    def divide(a:const int, b:const int) {
-        assert(b != 0)
-        return a / b
-    }
-
-    // Argument types may also be omitted.
-    def generic_add(a, b) = a + b
-
-    // A new function is generated for each set of argument types,
-    // so the following two calls created two different functions.
-    generic_add(1, 2)
-    generic_add(1f, 2f)
-
-    // assign_ptr's first argument can be any type, but must be a
-    // pointer. The second argument may be passed from a const or non-const
-    // expression (unless a more specific non-const overload exists) but
-    // is treated as a const variable within the function.
-    def assign_ptr(a:*, b:const) *a = b
-
-    // Functions can be overloaded, the most specific function always
-    // matches.
-    def end(a) = a.end()
-
-    def end(a:char *) {
-        while (*a != '\0') ++a
-        return a
-    }
-
-    def end(a:*) {
-        // create a compile time error if called.
-        @error "Cannot retrieve end of pointer"
-    }
-
-    // A function containing return types with different statements can
-    // be made to return a "variant[T...]" where T... is the set of types
-    // of all possible return types. T... is deduced by the compiler.
-    // variant is implemented as a set of types and meta-programs within
-    // nyah itself with no special compiler support necessary.
-    def item_or_false(v, i):variant {
-        it := v.find(i)
-        return it == v.end ? false : it
-    }
-
-EOF
-
-%h2 Arrays
-
-%pre <<EOF
-    // Create array of 3 integers.
-    a := [ 1, 2, 3 ]
-
-    // Create array of 3 integers and assign elements in a run-time loop.
-    c := [ i : 0..3, i ]
-
-    // As above but create values in a loop unrolled at compile time.
-    // This allows the loop variable to be used as a compile time constant.
-    b := [ i ?: 0..3, i ]
-
-    // Index second element of array. [ and ] are used for type
-    // parameters, so ( and ) are used for arrays in nyah as in scala.
-    print(b(1))
-EOF
-
-%h2 Classes and type parameters
-%pre <<EOF
-    // type parameter T
-    class scoped_ptr[T] {
-        // No initialiser list needed, nyah automatically initialises class
-        // data with results of all member assignments at the beginning of
-        // a constructor.
-        def self(ptr:T *) {
-            ptr_ = ptr
-        }
-
-        // Destructor.
-        def ~self() delete ptr_
-
-        // Default constructor provided unless:
-        delete self()
-
-      @private:
-        ptr_:T *
-    }
-EOF
-
-%h2 Variadic type parameters
-%pre <<EOF
-    // Inheritance.
-    class tuple[T...] : tuple_helper[T...] {
-        // super always refers to first parent class (super[n] for nth)
-        // This inherits all constructors from tuple_helper.
-        using super.self
-    }
-
-    class tuple_helper[]
-
-    class tuple_helper[H, T...] : tuple_helper[T...] {
-        def self(h:H, u...) {
-            // Call parent class constructor.
-            super(u...)
-            element_ = h
-        }
-
-        def =(h:H) element_ = h
-
-      @private:
-        element_:H
-    }
-EOF
-
-%h2 Meta functions
-%pre <<EOF
-
-meta if[C, T, U] : T
-
-// Unliked C++ meta-functions have access to all primitive types e.g.
-//    bool[false], bool[true], int[1], float[1.0]
-// When use in type context, 1 = int[1], true = bool[true] etc.
-
-// :false is used to specialise the first argument of `if' on :false
-meta if[:false, T, U] : U
-
-// Classes with no bodies are good to pass compile-time data between
-// meta-functions.
-class set[T...]
-
-// If a metafunction with the same name as a class is created, then the
-// metafunction becomes a companion function of the class, and type[...] can be
-// used within the metafunction to reference the companion class. In this case
-// the companion meta-function ensures whenever a set is created that
-// duplicates are removed from its parameter list.
-meta set[type[R...]] : type[R...]
-
-meta set[type[R...], H, T...] :
-    set[
-        if[ std.contains[H, R...], type[R...], type[R..., H] ],
-        T...
-    ]
-
-meta set[H, T...] : set[type[H], T...]
-
-// ?: creates a type alias at compile time, like a typedef in c++
-a_set ?: set[bool, int, float, int]
-
-// sizeof... calculates the size of a template pack, or the number of template
-// arguments in a class if no pack is given. In this case this_is_3 will alias
-// uint[3].
-this_is_3 ?: sizeof...[a_set]
-
-// ... expands types in a template pack or the type arguments of a given
-// template parameter In this case a_list will alias
-//     list[bool, int, float, float].
-a_list ?: list[a_set..., float]
-
-EOF
-
-%h2 Parsing
-%pre <<EOF
-@grammar list
-Spacing    <- \s
-Identifier <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
-Grammar    <- '[' (Identifier % ',') ']'
-// this stores: std.vector[std.string]
-// example
-//    string:  [ hello, king ]
-//    stores: std.vector[string]("hello", "king")
-
-@grammar mathematics
-Spacing        <- \s
-Number         < int - [0-9]+
-Multiplication <= Number |% "*"
-Addition       <= Multiplication |% "+"
-Grammar        <- Addition+
-
-// this stores:
-// std.vector[ std.variant[int, Multiplication, Addition] ]
-// And creates:
-// class Multiplication {
-//      value_: std.vector[int]
-// }
-// class Addition {
-//      value_: std.vector[std.variant[int, Multiplication]]
-// }
-EOF
+%p { The syntax of nyu is fully described in the paper on tree building parser expression grammars which can be found | %a(href=http://chilon.net/papers/tbpeg.pdf) "here." }
 
 %h2#status Status
 
-%h3 Parser generator
 %ul.status {
-    %li { .completed COMPLETED | Research new notation to extend PEG to include &ldquo;AST-building&rdquo; parsers. Read paper | a(href=http://chilon.net/papers/tbpeg.pdf) TBPEGs }
-    %li { .completed COMPLETED | chilon::parser, a C++0x implementation of TBPEGs, to be used in the bootstrap compiler. Project website | a(href=http://chilon.net/library.html) chilon::parser }
-    %li { .completed COMPLETED | TBPEG parser in chilon::parser to be used for Nyah's grammar DSL. }
-    %li { .inprogress IN PROGRESS | Code generator for TBPEG parser to output chilon::parser parsers. }
+    %li { .completed completed | Research new notation to extend PEG to include &ldquo;AST-building&rdquo; parsers. Read paper | a(href=http://chilon.net/papers/tbpeg.pdf) TBPEGs }
+    %li { .completed completed | chilon::parser, a C++0x implementation of TBPEGs, to be used for C++0x generated parsers. Project website | a(href=http://chilon.net/library.html) chilon::parser }
+    %li { .completed completed | nyu parser written in nyu. }
+    %li { .completed completed | nyu parser in chilon::parser to be used for bootstrapping the above parser. }
+    %li { .inprogress in progress | C++0x chilon::parser output. }
+    %li { .yettostart yet to start | javascript parser output (use in live demo on website). }
 }
 
-%h3 First compiler (written in C++0x) to be used for bootstrapping
-%ul.status {
-    %li { .inprogress IN PROGRESS | mousedeer: full nyah language parser using parser generator. }
-    %li { .yettostart YET TO START | Code generator using LLVM. }
-}
+%h2 Contributing
 
-%h3 Nyah standard library
-%ul.status {
-    %li { .inprogress IN PROGRESS | "std.variant and std.tuple." }
-    %li { .inprogress IN PROGRESS | containers: vector, vector_hash_map, hash_map, hash_set, set, map. }
-    %li { .inprogress IN PROGRESS | nyah meta-programming library. }
-    %li { .yettostart YET TO START | std.config argument parser. }
-}
-
-%h3 Second compiler (written in nyah)
-%ul.status {
-    %li { .yettostart YET TO START | "nyah.parser based on chilon::parser." }
-    %li { .yettostart YET TO START | TBPEG nyah syntax which will internally be based on nyah.parser. }
-    %li { .yettostart YET TO START | Use nyah syntax from bootstrap compiler to produce full parser. }
-    %li { .yettostart YET TO START | LLVM library for nyah based on LLVM C bindings. }
-    %li { .yettostart YET TO START | Code generator using llvm library. }
-    %li { .yettostart YET TO START | Java bytecode output library for nyah. }
-    %li { .yettostart YET TO START | Code generator for garbage collected nyah using java bytecode library. }
-}
-
-%h2 Help wanted
-
-%p Help is appreciated from anyone with research, implementation or art. Criticisms and suggestions for how to improve or modify the language will be welcomed.
-%p {
-    Here are some ideas for things to contribute:
-    %ul {
-        %li Coroutines
-        %li Internationalisation
-        %li Optimised hashed standard containers
-        %li Red-black tree maps
-        %li Multi-index container library
-        %li Asynchronous IO library
-    }
-}
-%div E-mail: nyah (@) chilon.net.
+%div E-mail: nyu (@) chilon.net.
 %div { IRC Channel: #nyah on | %a(href=irc://irc.freenode.net/nyah) "irc.freenode.net" }

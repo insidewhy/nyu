@@ -1,5 +1,5 @@
-#ifndef NYAH_MOUSEDEER_GRAMMAR_GRAMMAR_HPP
-#define NYAH_MOUSEDEER_GRAMMAR_GRAMMAR_HPP
+#ifndef NYU_GRAMMAR_GRAMMAR_HPP
+#define NYU_GRAMMAR_GRAMMAR_HPP
 
 #include <chilon/parser/source_code_stream.hpp>
 #include <chilon/parser/sequence.hpp>
@@ -18,7 +18,7 @@
 #include <chilon/parser/tree_joined.hpp>
 #include <chilon/parser/tree_many.hpp>
 
-namespace nyah { namespace mousedeer { namespace grammar {
+namespace nyu { namespace grammar {
 
 struct Rule {
     enum Status {
@@ -126,11 +126,11 @@ struct OrderedChoice : simple_node<OrderedChoice,
 
 struct Expression : simple_node<Expression, OrderedChoice> {};
 
-struct Rule : nyah::mousedeer::grammar::Rule, simple_node<Rule,
+struct Rule : nyu::grammar::Rule, simple_node<Rule,
     key<Identifier>, char_<'<'>, char_from<'=', '-'>, Expression >
 {};
 
 typedef many<Rule> Grammar;
 
-} } } }
+} } }
 #endif

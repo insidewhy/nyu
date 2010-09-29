@@ -1,10 +1,10 @@
-#include <nyah/mousedeer/cpp/builder.hpp>
-#include <nyah/mousedeer/error/not_found.hpp>
+#include <nyu/cpp/builder.hpp>
+#include <nyu/error/not_found.hpp>
 
 #include <cstring>
 #include <stdexcept>
 
-namespace nyah { namespace mousedeer { namespace cpp {
+namespace nyu { namespace cpp {
 
 namespace nyah    = grammar::nyah;
 namespace grammar = grammar::grammar;
@@ -41,7 +41,7 @@ bool builder::parse_file(std::string const& file_path) {
 }
 
 void builder::operator()(module_type const& module) {
-    auto& moduleId = module.first;
+    // auto& moduleId = module.first;
     auto& grammar = module.second.value_;
 
     for (auto it = grammar.safe_ordered_begin(); ! it.at_end(); ++it) {
@@ -54,7 +54,7 @@ void builder::operator()(module_type const& module) {
 }
 
 void builder::grammar_dep(module_type const& module, grammar_identifier const& id) {
-    auto& grammar = module.second.value_;
+    // auto& grammar = module.second.value_;
     // TODO: search for grammar in current module, then all parent modules
 }
 
@@ -68,4 +68,4 @@ void builder::print_ast() const {
     }
 }
 
-} } }
+} }

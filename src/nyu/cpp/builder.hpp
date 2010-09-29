@@ -1,8 +1,8 @@
-#ifndef NYAH_MOUSEDEER_CPP_BUILDER_HPP
-#define NYAH_MOUSEDEER_CPP_BUILDER_HPP
+#ifndef NYU_CPP_BUILDER_HPP
+#define NYU_CPP_BUILDER_HPP
 
-#include <nyah/mousedeer/options.hpp>
-#include <nyah/mousedeer/file.hpp>
+#include <nyu/options.hpp>
+#include <nyu/file.hpp>
 
 #include <chilon/getset.hpp>
 
@@ -10,7 +10,7 @@
 #include <fstream>
 #include <stdexcept>
 
-namespace nyah { namespace mousedeer { namespace cpp {
+namespace nyu { namespace cpp {
 
 // TODO: add nodes involved in cycle to exception.
 class file_dependency_cycle {};
@@ -55,5 +55,5 @@ class builder {
     builder(decltype(options_)& options) : options_(options) {}
 };
 
-} } }
+} }
 #endif

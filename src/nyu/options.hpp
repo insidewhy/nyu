@@ -1,5 +1,5 @@
-#ifndef NYAH_OPTIONS_HPP
-#define NYAH_OPTIONS_HPP
+#ifndef NYU_OPTIONS_HPP
+#define NYU_OPTIONS_HPP
 
 #include <chilon/print.hpp>
 
@@ -8,7 +8,7 @@
 
 #include <unistd.h>
 
-namespace nyah { namespace mousedeer {
+namespace nyu {
 
 struct options {
     bool                       verbose_;
@@ -30,6 +30,6 @@ struct options {
     options();
 };
 
-} }
+}
 
 #endif
