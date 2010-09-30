@@ -1,15 +1,4 @@
- * 0.5
-     * nyu: grammar -> chilon::parser translator
-     * nyu: grammar/*.nyah -> nyu::grammar::*
- * 0.6
-     * nyah parser (using grammar/nyah.nyah)
-     * nyu: nyah -> C++0x backend.
-     * nyu: add class style node rules
- * 0.7
-     * nyah::std - vector, variant, tuple
-     * nyah::parser like chilon::parser
-     * nyu: replace chilon::parser with nyah::parser
- * 0.8
-     * nyah::llvm
- * 0.9
-     * nyu: nyah -> llvm backend.
+0.1 - full parser
+0.8 - chilon::parser code generator
+0.9 - javascript code generator
+1.0 - java code generator

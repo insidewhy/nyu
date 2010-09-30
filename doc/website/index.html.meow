@@ -11,6 +11,7 @@ head {
 #links {
     links:
     %a(href=http://github.com/tuxjay/nyu) source
+    %a(href=https://sourceforge.net/projects/nyu/files/) download
     %a(href=#status) status
 }
 
@@ -117,10 +118,12 @@ EOF
     %li { .completed completed | nyu parser written in nyu. }
     %li { .completed completed | nyu parser in chilon::parser to be used for bootstrapping the above parser. }
     %li { .inprogress in progress | C++0x chilon::parser output. }
-    %li { .yettostart yet to start | javascript parser output (use in live demo on website). }
+    %li { .yettostart yet to start | javascript parser output for use in live nyu demo on website. }
+    %li { .yettostart yet to start | More output languages: java, ruby, C, C++ as boost::spirit. }
 }
 
 %h2 Contributing
 
+%div Wanted: Code for more output languages, suggestions and art for the website.
 %div E-mail: nyu (@) chilon.net.
 %div { IRC Channel: #nyah on | %a(href=irc://irc.freenode.net/nyah) "irc.freenode.net" }
