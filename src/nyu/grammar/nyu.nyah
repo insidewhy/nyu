@@ -1,5 +1,5 @@
-@module nyah.mousebear.grammar
-@grammar grammar
+@module nyah.grammar
+@grammar nyu
 
 Spacing           <- (\s / "//" ^ (!\n)* ^ \n)+
 AnyCharacter      <- '.'

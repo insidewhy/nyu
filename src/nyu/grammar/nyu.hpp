@@ -32,7 +32,7 @@ struct Rule {
     Status status_;
 };
 
-namespace grammar {
+namespace nyu {
 
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;
@@ -126,7 +126,7 @@ struct OrderedChoice : simple_node<OrderedChoice,
 
 struct Expression : simple_node<Expression, OrderedChoice> {};
 
-struct Rule : nyu::grammar::Rule, simple_node<Rule,
+struct Rule : grammar::Rule, simple_node<Rule,
     key<Identifier>, char_<'<'>, char_from<'=', '-'>, Expression >
 {};
 

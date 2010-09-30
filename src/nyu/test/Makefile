@@ -5,7 +5,7 @@ nyu    = ../.obj/nyu
 
 test: nyah.out
 
-nyah.out: nyah.nyah grammar.nyah ${nyu}
+nyah.out: nyah.nyah nyu.nyah ${nyu}
 
 %.out:
 	@rm -rf ${outdir}

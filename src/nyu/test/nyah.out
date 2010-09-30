@@ -1,17 +1,16 @@
-include [ [ "grammar" ] ]
+include [ [ "nyu" ] ]
 module id [
     "nyah"
-    "mousebear"
     "grammar"
 ]
 module [
     "nyah": MetaGrammar: (
-        [ "grammar" ]
+        [ "nyu" ]
         [
             "MetaIdentifier": Rule: (
                 '-'
                 Expression: ScopedRule: (
-                    "grammar"
+                    "nyu"
                     "Identifier"
                 )
             )
@@ -46,7 +45,7 @@ module [
                         '?'
                     )
                     ScopedRule: (
-                        "grammar"
+                        "nyu"
                         "Grammar"
                     )
                 ]
@@ -93,7 +92,7 @@ module [
             )
         ]
     )
-    "grammar": MetaGrammar: (
+    "nyu": MetaGrammar: (
         empty
         [
             "Spacing": Rule: (

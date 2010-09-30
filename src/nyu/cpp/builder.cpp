@@ -6,9 +6,6 @@
 
 namespace nyu { namespace cpp {
 
-namespace nyah    = grammar::nyah;
-namespace grammar = grammar::grammar;
-
 void builder::generate_code() {
     for (auto it = chilon::make_safe_iterator(std::get<0>(ast_));
          ! it.at_end(); ++it)

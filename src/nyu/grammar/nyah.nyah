@@ -1,14 +1,14 @@
-@include grammar
-@module nyah.mousebear.grammar
+@include nyu
+@module nyah.grammar
 
 // nyah extends grammar, which causes it to also inherit grammar::Spacing
-@grammar nyah : grammar
+@grammar nyah : nyu
 
-MetaIdentifier   <- grammar::Identifier
+MetaIdentifier   <- nyu::Identifier
 ScopedIdentifier <- MetaIdentifier %+ "."
 ModuleDefinition <- "@module" ScopedIdentifier
 MetaGrammar      <= "@grammar" #MetaIdentifier (":" ScopedIdentifier)?
-                    grammar::Grammar
+                    nyu::Grammar
 Module           <= #+(ModuleDefinition?) MetaGrammar+
 Include          <- "@include" MetaIdentifier %+ "/"
 Grammar          <- Include* Module+

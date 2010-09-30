@@ -4,7 +4,7 @@ set(CHILON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../chilon)
 set(CMAKE_MODULE_PATH ${CHILON_DIR}/cmake/modules)
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
-project(nyah)
+project(nyu)
 
 include(C++0x)
 include(Installer)

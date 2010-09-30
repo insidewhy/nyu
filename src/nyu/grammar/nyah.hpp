@@ -1,16 +1,16 @@
 #ifndef NYU_GRAMMAR_NYAH_HPP
 #define NYU_GRAMMAR_NYAH_HPP
 
-#include <nyu/grammar/grammar.hpp>
+#include <nyu/grammar/nyu.hpp>
 
 namespace nyu { namespace grammar { namespace nyah {
 
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;
 
-using grammar::Spacing;
+using nyu::Spacing;
 
-typedef grammar::Identifier MetaIdentifier;
+typedef nyu::Identifier MetaIdentifier;
 
 typedef joined_plus<char_<'.'>, MetaIdentifier> ScopedIdentifier;
 
@@ -19,7 +19,7 @@ typedef sequence<char_<'@',m,o,d,u,l,e>, ScopedIdentifier> ModuleDefinition;
 struct MetaGrammar : simple_node<MetaGrammar,
     char_<'@',g,r,a,m,m,a,r>, key<MetaIdentifier>,
     optional<char_<':'>, ScopedIdentifier>,
-    grammar::Grammar> {};
+    nyu::Grammar> {};
 
 struct Module : simple_node<Module,
     key_plus< optional<ModuleDefinition> >,
