@@ -31,17 +31,14 @@ head {
     // are collapsed to store a single string, so Identifier stores a string.
     Identifier <- [a-zA-Z_] ^ IdentifierSuffix
 
-    // A % B matches A (B A)* but stores vector[storage type of A]
+    // P % Q matches P (Q P)* but stores vector[storage type of P]
     // In Grammar "[", "," and "]" are not stored as they  always match the
-    // same data.
+    // same data. (P ^% Q) is the same as (P % Q) but matches (P^(Q^P)^*).
     Grammar    <- "[" (Identifier % ",") "]"
 
-    // A ^% matches A^(B^A)* i.e. spacing is not allowed before and after the
-    // joining parser.
-
-    // stores: vector<string>
-    // parses: [ hello, king ]
-    // as:     vector<string>("hello", "king")
+    // Grammar stores: vector<string>
+    //         parses: [ hello, king ]
+    //             as: vector<string>("hello", "king")
 EOF
 
 %h2 Using / to parse ordered choice and store variant
@@ -78,6 +75,9 @@ EOF
 
     // %+ is like % but at least one join item must be stored.
     Addition  <= Product %+ "+"
+
+    // Spacing* is allowed between elements in each P in P+ or P* unless
+    // P stores a character. P^+ is the same as P+ with no spacing allowed.
     Grammar   <- Addition+
 
     // stores: vector<Addition>
