@@ -69,8 +69,8 @@ EOF
     Number    < int - [0-9]+
 
     // <= creates a "node parser". Node parsers store a new type with the same
-    // name as the parsing rule. Types stored by node parsers  cannot be broken
-    // down into the storage type of including parsers.
+    // name as the parsing rule. The storage types of node parsers are not
+    // flattened into the storage type of including parsers.
     Product   <= Number %+ "*"
 
     // %+ is like % but at least one join item must be stored.
