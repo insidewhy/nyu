@@ -15,7 +15,10 @@ head {
     %a(href=#status) status
 }
 
-%p { Nyu is a parser generator system with a PEG based input language. Nyu uses | a(href=http://chilon.net/papers/tbpeg.pdf)TBPEG | based PEGs which are capability of creating an AST type from a language grammar, in addition to creating a parser capable of storing data directly to this tree. }
+%p { 
+    nyu is a powerful and flexible parser generator based on the | %a(href=http://chilon.net/papers/tbpeg.pdf)TBPEG | (tree building parsing expression grammar) notation. nyu outputs both an appropriate AST type (based on vectors, variants, custom classes, strings and primitive types) in addition to a parser which populates this AST as it parses text. The nyu language is based on parsing expression grammars (PEGs) with simple and powerful extensions to allow the tree representation to be inferred from the same grammar that is used to create the parser.
+}
+
 
 %h2 Using % to parse joined sequences
 %pre <<EOF
@@ -174,6 +177,6 @@ EOF
 
 %h2 Contributing
 
-%div Wanted: Code for more output languages, suggestions and art for the website.
+%div Wanted: Code for output languages, suggestions and art for the website.
 %div E-mail: nyu (@) chilon.net.
 %div { IRC Channel: #nyah on | %a(href=irc://irc.freenode.net/nyah) "irc.freenode.net" }
