@@ -31,9 +31,9 @@ head {
     // are collapsed to store a single string, so Identifier stores a string.
     Identifier <- [a-zA-Z_] ^ IdentifierSuffix
 
-    // P % Q matches P (Q P)* but stores vector[storage type of P]
-    // In Grammar "[", "," and "]" are not stored as they  always match the
-    // same data. (P ^% Q) is the same as (P % Q) but matches (P^(Q^P)^*).
+    // P % Q matches (P (Q P)*)? but stores vector[storage type of P]
+    // In Grammar "[", "," and "]" are not stored as they always match the
+    // same data. (P ^% Q) is the same as (P % Q) but matches (P^(Q^P)^*)?.
     Grammar    <- "[" (Identifier % ",") "]"
 
     // Grammar stores: vector<string>
@@ -74,6 +74,7 @@ EOF
     Product   <= Number %+ "*"
 
     // %+ is like % but at least one join item must be stored.
+    // P %+ Q matches P (Q P)* and stores vector[storage type of P]
     Addition  <= Product %+ "+"
 
     // Spacing* is allowed between elements in each P in P+ or P* unless
