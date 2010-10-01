@@ -105,6 +105,8 @@ EOF
     // Expression recursively refers to itself through Term. This would not be
     // possible if Expression was not a node parser as in this case the type of
     // Expression would recursively depend on its own storage type.
+    // rule: Parsers can only refer to themselves if they can only store their
+    //       node type.
     // Term stores variant<int, Expression>
     Term       <= Number / "(" Expression ")"
     Product    <= Number %+ "*"
@@ -128,7 +130,8 @@ EOF
     // with the type depending on the data Product parses.
     Product   <= Number  |% "*"
 
-    // node parsers that use |+, |* or |% cannot recursively refer to themselves
+    // Node parsers that use |+, |* or |% cannot recursively refer to themselves
+    // by the rule introduced earlier.
 
     // Addition stores: variant<Addition, storage type of Product>
     //          expand: variant<Addition, variant<Product, int>>
