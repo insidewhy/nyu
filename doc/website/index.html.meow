@@ -35,7 +35,7 @@ head {
     // as:     vector<string>("hello", "king")
 EOF
 
-%h2 Using / to parse order choice and store variant
+%h2 Using / to parse ordered choice and store variant
 %pre <<EOF
     @grammar js
     Spacing    <- \s
@@ -49,6 +49,8 @@ EOF
 
     // FuncCall stores string, and Identifier stores tuple(string, string) so
     // the grammar stores vector< variant<string, tuple<string, string> > >
+    // Duplicate types are collapsed into a single entry in a variant, and a
+    // variant that stores a single type is collapsed to that type.
     Grammar <- (FuncCall / Identifier)+
 EOF
 
