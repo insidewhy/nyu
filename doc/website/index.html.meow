@@ -23,6 +23,8 @@ head {
     Spacing    <- \s
 
     // Spacing allowed between elements in a sequence, ^ disallows spacing.
+    // The storage types of adjacent string/char storing items joined with ^
+    // are collapsed to store a single string, so Identifier stores a string.
     Identifier <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
 
     // % Joins identifier with a comma. Spacing can be around join (^% disallows this).
@@ -33,6 +35,23 @@ head {
     // as:     vector<string>("hello", "king")
 EOF
 
+%h2 Using / to parse order choice and store variant
+%pre <<EOF
+    @grammar js
+    Spacing    <- \s
+    Identifier     <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
+
+    // Spacing is optional between items in a sequence, so blah( blah )
+    // and blah(blah) both match. "(" always parses the same thing so by
+    // default does not store anything in the parse tree. FuncCall stores
+    // tuple(string, string)
+    FuncCall <- Identifier "(" Identifier ")"
+
+    // FuncCall stores string, and Identifier stores tuple(string, string) so
+    // the grammar stores vector< variant<string, tuple<string, string> > >
+    Grammar <- (FuncCall / Identifier)+
+EOF
+
 %h2 Using &lt;= to create types
 %pre <<EOF
     @grammar mathematics_basic
@@ -41,7 +60,7 @@ EOF
     // <int- stores resulting parsed string as int
     Number    < int - [0-9]+
 
-    // <= creates a new type, the storage type of these rules aren't 
+    // <= creates a new type, the storage type of these rules aren't
     // collapsed into those of parent expressions.
     Product   <= Number %+ "*"
 
@@ -65,6 +84,24 @@ EOF
     // as:     [ Addition[Product[4]], Addition[Product[7]]]
 EOF
 
+%h2 &lt;= rules can refer to themselves
+%pre <<EOF
+    @grammar mathematics_basic
+    Spacing    <- \s
+
+    Number     < int - [0-9]+
+    // because Expression stores a new type (as dictated by <=) it can
+    // recursively refer to itself through Term. This would not be possible
+    // if Expression was not a node storing rule as in this case deducing the
+    // type of term would cause an infinite recursion. <= types that use
+    // |+, |* or |% cannot recursively refer to themselves.
+    Term       <= Number / Expression
+    Product    <= Number %+ "*"
+    Addition   <= Product %+ "+"
+    Expression <= Addition
+    Grammar   <- Expression+
+EOF
+
 %h2 "Using |% to recursively collapse unjoined nodes"
 %pre <<EOF
     @grammar mathematics
@@ -75,9 +112,11 @@ EOF
     // The node is only created if the join matches more than one item, otherwise
     // it stores the item to the left of the |%. The resulting type of the whole
     // expression is a variant that can store either type.
+    // In this case Product stores variant<int, Product>
     Product   <= Number  |% "*"
 
-    // The types in the variant of Product are collapsed into the storage of 
+
+    // The types in the variant of Product are collapsed into the storage of
     // Addition's variant.
     // e.g. Product can store variant<Product, int>
     // Addition stores: variant<Addition, storage type of Product>
