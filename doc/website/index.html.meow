@@ -130,8 +130,6 @@ EOF
 
     // node parsers that use |+, |* or |% cannot recursively refer to themselves
 
-
-    // e.g. Product can store variant<Product, int>
     // Addition stores: variant<Addition, storage type of Product>
     //          expand: variant<Addition, variant<Product, int>>
     //        collapse: variant<Addition, Product, int>
