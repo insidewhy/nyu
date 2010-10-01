@@ -31,11 +31,13 @@ head {
     // are collapsed to store a single string, so Identifier stores a string.
     Identifier <- [a-zA-Z_] ^ IdentifierSuffix
 
-    // % Joins identifier with a comma. Spacing* can be around join.
-    // ^% is provided for when Spacing* is not allowed around join.
-    // A% stores vector[storage type of A]. "[", "," and "]" store nothing as
-    // they always match the same data.
+    // A % B matches A (B A)* but stores vector[storage type of A]
+    // In Grammar "[", "," and "]" are not stored as they  always match the
+    // same data.
     Grammar    <- "[" (Identifier % ",") "]"
+
+    // A ^% matches A^(B^A)* i.e. spacing is not allowed before and after the
+    // joining parser.
 
     // stores: vector<string>
     // parses: [ hello, king ]
