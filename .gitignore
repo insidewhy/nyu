@@ -1,4 +1,5 @@
 src/nyu/.obj
 src/nyu/Makefile
+src/nyu/*.tar*
 src/nyu/test/.*
 doc/website/*.html
