@@ -23,6 +23,7 @@ class builder {
 
     typedef decltype(files_) files_t;
 
+  public:
     typedef typename
         chilon::meta::at_expand<1,
             typename
@@ -33,6 +34,7 @@ class builder {
     typedef typename chilon::parser::stored<
         grammar::nyah::ScopedIdentifier>::type  grammar_identifier;
 
+  private:
     // if file doesn't exist in project, add it and return reference to it
     // otherwise return a reference to the existing file.
     file& add_file(std::string const& file_path) {
@@ -47,6 +49,7 @@ class builder {
     bool parse_file(std::string const& file_path);
 
     void operator()(module_type const& module);
+
     void grammar_dep(module_type const& module, grammar_identifier const& id);
 
     void print_ast() const;

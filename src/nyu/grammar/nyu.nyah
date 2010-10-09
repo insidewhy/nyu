@@ -1,4 +1,8 @@
 @module nyah.grammar
+
+class Rule {
+}
+
 @grammar nyu
 
 Spacing           <- (\s / "//" ^ (!\n)* ^ \n)+

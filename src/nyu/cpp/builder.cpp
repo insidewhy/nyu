@@ -1,4 +1,5 @@
 #include <nyu/cpp/builder.hpp>
+#include <nyu/cpp/module.hpp>
 #include <nyu/error/not_found.hpp>
 
 #include <cstring>
@@ -41,13 +42,8 @@ void builder::operator()(module_type const& module) {
     // auto& moduleId = module.first;
     auto& grammar = module.second.value_;
 
-    for (auto it = grammar.safe_ordered_begin(); ! it.at_end(); ++it) {
-        auto extends = std::get<0>(it->second.value_);
-        if (! extends.empty())
-            grammar_dep(module, extends.at<grammar_identifier>());
-
-        // TODO: now process the grammar
-    }
+    for (auto it = grammar.safe_ordered_begin(); ! it.at_end(); ++it)
+        chilon::variant_apply(*it, cpp::module(*this, module));
 }
 
 void builder::grammar_dep(module_type const& module, grammar_identifier const& id) {

@@ -4,10 +4,10 @@ module id [
     "grammar"
 ]
 module {
-    "nyah": MetaGrammar: (
+    "nyah": NyuGrammar: (
         [ "nyu" ]
         {
-            "MetaIdentifier": Rule: (
+            "Identifier": Rule: (
                 '-'
                 Expression: ScopedRule: (
                     "nyu"
@@ -17,7 +17,7 @@ module {
             "ScopedIdentifier": Rule: (
                 '-'
                 Expression: Join: (
-                    "MetaIdentifier"
+                    "Identifier"
                     "%+"
                     String: "."
                 )
@@ -29,13 +29,40 @@ module {
                     "ScopedIdentifier"
                 ]
             )
-            "MetaGrammar": Rule: (
+            "Attribute": Rule: (
+                '='
+                Expression: Sequence: [
+                    Prefix: (
+                        '#'
+                        "Identifier"
+                    )
+                    String: ":"
+                    "ScopedIdentifier"
+                ]
+            )
+            "Class": Rule: (
+                '='
+                Expression: Sequence: [
+                    String: "class"
+                    Prefix: (
+                        '#'
+                        "Identifier"
+                    )
+                    String: "{"
+                    Suffix: (
+                        "Attribute"
+                        '*'
+                    )
+                    String: "}"
+                ]
+            )
+            "NyuGrammar": Rule: (
                 '='
                 Expression: Sequence: [
                     String: "@grammar"
                     Prefix: (
                         '#'
-                        "MetaIdentifier"
+                        "Identifier"
                     )
                     Suffix: (
                         Expression: Sequence: [
@@ -61,7 +88,10 @@ module {
                         )
                     )
                     Suffix: (
-                        "MetaGrammar"
+                        Expression: OrderedChoice: [
+                            "NyuGrammar"
+                            "Class"
+                        ]
                         '+'
                     )
                 ]
@@ -71,7 +101,7 @@ module {
                 Expression: Sequence: [
                     String: "@include"
                     Join: (
-                        "MetaIdentifier"
+                        "Identifier"
                         "%+"
                         String: "/"
                     )
@@ -92,7 +122,8 @@ module {
             )
         }
     )
-    "nyu": MetaGrammar: (
+    "Rule": Class: {}
+    "nyu": NyuGrammar: (
         empty
         {
             "Spacing": Rule: (

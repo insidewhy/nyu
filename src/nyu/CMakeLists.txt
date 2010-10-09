@@ -12,7 +12,7 @@ include(Installer)
 include_directories(..)
 add_definitions(-Wall)
 
-add_executable(nyu nyu.cpp cpp/builder.cpp options.cpp)
+add_executable(nyu nyu.cpp cpp/builder.cpp cpp/module.cpp options.cpp)
 
 install(TARGETS nyu
         RUNTIME DESTINATION ${BIN_DIR}

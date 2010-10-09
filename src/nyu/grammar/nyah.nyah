@@ -4,11 +4,17 @@
 // nyah extends grammar, which causes it to also inherit grammar::Spacing
 @grammar nyah : nyu
 
-MetaIdentifier   <- nyu::Identifier
-ScopedIdentifier <- MetaIdentifier %+ "."
+Identifier       <- nyu::Identifier
+ScopedIdentifier <- Identifier %+ "."
 ModuleDefinition <- "@module" ScopedIdentifier
-MetaGrammar      <= "@grammar" #MetaIdentifier (":" ScopedIdentifier)?
+
+Attribute        <= #Identifier ':' ScopedIdentifier
+Class            <= 'class' #Identifier '{' Attribute* '}'
+
+NyuGrammar       <= "@grammar" #Identifier (":" ScopedIdentifier)?
                     nyu::Grammar
-Module           <= #+(ModuleDefinition?) MetaGrammar+
-Include          <- "@include" MetaIdentifier %+ "/"
+
+Module           <= #+(ModuleDefinition?) (NyuGrammar / Class)+
+Include          <- "@include" Identifier %+ "/"
+
 Grammar          <- Include* Module+
