@@ -3,10 +3,10 @@ module id [
     "nyah"
     "grammar"
 ]
-module [
+module {
     "nyah": MetaGrammar: (
         [ "nyu" ]
-        [
+        {
             "MetaIdentifier": Rule: (
                 '-'
                 Expression: ScopedRule: (
@@ -90,11 +90,11 @@ module [
                     )
                 ]
             )
-        ]
+        }
     )
     "nyu": MetaGrammar: (
         empty
-        [
+        {
             "Spacing": Rule: (
                 '-'
                 Expression: Suffix: (
@@ -379,6 +379,6 @@ module [
                     '+'
                 )
             )
-        ]
+        }
     )
-]
+}
