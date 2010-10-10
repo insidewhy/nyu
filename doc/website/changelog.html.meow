@@ -11,16 +11,23 @@ head {
 
 %ul(style=margin-bottom:10px) {
     %li {
-        release 0.1
+        .inprogress in progress
         %ul {
-            %li Parses full TBPEG syntax with nyu extensions for hashing.
+            %li c++0x output for release 0.9
+            %li javascript output for release 1.0
         }
-    }
+	}
     %li {
         release 0.2
         %ul {
             %li Parser rules can now extend classes.
             %li Classes with attributes and enums can be defined in the nyu grammar.
+        }
+    }
+    %li {
+        release 0.1
+        %ul {
+            %li Parses full TBPEG syntax with nyu extensions for hashing.
         }
     }
 }
