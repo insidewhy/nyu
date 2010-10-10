@@ -10,7 +10,7 @@ fail.out: fail.nyah ${nyu}
 %.out:
 	@rm -rf .$@
 	@mkdir -p .$@
-	${nyu} -I. -I../grammar -p -o .$@ $< > .$@/$@
+	@${nyu} -I. -I../grammar -p -o .$@ $< > .$@/$@
 	@for f in .$@/*.out ; do diff `basename $$f` $$f || exit 1 ; done
 	@touch $@
 	@rm .$@/*.out

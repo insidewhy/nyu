@@ -4,7 +4,7 @@
 @grammar nyah : nyu
 
 Identifier       <- nyu::Identifier
-ScopedIdentifier <- Identifier %+ "."
+ScopedIdentifier <- nyu::ScopedIdentifier
 
 EnumEntry  <- Identifier
 Enum       <= 'enum' #Identifier '{' EnumEntry* '}'

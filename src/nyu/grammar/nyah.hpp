@@ -9,10 +9,8 @@ using namespace chilon::parser;
 using namespace chilon::parser::ascii;
 
 using nyu::Spacing;
-
-typedef nyu::Identifier Identifier;
-
-typedef joined_plus<char_<'.'>, Identifier> ScopedIdentifier;
+using nyu::Identifier;
+using nyu::ScopedIdentifier;
 
 typedef Identifier EnumEntry;
 struct Enum : simple_node<Enum,

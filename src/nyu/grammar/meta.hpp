@@ -9,8 +9,8 @@ using namespace chilon::parser;
 using namespace chilon::parser::ascii;
 
 using nyu::Spacing;
-
-typedef nyu::Identifier Identifier;
+using nyu::Identifier;
+using nyu::ScopedIdentifier;
 
 typedef joined_plus<char_<'.'>, Identifier> ScopedIdentifier;
 

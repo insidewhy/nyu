@@ -79,13 +79,15 @@ typedef lexeme<
         char_<'_'>
     > > > Identifier;
 
-typedef joined_plus<char_<':', ':'>, Identifier> ScopedIdentifier;
+typedef joined_plus<char_<'.'>, Identifier> ScopedIdentifier;
+
+typedef joined_plus<char_<':', ':'>, Identifier> RuleRef;
 
 struct Expression;
 
 typedef choice<
     String, CharacterRange, Escape, AnyCharacter,
-    sequence< ScopedIdentifier, not_< char_<'<'> > >,
+    sequence< RuleRef, not_< char_<'<'> > >,
     sequence< char_<'('>, node<Expression>, char_<')'> >
 > Primary;
 

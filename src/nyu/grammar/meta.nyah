@@ -4,7 +4,7 @@
 @grammar meta : nyu
 
 Identifier       <- nyu::Identifier
-ScopedIdentifier <- Identifier %+ "."
+ScopedIdentifier <- nyu::ScopedIdentifier
 ModuleDefinition <- "@module" ScopedIdentifier
 
 NyuGrammar       <= "@grammar" #Identifier (":" ScopedIdentifier)?

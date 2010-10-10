@@ -22,11 +22,10 @@ module {
             "ScopedIdentifier": Rule: (
                 empty
                 '-'
-                Expression: Join: (
-                    [ "Identifier" ]
-                    "%+"
-                    String: "."
-                )
+                Expression: [
+                    "nyu"
+                    "ScopedIdentifier"
+                ]
             )
             "ModuleDefinition": Rule: (
                 empty
@@ -123,11 +122,10 @@ module {
             "ScopedIdentifier": Rule: (
                 empty
                 '-'
-                Expression: Join: (
-                    [ "Identifier" ]
-                    "%+"
-                    String: "."
-                )
+                Expression: [
+                    "nyu"
+                    "ScopedIdentifier"
+                ]
             )
             "EnumEntry": Rule: (
                 empty
@@ -384,6 +382,15 @@ module {
                 Expression: Join: (
                     [ "Identifier" ]
                     "%+"
+                    String: "."
+                )
+            )
+            "RuleRef": Rule: (
+                empty
+                '-'
+                Expression: Join: (
+                    [ "Identifier" ]
+                    "%+"
                     String: "::"
                 )
             )
@@ -396,7 +403,7 @@ module {
                     [ "Escape" ]
                     [ "AnyCharacter" ]
                     Sequence: [
-                        [ "ScopedIdentifier" ]
+                        [ "RuleRef" ]
                         Prefix: (
                             "&!"
                             String: "<"
@@ -504,11 +511,11 @@ module {
                 Expression: Sequence: [
                     Prefix: (
                         '#'
-                        [ "Identifier" ]
+                        [ "ScopedIdentifier" ]
                     )
                     String: "<"
                     Suffix: (
-                        [ "ScopedIdentifier" ]
+                        [ "RuleRef" ]
                         '?'
                     )
                     CharacterRange: [
