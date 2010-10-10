@@ -79,14 +79,13 @@ typedef lexeme<
         char_<'_'>
     > > > Identifier;
 
-struct RuleRef : simple_node<RuleRef,
-    joined_plus<char_<':', ':'>, Identifier> > {};
+typedef joined_plus<char_<':', ':'>, Identifier> ScopedIdentifier;
 
 struct Expression;
 
 typedef choice<
     String, CharacterRange, Escape, AnyCharacter,
-    sequence< RuleRef, not_< char_<'<'> > >,
+    sequence< ScopedIdentifier, not_< char_<'<'> > >,
     sequence< char_<'('>, node<Expression>, char_<')'> >
 > Primary;
 
@@ -127,8 +126,9 @@ struct OrderedChoice : simple_node<OrderedChoice,
 struct Expression : simple_node<Expression, OrderedChoice> {};
 
 struct Rule : grammar::Rule, simple_node<Rule,
-    key<Identifier>, char_<'<'>, char_from<'=', '-'>, Expression >
-{};
+    key<Identifier>,
+    char_<'<'>, optional<ScopedIdentifier>, char_from<'=', '-'>,
+    Expression > {};
 
 typedef many<Rule> Grammar;
 

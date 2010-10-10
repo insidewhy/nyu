@@ -18,9 +18,9 @@ Escape            <- [\\] ^ [sSnNtTwW."'&!+*\\]
 String            <= '"' ^ (Escape / ! '"')^* ^ '"' /
                      "'" ^ (Escape / ! "'")^* ^ "'"
 Identifier        <- [a-zA-Z_] ^ [a-zA-Z0-9_]+
-RuleRef           <= Identifier %+ "::"
+ScopedIdentifier  <- Identifier %+ "::"
 Primary           <- String / CharacterRange / Escape / AnyCharacter /
-                     RuleRef &! "<" / "(" Expression ")"
+                     ScopedIdentifier &! "<" / "(" Expression ")"
 Suffix            <= Primary ( "^+" / "^*" / [?*+] / "|+" / "|?" )|?
 Prefix            <= ( "&!" / "#+" / [&!#] )|? Suffix
 Join              <= Prefix ("^%" / "%+" / "%" / "|%" / "|^%") Prefix
@@ -28,5 +28,5 @@ Joined            <= (Join / Prefix) |% "^"
 Sequence          <= Joined |+
 OrderedChoice     <= Sequence |% "/"
 Expression        <= OrderedChoice
-Rule              <= #Identifier "<" ^ [-=] Expression
+Rule              <= #Identifier "<" ScopedIdentifier? [-=] Expression
 Grammar           <- Rule+

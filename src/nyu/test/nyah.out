@@ -11,62 +11,67 @@ module {
         [ "nyu" ]
         {
             "Identifier": Rule: (
+                empty
                 '-'
-                Expression: RuleRef: [
+                Expression: [
                     "nyu"
                     "Identifier"
                 ]
             )
             "ScopedIdentifier": Rule: (
+                empty
                 '-'
                 Expression: Join: (
-                    RuleRef: [ "Identifier" ]
+                    [ "Identifier" ]
                     "%+"
                     String: "."
                 )
             )
             "ModuleDefinition": Rule: (
+                empty
                 '-'
                 Expression: Sequence: [
                     String: "@module"
-                    RuleRef: [ "ScopedIdentifier" ]
+                    [ "ScopedIdentifier" ]
                 ]
             )
             "NyuGrammar": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
                     String: "@grammar"
                     Prefix: (
                         '#'
-                        RuleRef: [ "Identifier" ]
+                        [ "Identifier" ]
                     )
                     Suffix: (
                         Expression: Sequence: [
                             String: ":"
-                            RuleRef: [ "ScopedIdentifier" ]
+                            [ "ScopedIdentifier" ]
                         ]
                         '?'
                     )
-                    RuleRef: [
+                    [
                         "nyu"
                         "Grammar"
                     ]
                 ]
             )
             "Module": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
                     Prefix: (
                         "#+"
                         Expression: Suffix: (
-                            RuleRef: [ "ModuleDefinition" ]
+                            [ "ModuleDefinition" ]
                             '?'
                         )
                     )
                     Suffix: (
                         Expression: OrderedChoice: [
-                            RuleRef: [ "NyuGrammar" ]
-                            RuleRef: [
+                            [ "NyuGrammar" ]
+                            [
                                 "nyah"
                                 "Class"
                             ]
@@ -76,25 +81,27 @@ module {
                 ]
             )
             "Include": Rule: (
+                empty
                 '-'
                 Expression: Sequence: [
                     String: "@include"
                     Join: (
-                        RuleRef: [ "Identifier" ]
+                        [ "Identifier" ]
                         "%+"
                         String: "/"
                     )
                 ]
             )
             "Grammar": Rule: (
+                empty
                 '-'
                 Expression: Sequence: [
                     Suffix: (
-                        RuleRef: [ "Include" ]
+                        [ "Include" ]
                         '*'
                     )
                     Suffix: (
-                        RuleRef: [ "Module" ]
+                        [ "Module" ]
                         '+'
                     )
                 ]
@@ -105,64 +112,70 @@ module {
         [ "nyu" ]
         {
             "Identifier": Rule: (
+                empty
                 '-'
-                Expression: RuleRef: [
+                Expression: [
                     "nyu"
                     "Identifier"
                 ]
             )
             "ScopedIdentifier": Rule: (
+                empty
                 '-'
                 Expression: Join: (
-                    RuleRef: [ "Identifier" ]
+                    [ "Identifier" ]
                     "%+"
                     String: "."
                 )
             )
             "EnumEntry": Rule: (
+                empty
                 '-'
-                Expression: RuleRef: [ "Identifier" ]
+                Expression: [ "Identifier" ]
             )
             "Enum": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
                     String: "enum"
                     Prefix: (
                         '#'
-                        RuleRef: [ "Identifier" ]
+                        [ "Identifier" ]
                     )
                     String: "{"
                     Suffix: (
-                        RuleRef: [ "EnumEntry" ]
+                        [ "EnumEntry" ]
                         '*'
                     )
                     String: "}"
                 ]
             )
             "Attribute": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
                     Prefix: (
                         '#'
-                        RuleRef: [ "Identifier" ]
+                        [ "Identifier" ]
                     )
                     String: ":"
-                    RuleRef: [ "ScopedIdentifier" ]
+                    [ "ScopedIdentifier" ]
                 ]
             )
             "Class": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
                     String: "class"
                     Prefix: (
                         '#'
-                        RuleRef: [ "Identifier" ]
+                        [ "Identifier" ]
                     )
                     String: "{"
                     Suffix: (
                         Expression: OrderedChoice: [
-                            RuleRef: [ "Attribute" ]
-                            RuleRef: [ "Enum" ]
+                            [ "Attribute" ]
+                            [ "Enum" ]
                         ]
                         '*'
                     )
@@ -183,6 +196,7 @@ module {
         empty
         {
             "Spacing": Rule: (
+                empty
                 '-'
                 Expression: Suffix: (
                     Expression: OrderedChoice: [
@@ -203,10 +217,12 @@ module {
                 )
             )
             "AnyCharacter": Rule: (
+                empty
                 '-'
                 Expression: String: "."
             )
             "CharacterRange": Rule: (
+                empty
                 '='
                 Expression: Joined: [
                     String: "["
@@ -240,6 +256,7 @@ module {
                 ]
             )
             "Escape": Rule: (
+                empty
                 '-'
                 Expression: Joined: [
                     CharacterRange: [ "\\" ]
@@ -264,13 +281,14 @@ module {
                 ]
             )
             "String": Rule: (
+                empty
                 '='
                 Expression: OrderedChoice: [
                     Joined: [
                         String: "\""
                         Suffix: (
                             Expression: OrderedChoice: [
-                                RuleRef: [ "Escape" ]
+                                [ "Escape" ]
                                 Prefix: (
                                     '!'
                                     String: "\""
@@ -284,7 +302,7 @@ module {
                         String: "'"
                         Suffix: (
                             Expression: OrderedChoice: [
-                                RuleRef: [ "Escape" ]
+                                [ "Escape" ]
                                 Prefix: (
                                     '!'
                                     String: "'"
@@ -297,6 +315,7 @@ module {
                 ]
             )
             "Identifier": Rule: (
+                empty
                 '-'
                 Expression: Joined: [
                     CharacterRange: [
@@ -330,23 +349,25 @@ module {
                     )
                 ]
             )
-            "RuleRef": Rule: (
-                '='
+            "ScopedIdentifier": Rule: (
+                empty
+                '-'
                 Expression: Join: (
-                    RuleRef: [ "Identifier" ]
+                    [ "Identifier" ]
                     "%+"
                     String: "::"
                 )
             )
             "Primary": Rule: (
+                empty
                 '-'
                 Expression: OrderedChoice: [
-                    RuleRef: [ "String" ]
-                    RuleRef: [ "CharacterRange" ]
-                    RuleRef: [ "Escape" ]
-                    RuleRef: [ "AnyCharacter" ]
+                    [ "String" ]
+                    [ "CharacterRange" ]
+                    [ "Escape" ]
+                    [ "AnyCharacter" ]
                     Sequence: [
-                        RuleRef: [ "RuleRef" ]
+                        [ "ScopedIdentifier" ]
                         Prefix: (
                             "&!"
                             String: "<"
@@ -354,15 +375,16 @@ module {
                     ]
                     Sequence: [
                         String: "("
-                        RuleRef: [ "Expression" ]
+                        [ "Expression" ]
                         String: ")"
                     ]
                 ]
             )
             "Suffix": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
-                    RuleRef: [ "Primary" ]
+                    [ "Primary" ]
                     Suffix: (
                         Expression: OrderedChoice: [
                             String: "^+"
@@ -380,6 +402,7 @@ module {
                 ]
             )
             "Prefix": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
                     Suffix: (
@@ -394,13 +417,14 @@ module {
                         ]
                         "|?"
                     )
-                    RuleRef: [ "Suffix" ]
+                    [ "Suffix" ]
                 ]
             )
             "Join": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
-                    RuleRef: [ "Prefix" ]
+                    [ "Prefix" ]
                     Expression: OrderedChoice: [
                         String: "^%"
                         String: "%+"
@@ -408,60 +432,68 @@ module {
                         String: "|%"
                         String: "|^%"
                     ]
-                    RuleRef: [ "Prefix" ]
+                    [ "Prefix" ]
                 ]
             )
             "Joined": Rule: (
+                empty
                 '='
                 Expression: Join: (
                     Expression: OrderedChoice: [
-                        RuleRef: [ "Join" ]
-                        RuleRef: [ "Prefix" ]
+                        [ "Join" ]
+                        [ "Prefix" ]
                     ]
                     "|%"
                     String: "^"
                 )
             )
             "Sequence": Rule: (
+                empty
                 '='
                 Expression: Suffix: (
-                    RuleRef: [ "Joined" ]
+                    [ "Joined" ]
                     "|+"
                 )
             )
             "OrderedChoice": Rule: (
+                empty
                 '='
                 Expression: Join: (
-                    RuleRef: [ "Sequence" ]
+                    [ "Sequence" ]
                     "|%"
                     String: "/"
                 )
             )
             "Expression": Rule: (
+                empty
                 '='
-                Expression: RuleRef: [ "OrderedChoice" ]
+                Expression: [ "OrderedChoice" ]
             )
             "Rule": Rule: (
+                empty
                 '='
                 Expression: Sequence: [
                     Prefix: (
                         '#'
-                        RuleRef: [ "Identifier" ]
+                        [ "Identifier" ]
                     )
-                    Joined: [
-                        String: "<"
-                        CharacterRange: [
-                            '-'
-                            '='
-                        ]
+                    String: "<"
+                    Suffix: (
+                        [ "ScopedIdentifier" ]
+                        '?'
+                    )
+                    CharacterRange: [
+                        '-'
+                        '='
                     ]
-                    RuleRef: [ "Expression" ]
+                    [ "Expression" ]
                 ]
             )
             "Grammar": Rule: (
+                empty
                 '-'
                 Expression: Suffix: (
-                    RuleRef: [ "Rule" ]
+                    [ "Rule" ]
                     '+'
                 )
             )
