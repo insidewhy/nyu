@@ -3,9 +3,9 @@
 outdir = .new.output
 nyu    = ../.obj/nyu
 
-test: nyah.out
+test: nyu.out
 
-nyah.out: meta.nyah nyah.nyah nyu.nyah ${nyu}
+nyu.out: meta.nyah nyah.nyah nyu.nyah ${nyu}
 
 %.out:
 	@rm -rf ${outdir}
