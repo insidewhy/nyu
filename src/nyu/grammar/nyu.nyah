@@ -1,6 +1,12 @@
 @module nyu.grammar
 
 class Rule {
+    enum Status {
+        UNKNOWN,
+        NORMAL,
+        HASHED,
+        NODE
+    }
 }
 
 @grammar nyu

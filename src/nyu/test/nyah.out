@@ -29,6 +29,26 @@ module {
                     RuleRef: [ "ScopedIdentifier" ]
                 ]
             )
+            "EnumEntry": Rule: (
+                '-'
+                Expression: RuleRef: [ "Identifier" ]
+            )
+            "Enum": Rule: (
+                '='
+                Expression: Sequence: [
+                    String: "enum"
+                    Prefix: (
+                        '#'
+                        RuleRef: [ "Identifier" ]
+                    )
+                    String: "{"
+                    Suffix: (
+                        RuleRef: [ "EnumEntry" ]
+                        '*'
+                    )
+                    String: "}"
+                ]
+            )
             "Attribute": Rule: (
                 '='
                 Expression: Sequence: [
@@ -50,7 +70,10 @@ module {
                     )
                     String: "{"
                     Suffix: (
-                        RuleRef: [ "Attribute" ]
+                        Expression: OrderedChoice: [
+                            RuleRef: [ "Attribute" ]
+                            RuleRef: [ "Enum" ]
+                        ]
                         '*'
                     )
                     String: "}"
@@ -122,7 +145,14 @@ module {
             )
         }
     )
-    "Rule": Class: {}
+    "Rule": Class: {
+        "Status": Enum: [
+            "UNKNOWN"
+            "NORMAL"
+            "HASHED"
+            "NODE"
+        ]
+    }
     "nyu": NyuGrammar: (
         empty
         {

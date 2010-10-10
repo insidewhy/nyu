@@ -8,8 +8,10 @@ Identifier       <- nyu::Identifier
 ScopedIdentifier <- Identifier %+ "."
 ModuleDefinition <- "@module" ScopedIdentifier
 
+EnumEntry        <- Identifier
+Enum             <= 'enum' #Identifier '{' EnumEntry* '}'
 Attribute        <= #Identifier ':' ScopedIdentifier
-Class            <= 'class' #Identifier '{' Attribute* '}'
+Class            <= 'class' #Identifier '{' (Attribute / Enum)* '}'
 
 NyuGrammar       <= "@grammar" #Identifier (":" ScopedIdentifier)?
                     nyu::Grammar

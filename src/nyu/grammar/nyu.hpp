@@ -21,14 +21,14 @@
 namespace nyu { namespace grammar {
 
 struct Rule {
-    enum Status {
+    enum class Status {
         UNKNOWN,
         NORMAL, // can be a node
         HASHED,
         NODE   // set while processing dependencies of node
     };
 
-    Rule() : status_(UNKNOWN) {}
+    Rule() : status_(Status::UNKNOWN) {}
     Status status_;
 };
 
