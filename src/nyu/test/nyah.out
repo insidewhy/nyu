@@ -150,6 +150,16 @@ module {
                     String: "}"
                 ]
             )
+            "AssignExpression": Rule: (
+                empty
+                '-'
+                Expression: [ "ScopedIdentifier" ]
+            )
+            "Type": Rule: (
+                empty
+                '-'
+                Expression: [ "ScopedIdentifier" ]
+            )
             "Attribute": Rule: (
                 empty
                 '='
@@ -159,7 +169,20 @@ module {
                         [ "Identifier" ]
                     )
                     String: ":"
-                    [ "ScopedIdentifier" ]
+                    [ "Type" ]
+                ]
+            )
+            "AssignedAttribute": Rule: (
+                empty
+                '='
+                Expression: Sequence: [
+                    Prefix: (
+                        '#'
+                        [ "Identifier" ]
+                    )
+                    String: ":"
+                    String: "="
+                    [ "AssignExpression" ]
                 ]
             )
             "Class": Rule: (
@@ -175,6 +198,7 @@ module {
                     Suffix: (
                         Expression: OrderedChoice: [
                             [ "Attribute" ]
+                            [ "AssignedAttribute" ]
                             [ "Enum" ]
                         ]
                         '*'
@@ -190,6 +214,10 @@ module {
             "NORMAL"
             "HASHED"
             "NODE"
+        ]
+        "status_": AssignedAttribute: [
+            "Status"
+            "UNKNOWN"
         ]
     }
     "nyu": NyuGrammar: (

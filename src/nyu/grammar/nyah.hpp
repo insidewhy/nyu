@@ -21,12 +21,18 @@ struct Enum : simple_node<Enum,
     char_<'}'> >
 {};
 
+typedef ScopedIdentifier Type;
+typedef ScopedIdentifier AssignExpression;
+
 struct Attribute : simple_node<Attribute,
-    key<Identifier>, char_<':'>, ScopedIdentifier> {};
+    key<Identifier>, char_<':'>, Type> {};
+
+struct AssignedAttribute : simple_node<AssignedAttribute,
+    key<Identifier>, char_<':'>, char_<'='>, AssignExpression> {};
 
 struct Class : simple_node<Class,
     char_<c,l,a,s,s>, key<Identifier>, char_<'{'>,
-    many<choice<Attribute, Enum>>,
+    many<choice<Attribute, AssignedAttribute, Enum>>,
     char_<'}'> > {};
 
 } } }

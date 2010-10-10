@@ -7,6 +7,8 @@ class NyuRule {
         HASHED,
         NODE
     }
+
+    status_ := Status.UNKNOWN
 }
 
 @grammar nyu
