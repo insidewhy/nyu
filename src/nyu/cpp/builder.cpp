@@ -46,7 +46,7 @@ void builder::operator()(module_type const& module) {
     for (auto it = grammar.safe_ordered_begin(); ! it.at_end(); ++it)
         chilon::variant_apply(*it, module_builder);
 
-    module_builder.output();
+    module_builder.close();
 }
 
 void builder::grammar_dep(module_type const& module, grammar_identifier const& id) {

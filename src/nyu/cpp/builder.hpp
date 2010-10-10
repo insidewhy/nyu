@@ -24,6 +24,8 @@ class builder {
     typedef decltype(files_) files_t;
 
   public:
+    options const& opts() const { return options_; }
+
     typedef typename
         chilon::meta::at_expand<1,
             typename

@@ -1,4 +1,5 @@
 #include <nyu/options.hpp>
+#include <nyu/error/output_file.hpp>
 #include <nyu/config.hpp>
 
 #include <chilon/conf/cmd/command_line.hpp>
@@ -6,6 +7,7 @@
 #include <chilon/parser/char_range.hpp>
 #include <chilon/parser/char.hpp>
 #include <chilon/parser/many.hpp>
+#include <chilon/filesystem/mkpath.hpp>
 
 #include <sstream>
 
@@ -58,7 +60,7 @@ int options::parse_command_line(char const *header, int argc, char *argv[]) {
     return nPositionals;
 }
 
-std::string options::include(std::vector<chilon::range> const& path) {
+std::string options::include(std::vector<chilon::range> const& path) const {
     std::stringstream s;
     s << '/';
     chilon::print_join(s, '/', path);
@@ -71,6 +73,34 @@ std::string options::include(std::vector<chilon::range> const& path) {
     }
 
     return "";
+}
+
+void options::output_path(std::ofstream&     stream,
+                          std::string const& filename) const
+{
+    output_path_helper(stream, output_dir_ + "/" + filename);
+}
+
+void options::output_path(
+    std::ofstream&                    stream,
+    std::vector<chilon::range> const& path,
+    char const * const                suffix) const
+{
+    std::stringstream s;
+    chilon::print_join(s, "/", output_dir_, path);
+    s << suffix;
+    output_path_helper(stream, s.str());
+}
+
+void options::output_path_helper(std::ofstream&     stream,
+                                 std::string const& filename) const
+{
+    if (! chilon::filesystem::mkpath_containing(filename))
+        throw error::could_not_open_output_file(filename);
+
+    stream.open(filename);
+    if (! stream.good())
+        throw error::could_not_open_output_file(filename);
 }
 
 }

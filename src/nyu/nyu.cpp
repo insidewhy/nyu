@@ -1,5 +1,6 @@
 #include <nyu/cpp/builder.hpp>
 #include <nyu/options.hpp>
+#include <nyu/error/output_file.hpp>
 
 #include <chilon/print.hpp>
 
@@ -16,7 +17,8 @@
 // #define MOUSEBEAR_VERSION "993 (friendly beard)"
 // #define MOUSEDEER_VERSION "992 (rose almost 3000 mousedear)"
 // #define MOUSEDEER_VERSION "991 (raging mousedeer)"
-#define NYU_VERSION "0.1 (displacing nyu)"
+// #define NYU_VERSION "0.1 (displacing nyu)"
+#define NYU_VERSION "0.2 (sweet island)"
 
 namespace nyu {
 
@@ -36,6 +38,9 @@ inline int main(int argc, char *argv[]) {
         if (opts.print_ast_) build_source.print_ast();
     }
     catch (error::cannot_open_file const& e) {
+        chilon::println(std::cerr, e.what(), ": ", e.file_path_);
+    }
+    catch (error::could_not_open_output_file const& e) {
         chilon::println(std::cerr, e.what(), ": ", e.file_path_);
     }
     catch (error::parsing const& e) {
