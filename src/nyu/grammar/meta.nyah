@@ -13,4 +13,4 @@ NyuGrammar       <= "@grammar" #Identifier (":" ScopedIdentifier)?
 Module           <= #+(ModuleDefinition?) (NyuGrammar / nyah::Class)+
 Include          <- "@include" Identifier %+ "/"
 
-Grammar          <- Include* Module+
+Grammar          <- Include* Module*

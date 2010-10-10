@@ -30,7 +30,7 @@ typedef sequence<
     joined_plus<char_<'/'>, Identifier> > Include;
 
 typedef sequence<
-    many<Include>, many_plus<Module> > Grammar;
+    many<Include>, many<Module> > Grammar;
 
 } } }
 #endif
