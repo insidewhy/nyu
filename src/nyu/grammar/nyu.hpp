@@ -20,7 +20,7 @@
 
 namespace nyu { namespace grammar {
 
-struct Rule {
+struct NyuRule {
     enum class Status {
         UNKNOWN,
         NORMAL, // can be a node
@@ -28,7 +28,7 @@ struct Rule {
         NODE   // set while processing dependencies of node
     };
 
-    Rule() : status_(Status::UNKNOWN) {}
+    NyuRule() : status_(Status::UNKNOWN) {}
     Status status_;
 };
 
@@ -125,7 +125,7 @@ struct OrderedChoice : simple_node<OrderedChoice,
 
 struct Expression : simple_node<Expression, OrderedChoice> {};
 
-struct Rule : grammar::Rule, simple_node<Rule,
+struct Rule : NyuRule, simple_node<Rule,
     key<Identifier>,
     char_<'<'>, optional<ScopedIdentifier>, char_from<'=', '-'>,
     Expression > {};

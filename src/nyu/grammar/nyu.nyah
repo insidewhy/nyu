@@ -1,6 +1,6 @@
 @module nyu.grammar
 
-class Rule {
+class NyuRule {
     enum Status {
         UNKNOWN,
         NORMAL,
@@ -28,5 +28,5 @@ Joined            <= (Join / Prefix) |% "^"
 Sequence          <= Joined |+
 OrderedChoice     <= Sequence |% "/"
 Expression        <= OrderedChoice
-Rule              <= #Identifier "<" ScopedIdentifier? [-=] Expression
+Rule              < NyuRule = #Identifier "<" ScopedIdentifier? [-=] Expression
 Grammar           <- Rule+

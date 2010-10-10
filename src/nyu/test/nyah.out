@@ -184,7 +184,7 @@ module {
             )
         }
     )
-    "Rule": Class: {
+    "NyuRule": Class: {
         "Status": Enum: [
             "UNKNOWN"
             "NORMAL"
@@ -470,7 +470,7 @@ module {
                 Expression: [ "OrderedChoice" ]
             )
             "Rule": Rule: (
-                empty
+                [ "NyuRule" ]
                 '='
                 Expression: Sequence: [
                     Prefix: (
