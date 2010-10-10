@@ -4,7 +4,7 @@ namespace nyu { namespace cpp {
 
 
 void module::operator()(chilon::key_value<
-    chilon::range, grammar::meta::Class, chilon::key_unique> const& clas) const
+    chilon::range, grammar::nyah::Class, chilon::key_unique> const& clas) const
 {
 }
 

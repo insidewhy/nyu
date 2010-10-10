@@ -1,5 +1,4 @@
 include [
-    [ "nyu" ]
     [ "nyah" ]
     [ "nyu" ]
 ]
@@ -98,6 +97,76 @@ module {
                         RuleRef: [ "Module" ]
                         '+'
                     )
+                ]
+            )
+        }
+    )
+    "nyah": NyuGrammar: (
+        [ "nyu" ]
+        {
+            "Identifier": Rule: (
+                '-'
+                Expression: RuleRef: [
+                    "nyu"
+                    "Identifier"
+                ]
+            )
+            "ScopedIdentifier": Rule: (
+                '-'
+                Expression: Join: (
+                    RuleRef: [ "Identifier" ]
+                    "%+"
+                    String: "."
+                )
+            )
+            "EnumEntry": Rule: (
+                '-'
+                Expression: RuleRef: [ "Identifier" ]
+            )
+            "Enum": Rule: (
+                '='
+                Expression: Sequence: [
+                    String: "enum"
+                    Prefix: (
+                        '#'
+                        RuleRef: [ "Identifier" ]
+                    )
+                    String: "{"
+                    Suffix: (
+                        RuleRef: [ "EnumEntry" ]
+                        '*'
+                    )
+                    String: "}"
+                ]
+            )
+            "Attribute": Rule: (
+                '='
+                Expression: Sequence: [
+                    Prefix: (
+                        '#'
+                        RuleRef: [ "Identifier" ]
+                    )
+                    String: ":"
+                    RuleRef: [ "ScopedIdentifier" ]
+                ]
+            )
+            "Class": Rule: (
+                '='
+                Expression: Sequence: [
+                    String: "class"
+                    Prefix: (
+                        '#'
+                        RuleRef: [ "Identifier" ]
+                    )
+                    String: "{"
+                    Suffix: (
+                        Expression: OrderedChoice: [
+                            RuleRef: [ "Attribute" ]
+                            RuleRef: [ "Enum" ]
+                        ]
+                        '*'
+                    )
+                    String: "}"
                 ]
             )
         }
@@ -395,76 +464,6 @@ module {
                     RuleRef: [ "Rule" ]
                     '+'
                 )
-            )
-        }
-    )
-    "nyah": NyuGrammar: (
-        [ "nyu" ]
-        {
-            "Identifier": Rule: (
-                '-'
-                Expression: RuleRef: [
-                    "nyu"
-                    "Identifier"
-                ]
-            )
-            "ScopedIdentifier": Rule: (
-                '-'
-                Expression: Join: (
-                    RuleRef: [ "Identifier" ]
-                    "%+"
-                    String: "."
-                )
-            )
-            "EnumEntry": Rule: (
-                '-'
-                Expression: RuleRef: [ "Identifier" ]
-            )
-            "Enum": Rule: (
-                '='
-                Expression: Sequence: [
-                    String: "enum"
-                    Prefix: (
-                        '#'
-                        RuleRef: [ "Identifier" ]
-                    )
-                    String: "{"
-                    Suffix: (
-                        RuleRef: [ "EnumEntry" ]
-                        '*'
-                    )
-                    String: "}"
-                ]
-            )
-            "Attribute": Rule: (
-                '='
-                Expression: Sequence: [
-                    Prefix: (
-                        '#'
-                        RuleRef: [ "Identifier" ]
-                    )
-                    String: ":"
-                    RuleRef: [ "ScopedIdentifier" ]
-                ]
-            )
-            "Class": Rule: (
-                '='
-                Expression: Sequence: [
-                    String: "class"
-                    Prefix: (
-                        '#'
-                        RuleRef: [ "Identifier" ]
-                    )
-                    String: "{"
-                    Suffix: (
-                        Expression: OrderedChoice: [
-                            RuleRef: [ "Attribute" ]
-                            RuleRef: [ "Enum" ]
-                        ]
-                        '*'
-                    )
-                    String: "}"
-                ]
             )
         }
     )

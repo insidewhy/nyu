@@ -17,7 +17,7 @@ class module {
            module_type const& module) : builder_(builder), module_(module) {}
 
     void operator()(chilon::key_value<chilon::range,
-                                      grammar::meta::Class,
+                                      grammar::nyah::Class,
                                       chilon::key_unique> const& clas) const;
 
     void operator()(chilon::key_value<chilon::range,
