@@ -1,0 +1,3 @@
+fail.nyah:3:16
+Grammar <- 'p' | fail
+~~~~~~~~~~~~~~~^

@@ -25,6 +25,31 @@ class file {
         return stream_.file_loaded() && stream_.empty();
     }
 
+    template <class Stream>
+    void print_parse_error(Stream& out, std::string const& file_path) {
+        unsigned int column = 0;
+        auto it = stream_.begin();
+        for (; it != stream_.file_begin_ && *it != '\n'; --it) {
+            ++column;
+        }
+
+        unsigned int line_count = 1;
+        for (; it != stream_.file_begin_; --it) {
+            if (*it == '\n') ++line_count;
+        }
+
+        auto line_end = stream_.begin();
+        for (; line_end != stream_.end() && *line_end != '\n'; ++line_end) {}
+
+        out << file_path << ':' << line_count << ':' << column << '\n' <<
+            chilon::range(stream_.begin() - column + 1, line_end) << std::endl;
+
+        // TODO: modulus number of columns in display
+        for (unsigned int i = 1; i < column; ++i)
+            out << "~";
+        out << "^\n";
+    }
+
     bool parse(char const * const file_path, ast_type& ast) {
         if (! stream_.load(file_path))
             throw error::cannot_open_file(file_path);

@@ -22,6 +22,7 @@ head {
         %ul {
             %li Parser rules can now extend classes.
             %li Classes with attributes and enums can be defined in the nyu grammar.
+            %li Print file, column and line information of parsing errors.
         }
     }
     %li {

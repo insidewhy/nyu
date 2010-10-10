@@ -8,6 +8,9 @@
 namespace nyu { namespace cpp {
 
 void builder::generate_code() {
+    // as each new depdendency is parsed.. its contents are added onto
+    // the end of the include vector.. and the safe iterator will carry
+    // on until all of the includes have recursively completed.
     for (auto it = chilon::make_safe_iterator(std::get<0>(ast_));
          ! it.at_end(); ++it)
     {
@@ -15,6 +18,7 @@ void builder::generate_code() {
         parse_file(depFile);
     }
 
+    // parse the modules in the order they were encountered
     for (auto it = std::get<1>(ast_).safe_ordered_begin(); ! it.at_end(); ++it) {
         (*this)(*it);
     }
@@ -27,9 +31,12 @@ bool builder::parse_file(std::string const& file_path) {
 
     options_.verbose(file_path, ": parsing");
 
-    if (file.parse(file_path.c_str(), ast_)) {
-        if (! file.parse_succeeded())
+    char const *fileData = file_path.c_str();
+    if (file.parse(fileData, ast_)) {
+        if (! file.parse_succeeded()) {
+            file.print_parse_error(std::cout, file_path);
             throw error::parsing(file_path);
+        }
         else
             options_.verbose(file_path, ": parsed");
     }
