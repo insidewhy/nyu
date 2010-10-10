@@ -90,9 +90,9 @@ typedef choice<
 > Primary;
 
 typedef choice<
+    char_from<'+', '?', '*'>,
     char_<'^', '+'>,
     char_<'^', '*'>,
-    char_from<'+', '?', '*'>,
     char_<'|', '+'>,
     char_<'|', '?'> > Suffixes;
 

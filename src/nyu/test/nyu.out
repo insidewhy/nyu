@@ -415,13 +415,13 @@ module {
                     [ "Primary" ]
                     Suffix: (
                         Expression: OrderedChoice: [
-                            String: "^+"
-                            String: "^*"
                             CharacterRange: [
                                 '?'
                                 '*'
                                 '+'
                             ]
+                            String: "^+"
+                            String: "^*"
                             String: "|+"
                             String: "|?"
                         ]

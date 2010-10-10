@@ -1,21 +1,20 @@
 .PHONY: test accept
 
-outdir = .new.output
 nyu    = ../.obj/nyu
 
-test: nyu.out fail.out
+test: fail.out nyu.out
 
 nyu.out: meta.nyah nyah.nyah nyu.nyah ${nyu}
 fail.out: fail.nyah ${nyu}
 
 %.out:
-	@rm -rf ${outdir}
-	@mkdir -p ${outdir}
-	@${nyu} -I. -p -o ${outdir} $< > ${outdir}/$@
-	@for f in ${outdir}/*.out ; do diff `basename $$f` $$f || exit 1 ; done
+	@rm -rf .$@
+	@mkdir -p .$@
+	@${nyu} -I. -p -o .$@ $< > .$@/$@
+	@for f in .$@/*.out ; do diff `basename $$f` $$f || exit 1 ; done
 	@touch $@
-	@rm ${outdir}/*.out
+	@rm .$@/*.out
 	@echo $< succeeded
 
 accept:
-	mv ${outdir}/* .
+	mv .*.out/* .
