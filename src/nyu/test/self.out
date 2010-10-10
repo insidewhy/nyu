@@ -8,6 +8,16 @@ module id [
     "grammar"
 ]
 module {
+    "NyuGrammar": Class: {
+        "Status": Enum: [
+            "PROCESSING"
+            "PROCESSED"
+        ]
+        "status_": AssignedAttribute: [
+            "Status"
+            "PROCESSING"
+        ]
+    }
     "meta": NyuGrammar: (
         [ "nyu" ]
         {
@@ -36,7 +46,10 @@ module {
                 ]
             )
             "NyuGrammar": Rule: (
-                empty
+                [
+                    "grammar"
+                    "NyuGrammar"
+                ]
                 '='
                 Expression: Sequence: [
                     String: "@grammar"

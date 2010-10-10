@@ -4,7 +4,7 @@ nyu    = ../.obj/nyu
 
 test: fail.out self.out
 
-self.out: self.nyah ${nyu}
+self.out: self.nyah $(wildcard ../grammar/*.nyah) ${nyu}
 fail.out: fail.nyah ${nyu}
 
 %.out:
