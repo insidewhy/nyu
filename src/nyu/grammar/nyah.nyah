@@ -6,7 +6,9 @@
 Identifier       <- nyu::Identifier
 ScopedIdentifier <- nyu::ScopedIdentifier
 
-EnumEntry  <- Identifier
+UnsignedInteger <- [0-9]+
+
+EnumEntry  <- #Identifier ('=' UnsignedInteger)
 Enum       <= 'enum' #Identifier '{' EnumEntry* '}'
 
 // todo: add more to these

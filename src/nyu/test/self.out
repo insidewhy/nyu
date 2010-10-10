@@ -10,9 +10,9 @@ module id [
 module {
     "NyuGrammar": Class: {
         "Status": Enum: [
-            "UNKNOWN"
-            "PROCESSING"
-            "PROCESSED"
+            "UNKNOWN": empty
+            "PROCESSING": empty
+            "PROCESSED": empty
         ]
         "status_": AssignedAttribute: [
             "Status"
@@ -141,10 +141,30 @@ module {
                     "ScopedIdentifier"
                 ]
             )
+            "UnsignedInteger": Rule: (
+                empty
+                '-'
+                Expression: Suffix: (
+                    CharacterRange: [ (
+                        '0'
+                        '9'
+                    ) ]
+                    '+'
+                )
+            )
             "EnumEntry": Rule: (
                 empty
                 '-'
-                Expression: [ "Identifier" ]
+                Expression: Sequence: [
+                    Prefix: (
+                        '#'
+                        [ "Identifier" ]
+                    )
+                    Expression: Sequence: [
+                        String: "="
+                        [ "UnsignedInteger" ]
+                    ]
+                ]
             )
             "Enum": Rule: (
                 empty
@@ -223,10 +243,10 @@ module {
     )
     "NyuRule": Class: {
         "Status": Enum: [
-            "UNKNOWN"
-            "NORMAL"
-            "HASHED"
-            "NODE"
+            "UNKNOWN": empty
+            "NORMAL": empty
+            "HASHED": empty
+            "NODE": empty
         ]
         "status_": AssignedAttribute: [
             "Status"

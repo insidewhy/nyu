@@ -12,7 +12,11 @@ using nyu::Spacing;
 using nyu::Identifier;
 using nyu::ScopedIdentifier;
 
-typedef Identifier EnumEntry;
+typedef many_plus<char_range<'0','9'>> UnsignedInteger;
+
+typedef sequence<
+    key<Identifier>, optional<char_<'='>, UnsignedInteger>> EnumEntry;
+
 struct Enum : simple_node<Enum,
     char_<e,n,u,m>, key<Identifier>, char_<'{'>,
         joined<char_<','>, EnumEntry>,
