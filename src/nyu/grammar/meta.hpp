@@ -1,9 +1,9 @@
-#ifndef NYU_GRAMMAR_NYAH_HPP
-#define NYU_GRAMMAR_NYAH_HPP
+#ifndef NYU_GRAMMAR_META_HPP
+#define NYU_GRAMMAR_META_HPP
 
 #include <nyu/grammar/nyu.hpp>
 
-namespace nyu { namespace grammar { namespace nyah {
+namespace nyu { namespace grammar { namespace meta {
 
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;

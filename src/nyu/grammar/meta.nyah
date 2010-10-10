@@ -1,0 +1,17 @@
+@include nyu
+@include nyah
+@module nyu.grammar
+
+@grammar meta : nyu
+
+Identifier       <- nyu::Identifier
+ScopedIdentifier <- Identifier %+ "."
+ModuleDefinition <- "@module" ScopedIdentifier
+
+NyuGrammar       <= "@grammar" #Identifier (":" ScopedIdentifier)?
+                    nyu::Grammar
+
+Module           <= #+(ModuleDefinition?) (NyuGrammar / nyah::Class)+
+Include          <- "@include" Identifier %+ "/"
+
+Grammar          <- Include* Module+

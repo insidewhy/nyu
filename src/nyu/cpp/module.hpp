@@ -17,11 +17,11 @@ class module {
            module_type const& module) : builder_(builder), module_(module) {}
 
     void operator()(chilon::key_value<chilon::range,
-                                      grammar::nyah::Class,
+                                      grammar::meta::Class,
                                       chilon::key_unique> const& clas) const;
 
     void operator()(chilon::key_value<chilon::range,
-                                      grammar::nyah::NyuGrammar,
+                                      grammar::meta::NyuGrammar,
                                       chilon::key_unique> const& gram) const;
 };
 

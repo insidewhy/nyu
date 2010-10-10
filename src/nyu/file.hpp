@@ -1,7 +1,7 @@
 #ifndef NYU_FILE_HPP
 #define NYU_FILE_HPP
 
-#include <nyu/grammar/nyah.hpp>
+#include <nyu/grammar/meta.hpp>
 #include <nyu/error/file.hpp>
 
 #include <chilon/getset.hpp>
@@ -10,9 +10,9 @@ namespace nyu {
 
 class file {
     typedef chilon::parser::source_code_stream<
-        chilon::parser::file_stream, grammar::nyah::Spacing>  stream_t;
+        chilon::parser::file_stream, grammar::meta::Spacing>  stream_t;
 
-    typedef grammar::nyah::Grammar                            grammar_t;
+    typedef grammar::meta::Grammar                            grammar_t;
     typedef typename chilon::parser::stored<grammar_t>::type  ast_type;
 
     stream_t   stream_;

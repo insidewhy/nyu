@@ -5,7 +5,7 @@ nyu    = ../.obj/nyu
 
 test: nyah.out
 
-nyah.out: nyah.nyah nyu.nyah ${nyu}
+nyah.out: meta.nyah nyah.nyah nyu.nyah ${nyu}
 
 %.out:
 	@rm -rf ${outdir}

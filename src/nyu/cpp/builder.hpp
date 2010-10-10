@@ -16,7 +16,7 @@ namespace nyu { namespace cpp {
 class file_dependency_cycle {};
 
 class builder {
-    typedef grammar::nyah::Grammar                    grammar_t;
+    typedef grammar::meta::Grammar                    grammar_t;
     typename chilon::parser::stored<grammar_t>::type  ast_;
     options&                                          options_;
     std::unordered_map<std::string, file>             files_;
@@ -27,12 +27,12 @@ class builder {
     typedef typename
         chilon::meta::at_expand<1,
             typename
-                chilon::parser::stored<grammar::nyah::Grammar>::type
+                chilon::parser::stored<grammar::meta::Grammar>::type
         >::type
     ::value_type  module_type;
 
     typedef typename chilon::parser::stored<
-        grammar::nyah::ScopedIdentifier>::type  grammar_identifier;
+        grammar::meta::ScopedIdentifier>::type  grammar_identifier;
 
   private:
     // if file doesn't exist in project, add it and return reference to it
