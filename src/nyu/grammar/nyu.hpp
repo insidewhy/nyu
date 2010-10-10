@@ -79,14 +79,14 @@ typedef lexeme<
         char_<'_'>
     > > > Identifier;
 
-struct ScopedRule : simple_node<ScopedRule,
-    Identifier, char_<':', ':'>, Identifier > {};
+struct RuleRef : simple_node<RuleRef,
+    joined_plus<char_<':', ':'>, Identifier> > {};
 
 struct Expression;
 
 typedef choice<
-    String, CharacterRange, Escape, AnyCharacter, ScopedRule,
-    sequence< Identifier, not_< char_<'<'> > >,
+    String, CharacterRange, Escape, AnyCharacter,
+    sequence< RuleRef, not_< char_<'<'> > >,
     sequence< char_<'('>, node<Expression>, char_<')'> >
 > Primary;
 

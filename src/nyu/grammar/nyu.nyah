@@ -1,4 +1,4 @@
-@module nyah.grammar
+@module nyu.grammar
 
 class Rule {
 }
@@ -12,9 +12,9 @@ Escape            <- [\\] ^ [sSnNtTwW."'&!+*\\]
 String            <= '"' ^ (Escape / ! '"')^* ^ '"' /
                      "'" ^ (Escape / ! "'")^* ^ "'"
 Identifier        <- [a-zA-Z_] ^ [a-zA-Z0-9_]+
-ScopedRule        <= Identifier "::" Identifier
+RuleRef           <= Identifier %+ "::"
 Primary           <- String / CharacterRange / Escape / AnyCharacter /
-                     ScopedRule / Identifier &! "<" / "(" Expression ")"
+                     RuleRef &! "<" / "(" Expression ")"
 Suffix            <= Primary ( "^+" / "^*" / [?*+] / "|+" / "|?" )|?
 Prefix            <= ( "&!" / "#+" / [&!#] )|? Suffix
 Join              <= Prefix ("^%" / "%+" / "%" / "|%" / "|^%") Prefix
