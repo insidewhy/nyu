@@ -10,12 +10,13 @@ module id [
 module {
     "NyuGrammar": Class: {
         "Status": Enum: [
+            "UNKNOWN"
             "PROCESSING"
             "PROCESSED"
         ]
         "status_": AssignedAttribute: [
             "Status"
-            "PROCESSING"
+            "UNKNOWN"
         ]
     }
     "meta": NyuGrammar: (

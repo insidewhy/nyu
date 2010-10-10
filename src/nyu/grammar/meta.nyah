@@ -3,11 +3,12 @@
 
 class NyuGrammar {
     enum Status {
+        UNKNOWN,
         PROCESSING,
         PROCESSED
     }
 
-    status_ := Status.PROCESSING
+    status_ := Status.UNKNOWN
 }
 
 

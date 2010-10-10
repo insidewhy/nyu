@@ -7,11 +7,12 @@ namespace nyu { namespace grammar {
 
 struct NyuGrammar {
     enum class Status {
+        UNKNOWN,
         PROCESSING,
-        PROCESSED, // can be a node
+        PROCESSED
     };
 
-    NyuGrammar() : status_(Status::PROCESSING) {}
+    NyuGrammar() : status_(Status::UNKNOWN) {}
     Status status_;
 };
 
