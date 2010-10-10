@@ -16,4 +16,8 @@ void module::operator()(chilon::key_value<
         builder_.grammar_dep(module_, extends.at<grammar_identifier>());
 }
 
+void module::output() {
+    // TODO:
+}
+
 } }

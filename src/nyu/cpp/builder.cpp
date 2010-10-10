@@ -42,8 +42,11 @@ void builder::operator()(module_type const& module) {
     // auto& moduleId = module.first;
     auto& grammar = module.second.value_;
 
+    cpp::module module_builder(*this, module);
     for (auto it = grammar.safe_ordered_begin(); ! it.at_end(); ++it)
-        chilon::variant_apply(*it, cpp::module(*this, module));
+        chilon::variant_apply(*it, module_builder);
+
+    module_builder.output();
 }
 
 void builder::grammar_dep(module_type const& module, grammar_identifier const& id) {

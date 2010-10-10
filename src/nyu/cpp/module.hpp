@@ -3,18 +3,28 @@
 
 #include <nyu/cpp/builder.hpp>
 
+#include <chilon/getset.hpp>
+
+#include <sstream>
+
 namespace nyu { namespace cpp {
 
 class module {
     typedef builder::module_type         module_type;
     typedef builder::grammar_identifier  grammar_identifier;
 
-    builder&            builder_;
-    module_type const&  module_;
+    builder&                    builder_;
+    module_type const&          module_;
+    mutable std::stringstream   stream_;
 
   public:
+    CHILON_GET_REF(stream)
+
+    module(module const& rhs) = delete;
+
     module(builder&           builder,
-           module_type const& module) : builder_(builder), module_(module) {}
+           module_type const& module)
+      : builder_(builder), module_(module) {}
 
     void operator()(chilon::key_value<chilon::range,
                                       grammar::nyah::Class,
@@ -23,6 +33,8 @@ class module {
     void operator()(chilon::key_value<chilon::range,
                                       grammar::meta::NyuGrammar,
                                       chilon::key_unique> const& gram) const;
+
+    void output();
 };
 
 } }
