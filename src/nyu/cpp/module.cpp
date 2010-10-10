@@ -6,12 +6,29 @@ module::module(builder&           builder,
                module_type const& module)
   : builder_(builder), module_(module)
 {
-    if (module.first.empty())
+    std::stringstream guard;
+    std::stringstream nmspace;
+
+    if (module.first.empty()) {
         builder_.opts().output_path(stream_, "global.hpp");
-    else {
-        builder_.opts().output_path(
-            stream_, module.first.at< std::vector<chilon::range> >(), ".hpp");
+        guard << "GLOBAL";
     }
+    else {
+        auto const& module_id = module.first.at<0>();
+        builder_.opts().output_path(stream_, module_id, ".hpp");
+
+        nmspace << "namespace " << module_id.front() << " {";
+        guard << module_id.front();
+        for (auto it = module_id.begin() + 1; it != module_id.end(); ++it) {
+            nmspace << " namespace " << *it << " {";
+            guard << "_" << *it;
+        }
+        nmspace << '\n';
+    }
+
+    chilon::print(stream_, "#ifndef ", guard.str(), "_HPP\n");
+    chilon::print(stream_, "#define ", guard.str(), "_HPP\n");
+    chilon::print(stream_, nmspace.str());
 }
 
 void module::operator()(chilon::key_value<
@@ -28,7 +45,19 @@ void module::operator()(chilon::key_value<
 }
 
 void module::close() {
-    // TODO:
+    stream_ << body_.str() << '\n';
+
+    if (! module_.first.empty()) {
+        auto const& module_id = module_.first.at<0>();
+        stream_ << '}';
+        for (auto i = 1u; i < module_id.size(); ++i) {
+            stream_ << " }";
+        }
+        stream_ << '\n';
+    }
+
+    chilon::print(stream_, "#endif");
+    stream_ << std::flush;
 }
 
 } }

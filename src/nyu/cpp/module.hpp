@@ -6,6 +6,7 @@
 #include <chilon/getset.hpp>
 
 #include <fstream>
+#include <sstream>
 
 namespace nyu { namespace cpp {
 
@@ -13,9 +14,10 @@ class module {
     typedef builder::module_type         module_type;
     typedef builder::grammar_identifier  grammar_identifier;
 
-    builder&                builder_;
-    module_type const&      module_;
-    mutable std::ofstream   stream_;
+    builder&                   builder_;
+    module_type const&         module_;
+    mutable std::ofstream      stream_;
+    mutable std::stringstream  body_;
 
   public:
     CHILON_GET_REF(stream)
