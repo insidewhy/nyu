@@ -8,7 +8,6 @@ module::module(builder&           builder,
   : builder_(builder), module_(module)
 {
     std::stringstream guard;
-    std::stringstream nmspace;
 
     if (module.first.empty()) {
         builder_.opts().output_path(stream_, "global.hpp");
@@ -18,18 +17,15 @@ module::module(builder&           builder,
         auto const& module_id = module.first.at<0>();
         builder_.opts().output_path(stream_, module_id, ".hpp");
 
-        nmspace << "namespace " << module_id.front() << " {";
+        // TODO: conver to upper
         guard << module_id.front();
         for (auto it = module_id.begin() + 1; it != module_id.end(); ++it) {
-            nmspace << " namespace " << *it << " {";
             guard << "_" << *it;
         }
-        nmspace << '\n';
     }
 
     chilon::print(stream_, "#ifndef ", guard.str(), "_HPP\n");
-    chilon::print(stream_, "#define ", guard.str(), "_HPP\n");
-    chilon::print(stream_, nmspace.str());
+    chilon::print(stream_, "#define ", guard.str(), "_HPP\n\n");
 }
 
 void module::operator()(chilon::key_value<
@@ -62,16 +58,24 @@ void module::operator()(chilon::key_value<
 }
 
 void module::close() {
-    stream_ << body_.str() << '\n';
-
     if (! module_.first.empty()) {
         auto const& module_id = module_.first.at<0>();
+
+        stream_ << "namespace " << module_id.front() << " {";
+        for (auto it = module_id.begin() + 1; it != module_id.end(); ++it) {
+            stream_ << " namespace " << *it << " {";
+        }
+        stream_ << '\n';
+
+        stream_ << body_.str() << '\n';
+
         stream_ << '}';
         for (auto i = 1u; i < module_id.size(); ++i) {
             stream_ << " }";
         }
         stream_ << '\n';
     }
+    else stream_ << body_.str() << '\n';
 
     chilon::print(stream_, "#endif");
     stream_ << std::flush;
