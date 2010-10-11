@@ -17,7 +17,7 @@ fail/stdout: fail.nyah ${nyu}
 	@echo $< succeeded
 
 accept:
-	@for f in .*/stdout ; do \
+	@for f in $(wildcard .*/stdout) ; do \
 		dir=`dirname $$f | sed 's/.//'`; \
 		rm -rf $$dir; mv .$$dir $$dir; \
 	done
