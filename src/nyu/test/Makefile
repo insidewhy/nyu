@@ -15,3 +15,9 @@ fail/stdout: fail.nyah ${nyu}
 	diff -r .$$dir $$dir
 	@touch $@
 	@echo $< succeeded
+
+accept:
+	@for f in .*/stdout ; do \
+		dir=`dirname $$f | sed 's/.//'`; \
+		rm -rf $$dir; mv .$$dir $$dir; \
+	done
