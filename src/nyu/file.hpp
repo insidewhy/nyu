@@ -51,8 +51,12 @@ class file {
     }
 
     bool parse(char const * const file_path, ast_type& ast) {
-        if (! stream_.load(file_path))
+        // file_path vanishes between these two
+        // std::cout << "before (" << file_path << ")\n";
+        if (! stream_.load(file_path)) {
+            // std::cout << "after (" << file_path << ")\n";
             throw error::cannot_open_file(file_path);
+        }
 
         stream_.skip_whitespace();
 

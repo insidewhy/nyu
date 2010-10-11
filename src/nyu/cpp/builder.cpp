@@ -1,6 +1,7 @@
 #include <nyu/cpp/builder.hpp>
 #include <nyu/cpp/module.hpp>
 #include <nyu/error/not_found.hpp>
+#include <nyu/error/grammar_not_found.hpp>
 
 #include <cstring>
 #include <stdexcept>
@@ -57,8 +58,22 @@ void builder::operator()(module_type& module) {
 }
 
 void builder::grammar_dep(module_type const& module, grammar_identifier const& id) {
-    // auto& grammar = module.second.value_;
-    // TODO: search for grammar in current module, then all parent modules
+    if (1 == id.size()) {
+        // search in current grammar
+        auto it = module.second.value_.find(*id.begin());
+        if (it != module.second.value_.end()) {
+            // TODO: build module
+            return;
+        }
+        else {
+            // TODO: search in parent modules
+        }
+    }
+    else {
+        // TODO: search for grammar at beginning
+    }
+
+    throw error::grammar_not_found(id);
 }
 
 void builder::print_ast() const {
