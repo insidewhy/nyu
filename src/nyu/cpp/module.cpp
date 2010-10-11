@@ -1,4 +1,5 @@
 #include <nyu/cpp/module.hpp>
+#include <nyu/error/grammar_dep_cycle.hpp>
 
 namespace nyu { namespace cpp {
 
@@ -32,16 +33,32 @@ module::module(builder&           builder,
 }
 
 void module::operator()(chilon::key_value<
-    chilon::range, grammar::nyah::Class, chilon::key_unique> const& clas) const
+    chilon::range, grammar::nyah::Class, chilon::key_unique>& clas) const
 {
 }
 
 void module::operator()(chilon::key_value<
-    chilon::range, grammar::meta::NyuGrammar, chilon::key_unique> const& gram) const
+    chilon::range, grammar::meta::NyuGrammar, chilon::key_unique>& gram) const
 {
-    auto extends = std::get<0>(gram.second.value_);
-    if (! extends.empty())
-        builder_.grammar_dep(module_, extends.at<grammar_identifier>());
+    if (gram.second.status_ == grammar::NyuGrammar::Status::PROCESSED) return;
+    else if (gram.second.status_ == grammar::NyuGrammar::Status::PROCESSING)
+        throw error::grammar_dep_cycle(gram.first);
+
+    try {
+        auto extends = std::get<0>(gram.second.value_);
+        if (! extends.empty()) {
+            gram.second.status_ = grammar::NyuGrammar::Status::PROCESSING;
+            builder_.grammar_dep(module_, extends.at<grammar_identifier>());
+        }
+    }
+    catch (error::grammar_dep_cycle& err) {
+        err.grammars_.push_back(gram.first);
+        throw err;
+    }
+
+    // TODO: process grammar
+
+    gram.second.status_ = grammar::NyuGrammar::Status::PROCESSED;
 }
 
 void module::close() {

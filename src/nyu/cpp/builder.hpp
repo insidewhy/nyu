@@ -50,7 +50,7 @@ class builder {
     // throw error on parse failure
     bool parse_file(std::string const& file_path);
 
-    void operator()(module_type const& module);
+    void operator()(module_type& module);
 
     void grammar_dep(module_type const& module, grammar_identifier const& id);
 

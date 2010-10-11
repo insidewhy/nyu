@@ -29,11 +29,11 @@ class module {
 
     void operator()(chilon::key_value<chilon::range,
                                       grammar::nyah::Class,
-                                      chilon::key_unique> const& clas) const;
+                                      chilon::key_unique>& clas) const;
 
     void operator()(chilon::key_value<chilon::range,
                                       grammar::meta::NyuGrammar,
-                                      chilon::key_unique> const& gram) const;
+                                      chilon::key_unique>& gram) const;
 
     void close();
 };

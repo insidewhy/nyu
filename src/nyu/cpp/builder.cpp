@@ -45,7 +45,7 @@ bool builder::parse_file(std::string const& file_path) {
     return true;
 }
 
-void builder::operator()(module_type const& module) {
+void builder::operator()(module_type& module) {
     // auto& moduleId = module.first;
     auto& grammar = module.second.value_;
 
