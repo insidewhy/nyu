@@ -1,27 +1,24 @@
 @include nyah
 @module nyu.grammar
 
-class NyuGrammar {
-    enum Status {
-        UNKNOWN,
-        PROCESSING,
-        PROCESSED
-    }
+enum Status { UNKNOWN, PROCESSING, PROCESSED }
 
+class WithStatus {
     status_ := Status.UNKNOWN
 }
 
-
 @grammar meta : nyu
 
-Identifier       <- nyu::Identifier
-ScopedIdentifier <- nyu::ScopedIdentifier
-ModuleDefinition <- "@module" ScopedIdentifier
+Id               <- nyu::Id
+ScopedId         <- nyu::ScopedId
+ModuleDefinition <- "@module" ScopedId
 
-NyuGrammar       < grammar.NyuGrammar = 
-    "@grammar" #Identifier (":" ScopedIdentifier)?  nyu::Grammar
+NyuGrammar       < WithStatus =
+    "@grammar" #Id (":" ScopedId)?  nyu::Grammar
 
-Module           <= #+(ModuleDefinition?) (NyuGrammar / nyah::Class)+
-Include          <- "@include" Identifier %+ "/"
+Module           < WithStatus =
+    #+(ModuleDefinition?) (nyah::Grammar / NyuGrammar)+
+
+Include          <- "@include" Id %+ "/"
 
 Grammar          <- Include* Module*

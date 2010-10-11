@@ -1,35 +1,29 @@
 @module nyu.grammar
 
 class NyuRule {
-    enum Status {
-        UNKNOWN,
-        NORMAL,
-        HASHED,
-        NODE
-    }
-
+    enum Status { UNKNOWN, NORMAL, HASHED, NODE }
     status_ := Status.UNKNOWN
 }
 
 @grammar nyu
 
-Spacing           <- (\s / "//" ^ (!\n)* ^ \n)+
-AnyCharacter      <- '.'
-CharacterRange    <= "[" ^ ( [\\] ^ [\\\]sSnNtTwW] / (. ^ "-" ^ .) / .)* ^ "]"
-Escape            <- [\\] ^ [sSnNtTwW."'&!+*\\]
-String            <= '"' ^ (Escape / ! '"')^* ^ '"' /
-                     "'" ^ (Escape / ! "'")^* ^ "'"
-Identifier        <- [a-zA-Z_] ^ [a-zA-Z0-9_]+
-ScopedIdentifier  <- Identifier %+ "."
-RuleRef           <- Identifier %+ "::"
-Primary           <- String / CharacterRange / Escape / AnyCharacter /
-                     RuleRef &! "<" / "(" Expression ")"
-Suffix            <= Primary ([?*+] / "^+" / "^*" / "|+" / "|?" )|?
-Prefix            <= ( "&!" / "#+" / [&!#] )|? Suffix
-Join              <= Prefix ("^%" / "%+" / "%" / "|%" / "|^%") Prefix
-Joined            <= (Join / Prefix) |% "^"
-Sequence          <= Joined |+
-OrderedChoice     <= Sequence |% "/"
-Expression        <= OrderedChoice
-Rule              < NyuRule = #ScopedIdentifier "<" RuleRef? [-=] Expression
-Grammar           <- Rule+
+Spacing         <- (\s / "//" ^ (!\n)* ^ \n)+
+AnyCharacter    <- '.'
+CharacterRange  <= "[" ^ ( [\\] ^ [\\\]sSnNtTwW] / (. ^ "-" ^ .) / .)* ^ "]"
+Escape          <- [\\] ^ [sSnNtTwW."'&!+*\\]
+String          <= '"' ^ (Escape / ! '"')^* ^ '"' /
+                   "'" ^ (Escape / ! "'")^* ^ "'"
+Id              <- [a-zA-Z_] ^ [a-zA-Z0-9_]+
+ScopedId        <- Id %+ "."
+RuleRef         <- Id %+ "::"
+Primary         <- String / CharacterRange / Escape / AnyCharacter /
+                   RuleRef &! "<" / "(" Expression ")"
+Suffix          <= Primary ([?*+] / "^+" / "^*" / "|+" / "|?" )|?
+Prefix          <= ( "&!" / "#+" / [&!#] )|? Suffix
+Join            <= Prefix ("^%" / "%+" / "%" / "|%" / "|^%") Prefix
+Joined          <= (Join / Prefix) |% "^"
+Sequence        <= Joined |+
+OrderedChoice   <= Sequence |% "/"
+Expression      <= OrderedChoice
+Rule            < NyuRule = #RuleRef "<" ScopedId % "," [-=] Expression
+Grammar         <- Rule+

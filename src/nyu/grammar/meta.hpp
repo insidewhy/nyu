@@ -5,14 +5,14 @@
 
 namespace nyu { namespace grammar {
 
-struct NyuGrammar {
-    enum class Status {
-        UNKNOWN,
-        PROCESSING,
-        PROCESSED
-    };
+enum class Status {
+    UNKNOWN,
+    PROCESSING,
+    PROCESSED
+};
 
-    NyuGrammar() : status_(Status::UNKNOWN) {}
+struct WithStatus {
+    WithStatus() : status_(Status::UNKNOWN) {}
     Status status_;
 };
 
@@ -22,25 +22,25 @@ using namespace chilon::parser;
 using namespace chilon::parser::ascii;
 
 using nyu::Spacing;
-using nyu::Identifier;
-using nyu::ScopedIdentifier;
+using nyu::Id;
+using nyu::ScopedId;
 
-typedef joined_plus<char_<'.'>, Identifier> ScopedIdentifier;
+typedef joined_plus<char_<'.'>, Id> ScopedId;
 
-typedef sequence<char_<'@',m,o,d,u,l,e>, ScopedIdentifier> ModuleDefinition;
+typedef sequence<char_<'@',m,o,d,u,l,e>, ScopedId> ModuleDefinition;
 
-struct NyuGrammar : grammar::NyuGrammar, simple_node<NyuGrammar,
-    char_<'@',g,r,a,m,m,a,r>, key<Identifier>,
-    optional<char_<':'>, ScopedIdentifier>,
+struct NyuGrammar : WithStatus, simple_node<NyuGrammar,
+    char_<'@',g,r,a,m,m,a,r>, key<Id>,
+    optional<char_<':'>, ScopedId>,
     nyu::Grammar> {};
 
-struct Module : simple_node<Module,
+struct Module : WithStatus, simple_node<Module,
     key_plus< optional<ModuleDefinition> >,
-    many_plus< choice<nyah::Class, NyuGrammar> > > {};
+    many_plus< choice<nyah::Grammar, NyuGrammar> > > {};
 
 typedef sequence<
     char_<'@',i,n,c,l,u,d,e>,
-    joined_plus<char_<'/'>, Identifier> > Include;
+    joined_plus<char_<'/'>, Id> > Include;
 
 typedef sequence<
     many<Include>, many<Module> > Grammar;

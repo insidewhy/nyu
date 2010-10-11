@@ -11,13 +11,13 @@
 namespace nyu { namespace cpp {
 
 class module {
-    typedef builder::module_type         module_type;
-    typedef builder::grammar_identifier  grammar_identifier;
+    typedef builder::module_type  module_type;
+    typedef builder::grammar_id   grammar_id;
 
-    builder&                   builder_;
-    module_type const&         module_;
-    mutable std::ofstream      stream_;
-    mutable std::stringstream  body_;
+    builder&                      builder_;
+    module_type const&            module_;
+    mutable std::ofstream         stream_;
+    mutable std::stringstream     body_;
 
   public:
     CHILON_GET_REF(stream)
@@ -33,6 +33,10 @@ class module {
 
     void operator()(chilon::key_value<chilon::range,
                                       grammar::meta::NyuGrammar,
+                                      chilon::key_unique>& gram) const;
+
+    void operator()(chilon::key_value<chilon::range,
+                                      grammar::nyah::Enum,
                                       chilon::key_unique>& gram) const;
 
     void close();

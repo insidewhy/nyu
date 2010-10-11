@@ -28,13 +28,12 @@ class builder {
 
     typedef typename
         chilon::meta::at_expand<1,
-            typename
-                chilon::parser::stored<grammar::meta::Grammar>::type
+            typename chilon::parser::stored<grammar::meta::Grammar>::type
         >::type
     ::value_type  module_type;
 
     typedef typename chilon::parser::stored<
-        grammar::meta::ScopedIdentifier>::type  grammar_identifier;
+        grammar::meta::ScopedId>::type  grammar_id;
 
   private:
     // if file doesn't exist in project, add it and return reference to it
@@ -52,7 +51,7 @@ class builder {
 
     void operator()(module_type& module);
 
-    void grammar_dep(module_type const& module, grammar_identifier const& id);
+    void grammar_dep(module_type const& module, grammar_id const& id);
 
     void print_ast() const;
     void generate_code();

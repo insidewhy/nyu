@@ -3,21 +3,22 @@
 
 @grammar nyah : nyu
 
-Identifier       <- nyu::Identifier
-ScopedIdentifier <- nyu::ScopedIdentifier
+Id       <- nyu::Id
+ScopedId <- nyu::ScopedId
 
 UnsignedInteger <- [0-9]+
 
-EnumEntry  <- #Identifier ('=' UnsignedInteger)
-Enum       <= 'enum' #Identifier '{' EnumEntry* '}'
+EnumEntry  <- #Id ('=' UnsignedInteger)
+Enum       <= 'enum' #Id '{' EnumEntry* '}'
 
 // todo: add more to these
-AssignExpression <- ScopedIdentifier
-Type             <- ScopedIdentifier
+AssignExpression <- ScopedId
+Type             <- ScopedId
 
-Attribute         <= #Identifier ':' Type
-AssignedAttribute <= #Identifier ':' '=' AssignExpression
+Attribute         <= #Id ':' Type
+AssignedAttribute <= #Id ':' '=' AssignExpression
 
-Class             <= 'class' #Identifier '{'
+Class             <= 'class' #Id '{'
                         (Attribute / AssignedAttribute / Enum)* '}'
 
+Grammar           <- Class / Enum

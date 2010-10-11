@@ -11,8 +11,8 @@ fail/stdout: fail.nyah ${nyu}
 	@dir=`dirname $@`; \
 	rm -rf .$$dir; \
 	mkdir -p .$$dir; \
-	${nyu} -I. -I../grammar -p -o .$$dir $< > .$@; \
-	diff -r .$$dir $$dir
+	${nyu}  2>.$$dir/stderr >.$@ -I. -I../grammar -p -o .$$dir $<; \
+	diff -r $$dir .$$dir
 	@touch $@
 	@echo $< succeeded
 

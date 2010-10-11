@@ -61,7 +61,7 @@ void builder::operator()(module_type& module) {
     module_builder.close();
 }
 
-void builder::grammar_dep(module_type const& module, grammar_identifier const& id) {
+void builder::grammar_dep(module_type const& module, grammar_id const& id) {
     if (1 == id.size()) {
         // search in current grammar
         auto it = module.second.value_.find(*id.begin());

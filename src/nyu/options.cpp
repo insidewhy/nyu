@@ -8,6 +8,7 @@
 #include <chilon/parser/char.hpp>
 #include <chilon/parser/many.hpp>
 #include <chilon/filesystem/mkpath.hpp>
+#include <chilon/print_join.hpp>
 
 #include <sstream>
 
@@ -87,7 +88,7 @@ void options::output_path(
     char const * const                suffix) const
 {
     std::stringstream s;
-    chilon::print_join(s, "/", output_dir_, path);
+    chilon::print_join(s, '/', output_dir_, path);
     s << suffix;
     output_path_helper(stream, s.str());
 }

@@ -77,11 +77,11 @@ typedef lexeme<
     many< choice<
         char_range<a,z, A,Z, '0','9'>,
         char_<'_'>
-    > > > Identifier;
+    > > > Id;
 
-typedef joined_plus<char_<'.'>, Identifier> ScopedIdentifier;
+typedef joined_plus<char_<'.'>, Id> ScopedId;
 
-typedef joined_plus<char_<':', ':'>, Identifier> RuleRef;
+typedef joined_plus<char_<':', ':'>, Id> RuleRef;
 
 struct Expression;
 
@@ -128,8 +128,8 @@ struct OrderedChoice : simple_node<OrderedChoice,
 struct Expression : simple_node<Expression, OrderedChoice> {};
 
 struct Rule : NyuRule, simple_node<Rule,
-    key<Identifier>,
-    char_<'<'>, optional<ScopedIdentifier>, char_from<'=', '-'>,
+    key<Id>,
+    char_<'<'>, joined<char_<','>, ScopedId>, char_from<'=', '-'>,
     Expression > {};
 
 typedef many<Rule> Grammar;

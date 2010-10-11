@@ -1,6 +1,8 @@
 #include <nyu/cpp/module.hpp>
 #include <nyu/error/grammar_dep_cycle.hpp>
 
+#include <chilon/print_join.hpp>
+
 namespace nyu { namespace cpp {
 
 module::module(builder&           builder,
@@ -16,12 +18,7 @@ module::module(builder&           builder,
     else {
         auto const& module_id = module.first.at<0>();
         builder_.opts().output_path(stream_, module_id, ".hpp");
-
-        // TODO: conver to upper
-        guard << module_id.front();
-        for (auto it = module_id.begin() + 1; it != module_id.end(); ++it) {
-            guard << "_" << *it;
-        }
+        chilon::print_join(guard, '_', module_id);
     }
 
     chilon::print(stream_, "#ifndef ", guard.str(), "_HPP\n");
@@ -36,15 +33,15 @@ void module::operator()(chilon::key_value<
 void module::operator()(chilon::key_value<
     chilon::range, grammar::meta::NyuGrammar, chilon::key_unique>& gram) const
 {
-    if (gram.second.status_ == grammar::NyuGrammar::Status::PROCESSED) return;
-    else if (gram.second.status_ == grammar::NyuGrammar::Status::PROCESSING)
+    if (gram.second.status_ == grammar::Status::PROCESSED) return;
+    else if (gram.second.status_ == grammar::Status::PROCESSING)
         throw error::grammar_dep_cycle(gram.first);
 
     try {
         auto extends = std::get<0>(gram.second.value_);
         if (! extends.empty()) {
-            gram.second.status_ = grammar::NyuGrammar::Status::PROCESSING;
-            builder_.grammar_dep(module_, extends.at<grammar_identifier>());
+            gram.second.status_ = grammar::Status::PROCESSING;
+            builder_.grammar_dep(module_, extends.at<grammar_id>());
         }
     }
     catch (error::grammar_dep_cycle& err) {
@@ -54,7 +51,13 @@ void module::operator()(chilon::key_value<
 
     // TODO: process grammar
 
-    gram.second.status_ = grammar::NyuGrammar::Status::PROCESSED;
+    gram.second.status_ = grammar::Status::PROCESSED;
+}
+
+void module::operator()(chilon::key_value<
+    chilon::range, grammar::nyah::Enum, chilon::key_unique>& gram) const
+{
+    // TODO: process enum
 }
 
 void module::close() {

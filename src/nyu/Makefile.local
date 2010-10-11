@@ -1,0 +1,2 @@
+accept:
+	${MAKE} -C test accept
