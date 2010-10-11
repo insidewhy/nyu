@@ -2,19 +2,16 @@
 
 nyu    = ../.obj/nyu
 
-test: fail.out self.out
+test: self/stdout fail/stdout
 
-self.out: self.nyah $(wildcard ../grammar/*.nyah) ${nyu}
-fail.out: fail.nyah ${nyu}
+self/stdout: self.nyah $(wildcard ../grammar/*.nyah) ${nyu}
+fail/stdout: fail.nyah ${nyu}
 
-%.out:
-	@rm -rf .$@
-	@mkdir -p .$@
-	@${nyu} -I. -I../grammar -p -o .$@ $< > .$@/$@
-	@for f in .$@/*.out ; do diff `basename $$f` $$f || exit 1 ; done
+%/stdout:
+	@dir=`dirname $@`; \
+	rm -rf .$$dir; \
+	mkdir -p .$$dir; \
+	${nyu} -I. -I../grammar -p -o .$$dir $< > .$@; \
+	diff -r .$$dir $$dir
 	@touch $@
-	@rm .$@/*.out
 	@echo $< succeeded
-
-accept:
-	mv .*.out/* .
