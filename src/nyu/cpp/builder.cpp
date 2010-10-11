@@ -2,6 +2,7 @@
 #include <nyu/cpp/module.hpp>
 #include <nyu/error/not_found.hpp>
 #include <nyu/error/grammar_not_found.hpp>
+#include <nyu/error/include_not_found.hpp>
 
 #include <cstring>
 #include <stdexcept>
@@ -16,6 +17,9 @@ void builder::generate_code() {
          ! it.at_end(); ++it)
     {
         std::string depFile = options_.include(*it);
+        if (depFile.empty())
+            throw error::include_not_found(*it);
+
         parse_file(depFile);
     }
 

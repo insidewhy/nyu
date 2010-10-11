@@ -2,6 +2,7 @@
 #include <nyu/options.hpp>
 #include <nyu/error/output_file.hpp>
 #include <nyu/error/grammar_not_found.hpp>
+#include <nyu/error/include_not_found.hpp>
 
 #include <chilon/print.hpp>
 
@@ -45,6 +46,9 @@ inline int main(int argc, char *argv[]) {
         chilon::println(std::cerr, e.what(), ": ", e.file_path_);
     }
     catch (error::grammar_not_found const& e) {
+        chilon::println(std::cerr, e.what(), ": ", e.id_);
+    }
+    catch (error::include_not_found const& e) {
         chilon::println(std::cerr, e.what(), ": ", e.id_);
     }
     catch (error::parsing const& e) {
