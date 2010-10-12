@@ -25,7 +25,7 @@ module {
             "Id": Rule: (
                 []
                 '-'
-                Expression: RuleRef: (
+                Expression: ScopeRule: (
                     [ "nyu" ]
                     "Id"
                 )
@@ -33,7 +33,7 @@ module {
             "ScopedId": Rule: (
                 []
                 '-'
-                Expression: RuleRef: (
+                Expression: ScopeRule: (
                     [ "nyu" ]
                     "ScopedId"
                 )
@@ -62,7 +62,7 @@ module {
                         ]
                         '?'
                     )
-                    RuleRef: (
+                    ScopeRule: (
                         [ "nyu" ]
                         "Grammar"
                     )
@@ -81,7 +81,7 @@ module {
                     )
                     Suffix: (
                         Expression: OrderedChoice: [
-                            RuleRef: (
+                            ScopeRule: (
                                 [ "nyah" ]
                                 "Grammar"
                             )
@@ -125,7 +125,7 @@ module {
             "Id": Rule: (
                 []
                 '-'
-                Expression: RuleRef: (
+                Expression: ScopeRule: (
                     [ "nyu" ]
                     "Id"
                 )
@@ -133,7 +133,7 @@ module {
             "ScopedId": Rule: (
                 []
                 '-'
-                Expression: RuleRef: (
+                Expression: ScopeRule: (
                     [ "nyu" ]
                     "ScopedId"
                 )
@@ -424,7 +424,7 @@ module {
                     String: "."
                 )
             )
-            "RuleRef": Rule: (
+            "ScopedRule": Rule: (
                 []
                 '='
                 Expression: Sequence: [
@@ -450,7 +450,7 @@ module {
                     "Escape"
                     "AnyCharacter"
                     Sequence: [
-                        "RuleRef"
+                        "ScopedRule"
                         Prefix: (
                             "&!"
                             String: "<"
