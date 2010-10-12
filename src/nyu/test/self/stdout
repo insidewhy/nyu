@@ -41,14 +41,11 @@ module {
             "ModuleId": Rule: (
                 []
                 '-'
-                Expression: Sequence: [
-                    Join: (
-                        "Id"
-                        '%'
-                        "_"
-                    )
+                Expression: Join: (
+                    "Id"
+                    "%+"
                     String: "."
-                ]
+                )
             )
             "ModuleDefinition": Rule: (
                 []
