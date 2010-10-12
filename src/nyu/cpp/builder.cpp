@@ -62,9 +62,9 @@ void builder::operator()(module_type& module) {
 }
 
 void builder::grammar_dep(module_type const& module, grammar_id const& id) {
-    if (1 == id.size()) {
+    if (id.is<chilon::range>()) {
         // search in current grammar
-        auto it = module.second.value_.find(*id.begin());
+        auto it = module.second.value_.find(id.at<chilon::range>());
         if (it != module.second.value_.end()) {
             // TODO: build module
             return;
@@ -72,9 +72,9 @@ void builder::grammar_dep(module_type const& module, grammar_id const& id) {
         else {
             // TODO: search in parent modules
         }
+
     }
     else {
-        // TODO: search for grammar at beginning
     }
 
     throw error::grammar_not_found(id);

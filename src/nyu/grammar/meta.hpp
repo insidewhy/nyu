@@ -25,9 +25,9 @@ using nyu::Spacing;
 using nyu::Id;
 using nyu::ScopedId;
 
-typedef joined_plus<char_<'.'>, Id> ScopedId;
+typedef joined_plus<char_<'.'>, Id> ModuleId;
 
-typedef sequence<char_<'@',m,o,d,u,l,e>, ScopedId> ModuleDefinition;
+typedef sequence<char_<'@',m,o,d,u,l,e>, ModuleId> ModuleDefinition;
 
 struct NyuGrammar : WithStatus, simple_node<NyuGrammar,
     char_<'@',g,r,a,m,m,a,r>, key<Id>,

@@ -20,7 +20,7 @@ module {
         )
     }
     "meta": NyuGrammar: (
-        [ "nyu" ]
+        "nyu"
         {
             "Id": Rule: (
                 []
@@ -38,12 +38,24 @@ module {
                     "ScopedId"
                 )
             )
+            "ModuleId": Rule: (
+                []
+                '-'
+                Expression: Sequence: [
+                    Join: (
+                        "Id"
+                        '%'
+                        "_"
+                    )
+                    String: "."
+                ]
+            )
             "ModuleDefinition": Rule: (
                 []
                 '-'
                 Expression: Sequence: [
                     String: "@module"
-                    "ScopedId"
+                    "ModuleId"
                 ]
             )
             "NyuGrammar": Rule: (
@@ -120,7 +132,7 @@ module {
         }
     )
     "nyah": NyuGrammar: (
-        [ "nyu" ]
+        "nyu"
         {
             "Id": Rule: (
                 []

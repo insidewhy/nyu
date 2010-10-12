@@ -11,7 +11,9 @@ class WithStatus {
 
 Id               <- nyu::Id
 ScopedId         <- nyu::ScopedId
-ModuleDefinition <- "@module" ScopedId
+
+ModuleId         <- Id %_ '.'
+ModuleDefinition <- "@module" ModuleId
 
 NyuGrammar       < WithStatus =
     "@grammar" #Id (":" ScopedId)?  nyu::Grammar
