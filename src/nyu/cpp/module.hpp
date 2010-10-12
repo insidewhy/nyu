@@ -19,6 +19,8 @@ class module {
     mutable std::ofstream         stream_;
     mutable std::stringstream     body_;
 
+    typedef chilon::range         range;
+
   public:
     CHILON_GET_REF(stream)
 
@@ -27,15 +29,15 @@ class module {
     module(builder&           builder,
            module_type const& module);
 
-    void operator()(chilon::key_value<chilon::range,
+    void operator()(chilon::key_value<range,
                                       grammar::nyah::Class,
                                       chilon::key_unique>& clas) const;
 
-    void operator()(chilon::key_value<chilon::range,
+    void operator()(chilon::key_value<range,
                                       grammar::meta::NyuGrammar,
                                       chilon::key_unique>& gram) const;
 
-    void operator()(chilon::key_value<chilon::range,
+    void operator()(chilon::key_value<range,
                                       grammar::nyah::Enum,
                                       chilon::key_unique>& gram) const;
 

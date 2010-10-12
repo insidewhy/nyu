@@ -26,12 +26,12 @@ module::module(builder&           builder,
 }
 
 void module::operator()(chilon::key_value<
-    chilon::range, grammar::nyah::Class, chilon::key_unique>& clas) const
+    range, grammar::nyah::Class, chilon::key_unique>& clas) const
 {
 }
 
 void module::operator()(chilon::key_value<
-    chilon::range, grammar::meta::NyuGrammar, chilon::key_unique>& gram) const
+    range, grammar::meta::NyuGrammar, chilon::key_unique>& gram) const
 {
     if (gram.second.status_ == grammar::Status::PROCESSED) return;
     else if (gram.second.status_ == grammar::Status::PROCESSING)
@@ -55,7 +55,7 @@ void module::operator()(chilon::key_value<
 }
 
 void module::operator()(chilon::key_value<
-    chilon::range, grammar::nyah::Enum, chilon::key_unique>& gram) const
+    range, grammar::nyah::Enum, chilon::key_unique>& gram) const
 {
     // TODO: process enum
 }
