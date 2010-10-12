@@ -115,6 +115,14 @@ module {
                     )
                 ]
             )
+            "ModuleList": Rule: (
+                []
+                '-'
+                Expression: Suffix: (
+                    "Module"
+                    '*'
+                )
+            )
             "Grammar": Rule: (
                 []
                 '-'
@@ -123,10 +131,7 @@ module {
                         "Include"
                         '*'
                     )
-                    Suffix: (
-                        "Module"
-                        '*'
-                    )
+                    "ModuleList"
                 ]
             )
         }

@@ -27,9 +27,7 @@ class builder {
     options const& opts() const { return options_; }
 
     typedef typename
-        chilon::meta::at_expand<1,
-            typename chilon::parser::stored<grammar::meta::Grammar>::type
-        >::type
+        chilon::parser::stored<grammar::meta::ModuleList>::type
     ::value_type  module_type;
 
     typedef typename chilon::parser::stored<

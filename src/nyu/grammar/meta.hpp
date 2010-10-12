@@ -42,8 +42,9 @@ typedef sequence<
     char_<'@',i,n,c,l,u,d,e>,
     joined_plus<char_<'/'>, Id> > Include;
 
-typedef sequence<
-    many<Include>, many<Module> > Grammar;
+typedef many<Module> ModuleList;
+
+typedef sequence<many<Include>, ModuleList> Grammar;
 
 } } }
 #endif

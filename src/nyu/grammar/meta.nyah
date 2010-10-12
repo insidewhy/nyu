@@ -23,4 +23,5 @@ Module           < WithStatus =
 
 Include          <- "@include" Id %+ "/"
 
-Grammar          <- Include* Module*
+ModuleList       <- Module*
+Grammar          <- Include* ModuleList
