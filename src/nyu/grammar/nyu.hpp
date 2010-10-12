@@ -81,7 +81,8 @@ typedef lexeme<
 
 typedef joined_plus<char_<'.'>, Id> ScopedId;
 
-typedef joined_plus<char_<':', ':'>, Id> RuleRef;
+struct RuleRef : simple_node<RuleRef,
+    tree_optional<many_plus<Id, char_<':', ':'>>>, Id> {};
 
 struct Expression;
 

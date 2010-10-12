@@ -25,25 +25,25 @@ module {
             "Id": Rule: (
                 []
                 '-'
-                Expression: [
-                    "nyu"
+                Expression: RuleRef: (
+                    [ "nyu" ]
                     "Id"
-                ]
+                )
             )
             "ScopedId": Rule: (
                 []
                 '-'
-                Expression: [
-                    "nyu"
+                Expression: RuleRef: (
+                    [ "nyu" ]
                     "ScopedId"
-                ]
+                )
             )
             "ModuleDefinition": Rule: (
                 []
                 '-'
                 Expression: Sequence: [
                     String: "@module"
-                    [ "ScopedId" ]
+                    "ScopedId"
                 ]
             )
             "NyuGrammar": Rule: (
@@ -53,19 +53,19 @@ module {
                     String: "@grammar"
                     Prefix: (
                         '#'
-                        [ "Id" ]
+                        "Id"
                     )
                     Suffix: (
                         Expression: Sequence: [
                             String: ":"
-                            [ "ScopedId" ]
+                            "ScopedId"
                         ]
                         '?'
                     )
-                    [
-                        "nyu"
+                    RuleRef: (
+                        [ "nyu" ]
                         "Grammar"
-                    ]
+                    )
                 ]
             )
             "Module": Rule: (
@@ -75,17 +75,17 @@ module {
                     Prefix: (
                         "#+"
                         Expression: Suffix: (
-                            [ "ModuleDefinition" ]
+                            "ModuleDefinition"
                             '?'
                         )
                     )
                     Suffix: (
                         Expression: OrderedChoice: [
-                            [
-                                "nyah"
+                            RuleRef: (
+                                [ "nyah" ]
                                 "Grammar"
-                            ]
-                            [ "NyuGrammar" ]
+                            )
+                            "NyuGrammar"
                         ]
                         '+'
                     )
@@ -97,7 +97,7 @@ module {
                 Expression: Sequence: [
                     String: "@include"
                     Join: (
-                        [ "Id" ]
+                        "Id"
                         "%+"
                         String: "/"
                     )
@@ -108,11 +108,11 @@ module {
                 '-'
                 Expression: Sequence: [
                     Suffix: (
-                        [ "Include" ]
+                        "Include"
                         '*'
                     )
                     Suffix: (
-                        [ "Module" ]
+                        "Module"
                         '*'
                     )
                 ]
@@ -125,18 +125,18 @@ module {
             "Id": Rule: (
                 []
                 '-'
-                Expression: [
-                    "nyu"
+                Expression: RuleRef: (
+                    [ "nyu" ]
                     "Id"
-                ]
+                )
             )
             "ScopedId": Rule: (
                 []
                 '-'
-                Expression: [
-                    "nyu"
+                Expression: RuleRef: (
+                    [ "nyu" ]
                     "ScopedId"
-                ]
+                )
             )
             "UnsignedInteger": Rule: (
                 []
@@ -155,11 +155,11 @@ module {
                 Expression: Sequence: [
                     Prefix: (
                         '#'
-                        [ "Id" ]
+                        "Id"
                     )
                     Expression: Sequence: [
                         String: "="
-                        [ "UnsignedInteger" ]
+                        "UnsignedInteger"
                     ]
                 ]
             )
@@ -170,11 +170,11 @@ module {
                     String: "enum"
                     Prefix: (
                         '#'
-                        [ "Id" ]
+                        "Id"
                     )
                     String: "{"
                     Suffix: (
-                        [ "EnumEntry" ]
+                        "EnumEntry"
                         '*'
                     )
                     String: "}"
@@ -183,12 +183,12 @@ module {
             "AssignExpression": Rule: (
                 []
                 '-'
-                Expression: [ "ScopedId" ]
+                Expression: "ScopedId"
             )
             "Type": Rule: (
                 []
                 '-'
-                Expression: [ "ScopedId" ]
+                Expression: "ScopedId"
             )
             "Attribute": Rule: (
                 []
@@ -196,10 +196,10 @@ module {
                 Expression: Sequence: [
                     Prefix: (
                         '#'
-                        [ "Id" ]
+                        "Id"
                     )
                     String: ":"
-                    [ "Type" ]
+                    "Type"
                 ]
             )
             "AssignedAttribute": Rule: (
@@ -208,11 +208,11 @@ module {
                 Expression: Sequence: [
                     Prefix: (
                         '#'
-                        [ "Id" ]
+                        "Id"
                     )
                     String: ":"
                     String: "="
-                    [ "AssignExpression" ]
+                    "AssignExpression"
                 ]
             )
             "Class": Rule: (
@@ -222,14 +222,14 @@ module {
                     String: "class"
                     Prefix: (
                         '#'
-                        [ "Id" ]
+                        "Id"
                     )
                     String: "{"
                     Suffix: (
                         Expression: OrderedChoice: [
-                            [ "Attribute" ]
-                            [ "AssignedAttribute" ]
-                            [ "Enum" ]
+                            "Attribute"
+                            "AssignedAttribute"
+                            "Enum"
                         ]
                         '*'
                     )
@@ -240,8 +240,8 @@ module {
                 []
                 '-'
                 Expression: OrderedChoice: [
-                    [ "Class" ]
-                    [ "Enum" ]
+                    "Class"
+                    "Enum"
                 ]
             )
         }
@@ -354,7 +354,7 @@ module {
                         String: "\""
                         Suffix: (
                             Expression: OrderedChoice: [
-                                [ "Escape" ]
+                                "Escape"
                                 Prefix: (
                                     '!'
                                     String: "\""
@@ -368,7 +368,7 @@ module {
                         String: "'"
                         Suffix: (
                             Expression: OrderedChoice: [
-                                [ "Escape" ]
+                                "Escape"
                                 Prefix: (
                                     '!'
                                     String: "'"
@@ -419,30 +419,38 @@ module {
                 []
                 '-'
                 Expression: Join: (
-                    [ "Id" ]
+                    "Id"
                     "%+"
                     String: "."
                 )
             )
             "RuleRef": Rule: (
                 []
-                '-'
-                Expression: Join: (
-                    [ "Id" ]
-                    "%+"
-                    String: "::"
-                )
+                '='
+                Expression: Sequence: [
+                    Suffix: (
+                        Expression: Suffix: (
+                            Expression: Sequence: [
+                                "Id"
+                                String: "::"
+                            ]
+                            '+'
+                        )
+                        "|?"
+                    )
+                    "Id"
+                ]
             )
             "Primary": Rule: (
                 []
                 '-'
                 Expression: OrderedChoice: [
-                    [ "String" ]
-                    [ "CharacterRange" ]
-                    [ "Escape" ]
-                    [ "AnyCharacter" ]
+                    "String"
+                    "CharacterRange"
+                    "Escape"
+                    "AnyCharacter"
                     Sequence: [
-                        [ "RuleRef" ]
+                        "RuleRef"
                         Prefix: (
                             "&!"
                             String: "<"
@@ -450,7 +458,7 @@ module {
                     ]
                     Sequence: [
                         String: "("
-                        [ "Expression" ]
+                        "Expression"
                         String: ")"
                     ]
                 ]
@@ -459,7 +467,7 @@ module {
                 []
                 '='
                 Expression: Sequence: [
-                    [ "Primary" ]
+                    "Primary"
                     Suffix: (
                         Expression: OrderedChoice: [
                             CharacterRange: [
@@ -492,14 +500,14 @@ module {
                         ]
                         "|?"
                     )
-                    [ "Suffix" ]
+                    "Suffix"
                 ]
             )
             "Join": Rule: (
                 []
                 '='
                 Expression: Sequence: [
-                    [ "Prefix" ]
+                    "Prefix"
                     Expression: OrderedChoice: [
                         String: "^%"
                         String: "%+"
@@ -507,7 +515,7 @@ module {
                         String: "|%"
                         String: "|^%"
                     ]
-                    [ "Prefix" ]
+                    "Prefix"
                 ]
             )
             "Joined": Rule: (
@@ -515,8 +523,8 @@ module {
                 '='
                 Expression: Join: (
                     Expression: OrderedChoice: [
-                        [ "Join" ]
-                        [ "Prefix" ]
+                        "Join"
+                        "Prefix"
                     ]
                     "|%"
                     String: "^"
@@ -526,7 +534,7 @@ module {
                 []
                 '='
                 Expression: Suffix: (
-                    [ "Joined" ]
+                    "Joined"
                     "|+"
                 )
             )
@@ -534,7 +542,7 @@ module {
                 []
                 '='
                 Expression: Join: (
-                    [ "Sequence" ]
+                    "Sequence"
                     "|%"
                     String: "/"
                 )
@@ -542,7 +550,7 @@ module {
             "Expression": Rule: (
                 []
                 '='
-                Expression: [ "OrderedChoice" ]
+                Expression: "OrderedChoice"
             )
             "Rule": Rule: (
                 [ [ "NyuRule" ] ]
@@ -550,11 +558,11 @@ module {
                 Expression: Sequence: [
                     Prefix: (
                         '#'
-                        [ "RuleRef" ]
+                        "Id"
                     )
                     String: "<"
                     Join: (
-                        [ "ScopedId" ]
+                        "ScopedId"
                         '%'
                         String: ","
                     )
@@ -562,14 +570,14 @@ module {
                         '-'
                         '='
                     ]
-                    [ "Expression" ]
+                    "Expression"
                 ]
             )
             "Grammar": Rule: (
                 []
                 '-'
                 Expression: Suffix: (
-                    [ "Rule" ]
+                    "Rule"
                     '+'
                 )
             )

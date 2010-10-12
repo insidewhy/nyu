@@ -15,7 +15,7 @@ String          <= '"' ^ (Escape / ! '"')^* ^ '"' /
                    "'" ^ (Escape / ! "'")^* ^ "'"
 Id              <- [a-zA-Z_] ^ [a-zA-Z0-9_]+
 ScopedId        <- Id %+ "."
-RuleRef         <- Id %+ "::"
+RuleRef         <= ((Id "::")+)|? Id
 Primary         <- String / CharacterRange / Escape / AnyCharacter /
                    RuleRef &! "<" / "(" Expression ")"
 Suffix          <= Primary ([?*+] / "^+" / "^*" / "|+" / "|?" )|?
@@ -25,5 +25,5 @@ Joined          <= (Join / Prefix) |% "^"
 Sequence        <= Joined |+
 OrderedChoice   <= Sequence |% "/"
 Expression      <= OrderedChoice
-Rule            < NyuRule = #RuleRef "<" ScopedId % "," [-=] Expression
+Rule            < NyuRule = #Id "<" ScopedId % "," [-=] Expression
 Grammar         <- Rule+
