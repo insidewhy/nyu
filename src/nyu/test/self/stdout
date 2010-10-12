@@ -14,10 +14,10 @@ module {
         "PROCESSED": empty
     }
     "WithStatus": Class: {
-        "status_": AssignedAttribute: [
-            "Status"
+        "status_": AssignedAttribute: ScopedId: (
+            [ "Status" ]
             "UNKNOWN"
-        ]
+        )
     }
     "meta": NyuGrammar: (
         [ "nyu" ]
@@ -47,7 +47,7 @@ module {
                 ]
             )
             "NyuGrammar": Rule: (
-                [ [ "WithStatus" ] ]
+                [ "WithStatus" ]
                 '='
                 Expression: Sequence: [
                     String: "@grammar"
@@ -69,7 +69,7 @@ module {
                 ]
             )
             "Module": Rule: (
-                [ [ "WithStatus" ] ]
+                [ "WithStatus" ]
                 '='
                 Expression: Sequence: [
                     Prefix: (
@@ -253,10 +253,10 @@ module {
             "HASHED": empty
             "NODE": empty
         }
-        "status_": AssignedAttribute: [
-            "Status"
+        "status_": AssignedAttribute: ScopedId: (
+            [ "Status" ]
             "UNKNOWN"
-        ]
+        )
     }
     "nyu": NyuGrammar: (
         empty
@@ -418,11 +418,19 @@ module {
             "ScopedId": Rule: (
                 []
                 '-'
-                Expression: Join: (
+                Expression: Sequence: [
+                    Suffix: (
+                        Expression: Suffix: (
+                            Expression: Sequence: [
+                                "Id"
+                                String: "."
+                            ]
+                            '+'
+                        )
+                        "|?"
+                    )
                     "Id"
-                    "%+"
-                    String: "."
-                )
+                ]
             )
             "ScopedRule": Rule: (
                 []
@@ -553,7 +561,7 @@ module {
                 Expression: "OrderedChoice"
             )
             "Rule": Rule: (
-                [ [ "NyuRule" ] ]
+                [ "NyuRule" ]
                 '='
                 Expression: Sequence: [
                     Prefix: (
