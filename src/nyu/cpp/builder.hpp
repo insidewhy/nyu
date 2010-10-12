@@ -5,6 +5,7 @@
 #include <nyu/file.hpp>
 
 #include <chilon/getset.hpp>
+#include <chilon/iterator_range.hpp>
 
 #include <unordered_map>
 #include <fstream>
@@ -30,9 +31,6 @@ class builder {
         chilon::parser::stored<grammar::meta::ModuleList>::type
     ::value_type  module_type;
 
-    typedef typename chilon::parser::stored<
-        grammar::meta::ScopedId>::type  grammar_id;
-
   private:
     // if file doesn't exist in project, add it and return reference to it
     // otherwise return a reference to the existing file.
@@ -49,7 +47,11 @@ class builder {
 
     void operator()(module_type& module);
 
-    void grammar_dep(module_type const& module, grammar_id const& id);
+    void grammar_dep(module_type             const& module,
+                     grammar::meta::ScopedId const& id);
+
+    void grammar_dep(module_type   const& module,
+                     chilon::range const& id);
 
     void print_ast() const;
     void generate_code();

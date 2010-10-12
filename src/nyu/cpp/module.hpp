@@ -12,7 +12,6 @@ namespace nyu { namespace cpp {
 
 class module {
     typedef builder::module_type  module_type;
-    typedef builder::grammar_id   grammar_id;
 
     builder&                      builder_;
     module_type const&            module_;

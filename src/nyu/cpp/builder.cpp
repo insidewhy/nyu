@@ -61,23 +61,22 @@ void builder::operator()(module_type& module) {
     module_builder.close();
 }
 
-void builder::grammar_dep(module_type const& module, grammar_id const& id) {
-    if (id.is<chilon::range>()) {
-        // search in current grammar
-        auto it = module.second.value_.find(id.at<chilon::range>());
-        if (it != module.second.value_.end()) {
-            // TODO: build module
-            return;
-        }
-        else {
-            // TODO: search in parent modules
-        }
-
+void builder::grammar_dep(module_type const& module, chilon::range const& id) {
+    // search in current grammar
+    auto it = module.second.value_.find(id);
+    if (it != module.second.value_.end()) {
+        // TODO: build module
+        return;
     }
     else {
+        // TODO: search in parent modules
     }
+}
 
-    throw error::grammar_not_found(id);
+void builder::grammar_dep(module_type             const& module,
+                          grammar::meta::ScopedId const& id)
+{
+    // throw error::grammar_not_found(id);
 }
 
 void builder::print_ast() const {

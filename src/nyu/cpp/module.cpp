@@ -41,7 +41,13 @@ void module::operator()(chilon::key_value<
         auto extends = std::get<0>(gram.second.value_);
         if (! extends.empty()) {
             gram.second.status_ = grammar::Status::PROCESSING;
-            builder_.grammar_dep(module_, extends.at<grammar_id>());
+
+            // TODO: search for grammar in current module first
+            if (extends.is<range>())
+                builder_.grammar_dep(module_, extends.at<range>());
+            else
+                builder_.grammar_dep(
+                    module_, extends.at<grammar::meta::ScopedId>());
         }
     }
     catch (error::grammar_dep_cycle& err) {
