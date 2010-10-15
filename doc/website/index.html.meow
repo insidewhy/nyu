@@ -35,11 +35,11 @@ head {
     // are collapsed to store a single string, so Identifier stores a string.
     Identifier <- [a-zA-Z_] ^ IdentifierSuffix
 
-    // P % Q matches many P joined with Q (with optional whitespace around
+    // P % Q matches many P joined with Q (with optional Spacing* around
     // the Q) and stores vector[storage type of P]
     // In Grammar "[", "," and "]" are not stored as they always match the
     // same data. (P ^% Q) is the same as (P % Q) but does not allow
-    // whitespace to match around Q.
+    // Spacing* to match around Q.
     Grammar    <- "[" (Identifier % ",") "]"
 
     // Grammar stores: vector<string>

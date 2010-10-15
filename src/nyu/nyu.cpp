@@ -20,7 +20,8 @@
 // #define MOUSEDEER_VERSION "992 (rose almost 3000 mousedear)"
 // #define MOUSEDEER_VERSION "991 (raging mousedeer)"
 // #define NYU_VERSION "0.1 (displacing nyu)"
-#define NYU_VERSION "0.2 (sweet island)"
+// #define NYU_VERSION "0.2 (sweet island)"
+#define NYU_VERSION "0.3 (kuchenfest)"
 
 namespace nyu {
 
