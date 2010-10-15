@@ -2,10 +2,11 @@
 
 nyu    = ../.obj/nyu
 
-test: self/stdout fail/stdout
+test: self/stdout fail/stdout bad_include/stdout
 
 self/stdout: self.nyah $(wildcard ../grammar/*.nyah) ${nyu}
 fail/stdout: fail.nyah ${nyu}
+bad_include/stdout: bad_include.nyah ${nyu}
 
 %/stdout:
 	@dir=`dirname $@`; \

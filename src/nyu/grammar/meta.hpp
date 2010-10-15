@@ -3,20 +3,7 @@
 
 #include <nyu/grammar/nyah.hpp>
 
-namespace nyu { namespace grammar {
-
-enum class Status {
-    UNKNOWN,
-    PROCESSING,
-    PROCESSED
-};
-
-struct WithStatus {
-    WithStatus() : status_(Status::UNKNOWN) {}
-    Status status_;
-};
-
-namespace meta {
+namespace nyu { namespace grammar { namespace meta {
 
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;
@@ -42,9 +29,7 @@ typedef sequence<
     char_<'@',i,n,c,l,u,d,e>,
     joined_plus<char_<'/'>, Id> > Include;
 
-typedef many<Module> ModuleList;
-
-typedef sequence<many<Include>, ModuleList> Grammar;
+typedef sequence<many<Include>, many<Module>> Grammar;
 
 } } }
 #endif

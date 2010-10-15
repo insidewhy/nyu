@@ -1,12 +1,6 @@
 @include nyah
 @module nyu.grammar
 
-enum Status { UNKNOWN, PROCESSING, PROCESSED }
-
-class WithStatus {
-    status_ := Status.UNKNOWN
-}
-
 @grammar meta : nyu
 
 Id               <- nyu::Id
@@ -23,5 +17,4 @@ Module           < WithStatus =
 
 Include          <- "@include" Id %+ "/"
 
-ModuleList       <- Module*
-Grammar          <- Include* ModuleList
+Grammar          <- Include* Module*

@@ -1,5 +1,5 @@
 #include <nyu/cpp/builder.hpp>
-#include <nyu/cpp/module.hpp>
+#include <nyu/cpp/build_module.hpp>
 #include <nyu/error/not_found.hpp>
 #include <nyu/error/grammar_not_found.hpp>
 #include <nyu/error/include_not_found.hpp>
@@ -54,29 +54,42 @@ void builder::operator()(module_type& module) {
     // auto& moduleId = module.first;
     auto& grammar = module.second.value_;
 
-    cpp::module module_builder(*this, module);
-    for (auto it = grammar.safe_ordered_begin(); ! it.at_end(); ++it)
+    // in the first pass handle stuff that goes in the namespace file
+    // direct, and any dependencies of those
+    cpp::build_module module_builder(*this, module);
+    module.second.status_ = grammar::Status::PROCESSING;
+
+    for (auto it = grammar.begin(); it != grammar.end(); ++it)
         chilon::variant_apply(*it, module_builder);
+
+    module.second.status_ = grammar::Status::PROCESSED;
+
+    // handle classes and grammars that weren't handled as dependencies
+    // in previous pass
+    for (auto it = grammar.begin(); it != grammar.end(); ++it)
+        chilon::variant_apply(*it, namespace_builder(module_builder));
 
     module_builder.close();
 }
 
-void builder::grammar_dep(module_type const& module, chilon::range const& id) {
+void builder::grammar_dep(module_type const& src_mod, chilon::range const& id) {
     // search in current grammar
-    auto it = module.second.value_.find(id);
-    if (it != module.second.value_.end()) {
-        // TODO: build module
+    auto it = src_mod.second.value_.find(id);
+    if (it != src_mod.second.value_.end()) {
+        // TODO: build grammar
         return;
     }
     else {
         // TODO: search in parent modules
     }
+
+    throw error::grammar_not_found(id);
 }
 
-void builder::grammar_dep(module_type             const& module,
+void builder::grammar_dep(module_type             const& src_mod,
                           grammar::meta::ScopedId const& id)
 {
-    // throw error::grammar_not_found(id);
+    throw error::grammar_not_found(id);
 }
 
 void builder::print_ast() const {

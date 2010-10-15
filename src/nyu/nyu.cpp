@@ -33,8 +33,8 @@ inline int main(int argc, char *argv[]) {
 
     if (0 == nPositionals) return 1;
 
+    cpp::builder build_source(opts);
     try {
-        cpp::builder build_source(opts);
         for (int i = 1; i <= nPositionals; ++i) build_source.parse_file(argv[i]);
 
         build_source.generate_code();

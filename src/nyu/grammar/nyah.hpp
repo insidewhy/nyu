@@ -2,6 +2,7 @@
 #define NYU_GRAMMAR_NYAH_HPP
 
 #include <nyu/grammar/nyu.hpp>
+#include <nyu/grammar.hpp>
 
 namespace nyu { namespace grammar { namespace nyah {
 
@@ -32,7 +33,7 @@ struct Attribute : simple_node<Attribute,
 struct AssignedAttribute : simple_node<AssignedAttribute,
     key<Id>, char_<':'>, char_<'='>, AssignExpression> {};
 
-struct Class : simple_node<Class,
+struct Class : WithStatus, simple_node<Class,
     char_<c,l,a,s,s>, key<Id>, char_<'{'>,
     many<choice<Attribute, AssignedAttribute, Enum>>,
     char_<'}'> > {};

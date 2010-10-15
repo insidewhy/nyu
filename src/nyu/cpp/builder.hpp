@@ -27,9 +27,8 @@ class builder {
   public:
     options const& opts() const { return options_; }
 
-    typedef typename
-        chilon::parser::stored<grammar::meta::ModuleList>::type
-    ::value_type  module_type;
+    typedef typename chilon::parser::stored<
+        grammar::meta::Module>::type  module_type;
 
   private:
     // if file doesn't exist in project, add it and return reference to it
@@ -47,10 +46,10 @@ class builder {
 
     void operator()(module_type& module);
 
-    void grammar_dep(module_type             const& module,
+    void grammar_dep(module_type             const& src_mod,
                      grammar::meta::ScopedId const& id);
 
-    void grammar_dep(module_type   const& module,
+    void grammar_dep(module_type   const& src_mod,
                      chilon::range const& id);
 
     void print_ast() const;

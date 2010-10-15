@@ -1,6 +1,12 @@
 @include nyu
 @module nyu.grammar
 
+enum Status { UNKNOWN, PROCESSING, PROCESSED }
+
+class WithStatus {
+    status_ := Status.UNKNOWN
+}
+
 @grammar nyah : nyu
 
 Id       <- nyu::Id
@@ -18,7 +24,7 @@ Type             <- ScopedId
 Attribute         <= #Id ':' Type
 AssignedAttribute <= #Id ':' '=' AssignExpression
 
-Class             <= 'class' #Id '{'
-                        (Attribute / AssignedAttribute / Enum)* '}'
+Class             < WithStatus =
+    'class' #Id '{' (Attribute / AssignedAttribute / Enum)* '}'
 
 Grammar           <- Class / Enum

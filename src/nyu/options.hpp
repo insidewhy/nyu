@@ -13,6 +13,7 @@ namespace nyu {
 
 struct options {
     bool                       verbose_;
+    bool                       verbose_comments_;
     bool                       print_ast_;
     std::string                output_dir_;
     std::vector<std::string>   include_paths_;

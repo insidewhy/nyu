@@ -3,5 +3,11 @@
 
 namespace nyu { namespace grammar {
 
+enum class Status {
+    UNKNOWN,
+    PROCESSING,
+    PROCESSED
+};
+
 } }
 #endif

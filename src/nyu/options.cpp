@@ -16,7 +16,9 @@ namespace nyu {
 
 namespace cmd_line = chilon::conf::cmd;
 
-options::options() : verbose_(false), print_ast_(false), output_dir_(".") {}
+options::options()
+  : verbose_(false), verbose_comments_(false),
+    print_ast_(false), output_dir_(".") {}
 
 int options::parse_command_line(char const *header, int argc, char *argv[]) {
     int nPositionals;
@@ -30,6 +32,7 @@ int options::parse_command_line(char const *header, int argc, char *argv[]) {
         ("p,print",      print_ast_, "print AST of grammar")
         ("v,verbose",    verbose_, "increase verbosity")
         ("o,output-dir", output_dir_, "directory to output code")
+        ("V",            verbose_comments_, "print lots of comments to generated parser")
         ("I,include",    include_paths_, "include paths")
         ;
 
