@@ -14,8 +14,8 @@ Escape          <- [\\] ^ [sSnNtTwW."'&!+*\\]
 String          <= '"' ^ (Escape / ! '"')^* ^ '"' /
                    "'" ^ (Escape / ! "'")^* ^ "'"
 Id              <- [a-zA-Z_] ^ [a-zA-Z0-9_]+
-ScopedId        <- ((Id ".")+)|? Id
-ScopedRule      <= ((Id "::")+)|? Id
+ScopedId        <- Id %+ '.'
+ScopedRule      <- Id %+ '::'
 Primary         <- String / CharacterRange / Escape / AnyCharacter /
                    ScopedRule &! "<" / "(" Expression ")"
 Suffix          <= Primary ([?*+] / "^+" / "^*" / "|+" / "|?" )|?

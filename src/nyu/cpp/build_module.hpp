@@ -45,11 +45,8 @@ class build_module : public output_file {
     // enumerations are stored within the grammar namespace
     void operator()(enum_t& enumm);
 
-    void grammar_dep(module_type             const& module,
-                     grammar::meta::ScopedId const& id);
-
-    void grammar_dep(module_type   const& module,
-                     chilon::range const& id);
+    void grammar_dep(module_type                const& src_mod,
+                     std::vector<chilon::range> const& id);
 
     void close();
 

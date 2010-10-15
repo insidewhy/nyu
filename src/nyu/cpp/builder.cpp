@@ -72,23 +72,23 @@ void builder::operator()(module_type& module) {
     module_builder.close();
 }
 
-void builder::grammar_dep(module_type const& src_mod, chilon::range const& id) {
+void builder::grammar_dep(module_type                const& src_mod,
+                          std::vector<chilon::range> const& id)
+{
     // search in current grammar
-    auto it = src_mod.second.value_.find(id);
-    if (it != src_mod.second.value_.end()) {
-        // TODO: build grammar
-        return;
+    if (1 == id.size()) {
+        auto it = src_mod.second.value_.find(id.front());
+        if (it != src_mod.second.value_.end()) {
+            // TODO: build grammar
+            return;
+        }
+        else {
+            // TODO: search in parent modules
+        }
     }
     else {
-        // TODO: search in parent modules
     }
 
-    throw error::grammar_not_found(id);
-}
-
-void builder::grammar_dep(module_type             const& src_mod,
-                          grammar::meta::ScopedId const& id)
-{
     throw error::grammar_not_found(id);
 }
 

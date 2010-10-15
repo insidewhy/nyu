@@ -46,11 +46,8 @@ class builder {
 
     void operator()(module_type& module);
 
-    void grammar_dep(module_type             const& src_mod,
-                     grammar::meta::ScopedId const& id);
-
-    void grammar_dep(module_type   const& src_mod,
-                     chilon::range const& id);
+    void grammar_dep(module_type                const& src_mod,
+                     std::vector<chilon::range> const& id);
 
     void print_ast() const;
     void generate_code();
