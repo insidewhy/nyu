@@ -18,6 +18,15 @@ head {
         }
 	}
     %li {
+        release 0.3
+        %ul {
+			%li Partial code generation of classes and enumerations.
+			%li Add documentation.
+			%li Code simplifications and fixes.
+            %li Upgrade chilon to fix missing include.
+        }
+    }
+    %li {
         release 0.2
         %ul {
             %li Parser rules can now extend classes.
