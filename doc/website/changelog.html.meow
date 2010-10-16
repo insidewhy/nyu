@@ -7,7 +7,7 @@ head {
 !body
 
 !!#content
-%h1 chilon changelog
+%h1 nyu changelog
 
 %ul(style=margin-bottom:10px) {
     %li {
