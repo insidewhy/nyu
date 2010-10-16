@@ -16,3 +16,5 @@ This project is organised like this:
             grammar/  - Nyu grammars
             cpp/          - nyu AST -> C++
             grammar/      - nyu chilon::parser grammar
+
+Please see http://chilon.net/nyu for documentation.
