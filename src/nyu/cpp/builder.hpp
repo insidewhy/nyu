@@ -25,11 +25,6 @@ class builder {
     files_t                                   files_;
 
   public:
-    typedef chilon::variant<
-        typename parser::stored<grammar::meta::ModuleDefinition>::type,
-        void
-    > module_id;
-
     typedef typename parser::stored<
         grammar::meta::Module>::type  module_type;
 
@@ -53,7 +48,7 @@ class builder {
 
     void operator()(module_type& module);
 
-    void grammar_dep(module_id const& from_id, ns_type const& id);
+    void grammar_dep(ns_type const& from_id, ns_type const& id);
 
     void print_ast() const;
     void generate_code();

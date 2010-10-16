@@ -72,7 +72,7 @@ void builder::operator()(module_type& module) {
     module_builder.close();
 }
 
-void builder::grammar_dep(module_id const& from_id, ns_type const& id) {
+void builder::grammar_dep(ns_type const& from_id, ns_type const& id) {
     // mega todo: search in parent grammars for grammar id
 
     throw error::grammar_not_found(id);

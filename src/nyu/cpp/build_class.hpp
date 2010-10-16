@@ -7,15 +7,11 @@
 namespace nyu { namespace cpp {
 
 class build_class : public output_file {
-    typedef builder::module_id  module_id;
-
-    module_id const&            module_id_;
-    class_type&                 class_;
+    ns_type const&  module_id_;
+    class_type&     class_;
 
   public:
-    build_class(builder&         builder,
-                module_id const& module_id,
-                class_type&      clss)
+    build_class(builder& builder, ns_type const& module_id, class_type& clss)
       : output_file(builder), module_id_(module_id), class_(clss) {}
 
     // TODO: fix this

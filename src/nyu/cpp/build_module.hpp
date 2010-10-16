@@ -33,7 +33,9 @@ class build_module : public output_file {
     void close();
 
   private:
-    void open();
+    void open() {
+        output_file::open(module_.first);
+    }
 };
 
 class namespace_builder {

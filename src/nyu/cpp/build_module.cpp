@@ -29,7 +29,7 @@ void build_module::subnamespace(grammar_type& gram) {
         auto extends = std::get<0>(gram.second.value_);
         if (! extends.empty()) {
             gram.second.status_ = grammar::Status::PROCESSING;
-            grammar_dep(extends.at<0>());
+            grammar_dep(extends);
         }
     }
     catch (error::dep_cycle& err) {
@@ -62,10 +62,9 @@ void build_module::close() {
     if (! stream_.is_open()) return;
 
     if (! module_.first.empty()) {
-        auto const& module_id = module_.first.at<0>();
-        open_namespace(module_id);
+        open_namespace(module_.first);
         stream_ << body_.str();
-        close_namespace(module_id.size());
+        close_namespace(module_.first.size());
     }
     else stream_ << body_.str();
 
@@ -89,13 +88,6 @@ void build_module::grammar_dep(ns_type const& id) {
 
     // mega todo: search in current module first
     builder_.grammar_dep(module_.first, id);
-}
-
-void build_module::open() {
-    if (module_.first.empty())
-        output_file::open("global.hpp", "global");
-    else
-        output_file::open(module_.first.at<0>());
 }
 
 } }

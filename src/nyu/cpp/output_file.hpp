@@ -46,7 +46,6 @@ struct output_file {
         for (auto i = 1u; i < depth; ++i) stream_ << " }";
     }
 
-    void open(char const *filename, char const *guard);
     void open(ns_type const& ns);
 
   public:
