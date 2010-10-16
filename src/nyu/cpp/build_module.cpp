@@ -35,16 +35,16 @@ void build_module::subnamespace(grammar_type& gram) {
     gram.second.status_ = grammar::Status::PROCESSED;
 }
 
-void build_module::operator()(enum_t& enumm) {
+void build_module::operator()(enum_type& enm) {
     if (! is_open()) open();
 
-    body_ << "\nenum class " << enumm.first << " {\n" NYU_CPP_INDENT;
-    if (! enumm.second.value_.empty()) {
-        auto it = enumm.second.value_.begin();
+    body_ << "\nenum class " << enm.first << " {\n" NYU_CPP_INDENT;
+    if (! enm.second.value_.empty()) {
+        auto it = enm.second.value_.begin();
         body_ << std::get<0>(*it);
 
         // todo: handle =
-        for (++it; it != enumm.second.value_.end(); ++it)
+        for (++it; it != enm.second.value_.end(); ++it)
             body_ << ",\n" NYU_CPP_INDENT << std::get<0>(*it);
     }
     body_ << "\n};\n";
@@ -55,24 +55,13 @@ void build_module::close() {
 
     if (! module_.first.empty()) {
         auto const& module_id = module_.first.at<0>();
-
-        stream_ << "namespace " << module_id.front() << " {";
-        for (auto it = module_id.begin() + 1; it != module_id.end(); ++it) {
-            stream_ << " namespace " << *it << " {";
-        }
-        stream_ << '\n';
-
-        stream_ << body_.str() << '\n';
-
-        stream_ << '}';
-        for (auto i = 1u; i < module_id.size(); ++i) {
-            stream_ << " }";
-        }
-        stream_ << '\n';
+        open_namespace(module_id);
+        stream_ << body_.str();
+        close_namespace(module_id.size());
     }
-    else stream_ << body_.str() << '\n';
+    else stream_ << body_.str();
 
-    chilon::print(stream_, "#endif");
+    chilon::print(stream_, "\n#endif");
     stream_ << std::flush;
     stream_.close();
 }

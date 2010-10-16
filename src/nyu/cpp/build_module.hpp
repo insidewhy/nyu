@@ -23,11 +23,9 @@ class build_module : public output_file {
         range, grammar::nyah::Class, chilon::key_unique>      class_type;
 
     typedef chilon::key_value<
-        range, grammar::nyah::Enum, chilon::key_unique>       enum_t;
+        range, grammar::nyah::Enum, chilon::key_unique>       enum_type;
 
   public:
-    build_module(build_module const& rhs) = delete;
-
     build_module(builder&           builder,
                  module_type const& module)
       : output_file(builder), module_(module) {}
@@ -43,7 +41,7 @@ class build_module : public output_file {
     void subnamespace(grammar_type& gram);
 
     // enumerations are stored within the grammar namespace
-    void operator()(enum_t& enumm);
+    void operator()(enum_type& enm);
 
     void grammar_dep(module_type                const& src_mod,
                      std::vector<chilon::range> const& id);

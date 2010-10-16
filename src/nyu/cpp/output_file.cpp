@@ -13,7 +13,7 @@ void output_file::open(char const *filename, char const *guard) {
     chilon::print(stream_, "#define global_HPP\n\n");
 }
 
-void output_file::open(std::vector<chilon::range> const& path) {
+void output_file::open(path_type const& path) {
     builder_.opts().output_path(stream_, path, ".hpp");
 
     std::stringstream guard;
