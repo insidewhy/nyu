@@ -2,6 +2,15 @@
 
 namespace nyu { namespace cpp {
 
+void build_class::operator()(attr_type& attr) {
+    // mega todo:
+}
+
+void build_class::operator()(assigned_attr_type& attr) {
+    // mega todo:
+    // lookup type of ns_type attr.second
+}
+
 void build_class::close() {
     if (! module_id_.empty()) {
         open_namespace(module_id_);

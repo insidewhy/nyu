@@ -1,5 +1,4 @@
 #include <nyu/cpp/output_file.hpp>
-#include <nyu/cpp/config.hpp>
 
 #include <chilon/print.hpp>
 #include <chilon/print_join.hpp>
@@ -43,17 +42,25 @@ void output_file::open(ns_type const& ns, range const& id) {
     }
 }
 
-void output_file::operator()(enum_type& enm) {
-    body_ << "\nenum class " << enm.first << " {\n" NYU_CPP_INDENT;
+void output_file::operator()(enum_type& enm, int const indent) {
+    body_ << "\n";
+    print_indent(body_, indent);
+    body_ << "enum class " << enm.first << " {\n";
+    print_indent(body_, indent + 1);
     if (! enm.second.value_.empty()) {
         auto it = enm.second.value_.begin();
         body_ << std::get<0>(*it);
 
         // todo: handle =
-        for (++it; it != enm.second.value_.end(); ++it)
-            body_ << ",\n" NYU_CPP_INDENT << std::get<0>(*it);
+        for (++it; it != enm.second.value_.end(); ++it) {
+            body_ << ",\n";
+            print_indent(body_, indent + 1);
+            body_ << std::get<0>(*it);
+        }
     }
-    body_ << "\n};\n";
+    body_ << '\n';
+    print_indent(body_, indent);
+    body_ << "};\n";
 }
 
 

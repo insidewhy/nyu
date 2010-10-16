@@ -2,6 +2,7 @@
 #define NYU_CPP_OUTPUT_FILE_HPP
 
 #include <nyu/cpp/builder.hpp>
+#include <nyu/cpp/config.hpp>
 
 #include <chilon/getset.hpp>
 #include <chilon/iterator_range.hpp>
@@ -34,7 +35,12 @@ struct output_file {
         return builder_.opts().verbose_comments_;
     }
 
-    void operator()(enum_type& enm);
+    template <class S>
+    inline void print_indent(S& str, int const indent) {
+        for (int i = 0; i < indent; ++i) str << NYU_CPP_INDENT;
+    }
+
+    void operator()(enum_type& enm, int const indent = 0);
 
     void open_namespace(ns_type const& ns) {
         stream_ << "namespace " << ns.front() << " {";

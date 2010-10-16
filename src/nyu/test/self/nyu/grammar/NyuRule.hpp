@@ -4,6 +4,13 @@
 namespace nyu { namespace grammar {
 
 class NyuRule {
+    enum class Status {
+        UNKNOWN,
+        NORMAL,
+        HASHED,
+        NODE
+    };
+
 };
 
 } }

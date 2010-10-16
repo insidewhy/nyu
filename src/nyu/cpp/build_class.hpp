@@ -10,14 +10,19 @@ class build_class : public output_file {
     ns_type const&  module_id_;
     class_type&     class_;
 
+    typedef typename parser::stored<
+        grammar::nyah::Attribute>::type          attr_type;
+    typedef typename parser::stored<
+        grammar::nyah::AssignedAttribute>::type  assigned_attr_type;
+
   public:
     build_class(builder& builder, ns_type const& module_id, class_type& clss)
       : output_file(builder), module_id_(module_id), class_(clss)
     { open(); }
 
-    // TODO: fix this
-    template <class T>
-    void operator()(T& t) {}
+    void operator()(enum_type& enm) { output_file::operator()(enm, 1); }
+    void operator()(attr_type& attr);
+    void operator()(assigned_attr_type& attr);
 
     void close();
 
