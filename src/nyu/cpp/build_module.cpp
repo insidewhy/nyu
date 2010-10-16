@@ -1,5 +1,6 @@
 #include <nyu/cpp/build_module.hpp>
 #include <nyu/cpp/config.hpp>
+#include <nyu/cpp/build_class.hpp>
 #include <nyu/error/dep_cycle.hpp>
 
 #include <chilon/print_join.hpp>
@@ -10,6 +11,13 @@ void build_module::subnamespace(class_type& clss) {
     if (clss.second.status_ == grammar::Status::PROCESSED) return;
     else if (clss.second.status_ == grammar::Status::PROCESSING)
         throw error::dep_cycle(clss.first);
+
+    cpp::build_class class_builder(builder_, module_.first, clss);
+    for (auto it = clss.second.value_.begin();
+         it != clss.second.value_.end(); ++it)
+    {
+        chilon::variant_apply(*it, class_builder);
+    }
 }
 
 void build_module::subnamespace(grammar_type& gram) {

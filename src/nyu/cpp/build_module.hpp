@@ -9,8 +9,8 @@
 namespace nyu { namespace cpp {
 
 class build_module : public output_file {
-    module_type const&            module_;
-    mutable std::stringstream     body_;
+    module_type const&   module_;
+    std::stringstream    body_;
 
     typedef chilon::key_value<
         range, grammar::meta::NyuGrammar, chilon::key_unique> grammar_type;
