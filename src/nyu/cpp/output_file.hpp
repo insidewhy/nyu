@@ -7,6 +7,7 @@
 #include <chilon/iterator_range.hpp>
 
 #include <fstream>
+#include <sstream>
 #include <string>
 
 namespace nyu { namespace cpp {
@@ -24,8 +25,9 @@ struct output_file {
         range, grammar::nyah::Class, chilon::key_unique>  class_type;
 
   protected:
-    builder&       builder_;
-    std::ofstream  stream_;
+    std::stringstream   body_;
+    builder&            builder_;
+    std::ofstream       stream_;
 
     bool is_open() const { return stream_.is_open(); }
     bool verbose_comments() const {
