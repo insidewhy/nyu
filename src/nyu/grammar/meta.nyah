@@ -1,10 +1,10 @@
 @include nyah
 @module nyu.grammar
 
-@grammar meta : nyu
+@grammar meta : nyah
 
-Id               <- nyu::Id
-ScopedId         <- nyu::ScopedId
+Id               <- nyah::Id
+ScopedId         <- nyah::ScopedId
 
 ModuleId         <- Id %+ '.'
 ModuleDefinition <- "@module" ModuleId

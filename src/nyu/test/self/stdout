@@ -9,13 +9,13 @@ module id [
 ]
 module {
     "meta" -> NyuGrammar: (
-        [ "nyu" ]
+        [ "nyah" ]
         {
             "Id" -> Rule: (
                 []
                 '-'
                 Expression: [
-                    "nyu"
+                    "nyah"
                     "Id"
                 ]
             )
@@ -23,7 +23,7 @@ module {
                 []
                 '-'
                 Expression: [
-                    "nyu"
+                    "nyah"
                     "ScopedId"
                 ]
             )

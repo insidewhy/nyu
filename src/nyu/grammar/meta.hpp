@@ -8,9 +8,9 @@ namespace nyu { namespace grammar { namespace meta {
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;
 
-using nyu::Spacing;
-using nyu::Id;
-using nyu::ScopedId;
+using nyah::Spacing;
+using nyah::Id;
+using nyah::ScopedId;
 
 typedef joined_plus<char_<'.'>, Id> ModuleId;
 
