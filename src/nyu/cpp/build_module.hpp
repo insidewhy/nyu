@@ -10,6 +10,7 @@ namespace nyu { namespace cpp {
 
 class build_module : public output_file {
     typedef builder::module_type  module_type;
+    typedef builder::ns_type      ns_type;
 
     module_type const&            module_;
     mutable std::stringstream     body_;
@@ -42,10 +43,7 @@ class build_module : public output_file {
 
     // enumerations are stored within the grammar namespace
     void operator()(enum_type& enm);
-
-    void grammar_dep(module_type                const& src_mod,
-                     std::vector<chilon::range> const& id);
-
+    void grammar_dep(ns_type const& id);
     void close();
 
   private:

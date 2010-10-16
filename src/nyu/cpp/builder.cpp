@@ -72,22 +72,8 @@ void builder::operator()(module_type& module) {
     module_builder.close();
 }
 
-void builder::grammar_dep(module_type                const& src_mod,
-                          std::vector<chilon::range> const& id)
-{
-    // search in current grammar
-    if (1 == id.size()) {
-        auto it = src_mod.second.value_.find(id.front());
-        if (it != src_mod.second.value_.end()) {
-            // TODO: build grammar
-            return;
-        }
-        else {
-            // TODO: search in parent modules
-        }
-    }
-    else {
-    }
+void builder::grammar_dep(module_id const& from_id, ns_type const& id) {
+    // mega todo: search in parent grammars for grammar id
 
     throw error::grammar_not_found(id);
 }

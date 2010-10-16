@@ -13,11 +13,11 @@ void output_file::open(char const *filename, char const *guard) {
     chilon::print(stream_, "#define global_HPP\n\n");
 }
 
-void output_file::open(path_type const& path) {
-    builder_.opts().output_path(stream_, path, ".hpp");
+void output_file::open(ns_type const& ns) {
+    builder_.opts().output_path(stream_, ns, ".hpp");
 
     std::stringstream guard;
-    chilon::print_join(guard, '_', path);
+    chilon::print_join(guard, '_', ns);
     chilon::print(stream_, "#ifndef ", guard.str(), "_HPP\n");
     chilon::print(stream_, "#define ", guard.str(), "_HPP\n\n");
 }

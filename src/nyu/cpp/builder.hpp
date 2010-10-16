@@ -13,21 +13,31 @@
 
 namespace nyu { namespace cpp {
 
+namespace parser = chilon::parser;
+
 // TODO: add nodes involved in cycle to exception.
 class file_dependency_cycle {};
 
 class builder {
     typedef grammar::meta::Grammar                    grammar_t;
-    typename chilon::parser::stored<grammar_t>::type  ast_;
+    typename parser::stored<grammar_t>::type  ast_;
+
     options&                                          options_;
     std::unordered_map<std::string, file>             files_;
 
     typedef decltype(files_) files_t;
 
   public:
+    typedef chilon::variant<
+        typename parser::stored<grammar::meta::ModuleDefinition>::type,
+        void
+    > module_id;
+
+    typedef std::vector<chilon::range>  ns_type;
+
     options const& opts() const { return options_; }
 
-    typedef typename chilon::parser::stored<
+    typedef typename parser::stored<
         grammar::meta::Module>::type  module_type;
 
   private:
@@ -46,8 +56,7 @@ class builder {
 
     void operator()(module_type& module);
 
-    void grammar_dep(module_type                const& src_mod,
-                     std::vector<chilon::range> const& id);
+    void grammar_dep(module_id const& from_id, ns_type const& id);
 
     void print_ast() const;
     void generate_code();

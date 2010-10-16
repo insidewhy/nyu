@@ -21,7 +21,7 @@ void build_module::subnamespace(grammar_type& gram) {
         auto extends = std::get<0>(gram.second.value_);
         if (! extends.empty()) {
             gram.second.status_ = grammar::Status::PROCESSING;
-            grammar_dep(module_, extends.at<0>());
+            grammar_dep(extends.at<0>());
         }
     }
     catch (error::dep_cycle& err) {
@@ -66,11 +66,21 @@ void build_module::close() {
     stream_.close();
 }
 
-void build_module::grammar_dep(module_type                const& module,
-                               std::vector<chilon::range> const& id)
-{
+void build_module::grammar_dep(ns_type const& id) {
+    if (1 == id.size()) {
+        // TODO: search in current module
+        auto it = module_.second.value_.find(id.front());
+        if (it != module_.second.value_.end()) {
+            // TODO: build grammar
+            return;
+        }
+    }
+    else {
+        // see if id is reference to current module
+    }
+
     // mega todo: search in current module first
-    builder_.grammar_dep(module, id);
+    builder_.grammar_dep(module_.first, id);
 }
 
 void build_module::open() {

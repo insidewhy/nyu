@@ -12,10 +12,9 @@
 namespace nyu { namespace cpp {
 
 class output_file {
-  protected:
-    typedef std::vector<chilon::range>  path_type;
-    typedef path_type                   ns_type;
+    typedef builder::ns_type    ns_type;
 
+  protected:
     builder&       builder_;
     std::ofstream  stream_;
 
@@ -37,7 +36,7 @@ class output_file {
     }
 
     void open(char const *filename, char const *guard);
-    void open(path_type const& path);
+    void open(ns_type const& ns);
 
   public:
     CHILON_GET_REF(stream)
