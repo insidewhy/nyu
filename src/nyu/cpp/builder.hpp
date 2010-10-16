@@ -15,17 +15,14 @@ namespace nyu { namespace cpp {
 
 namespace parser = chilon::parser;
 
-// TODO: add nodes involved in cycle to exception.
-class file_dependency_cycle {};
-
 class builder {
-    typedef grammar::meta::Grammar                    grammar_t;
+    typedef grammar::meta::Grammar                  grammar_t;
+    typedef chilon::range                           range;
+    typedef std::unordered_map<std::string, file>   files_t;
+
     typename parser::stored<grammar_t>::type  ast_;
-
-    options&                                          options_;
-    std::unordered_map<std::string, file>             files_;
-
-    typedef decltype(files_) files_t;
+    options&                                  options_;
+    files_t                                   files_;
 
   public:
     typedef chilon::variant<
@@ -33,12 +30,12 @@ class builder {
         void
     > module_id;
 
-    typedef std::vector<chilon::range>  ns_type;
-
-    options const& opts() const { return options_; }
-
     typedef typename parser::stored<
         grammar::meta::Module>::type  module_type;
+
+    typedef std::vector<range>  ns_type;
+
+    options const& opts() const { return options_; }
 
   private:
     // if file doesn't exist in project, add it and return reference to it

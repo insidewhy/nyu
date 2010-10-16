@@ -11,8 +11,17 @@
 
 namespace nyu { namespace cpp {
 
-class output_file {
-    typedef builder::ns_type    ns_type;
+struct output_file {
+    typedef builder::ns_type      ns_type;
+    typedef builder::module_type  module_type;
+
+    typedef chilon::range range;
+
+    typedef chilon::key_value<
+        range, grammar::nyah::Enum, chilon::key_unique>   enum_type;
+
+    typedef chilon::key_value<
+        range, grammar::nyah::Class, chilon::key_unique>  class_type;
 
   protected:
     builder&       builder_;

@@ -6,10 +6,10 @@
 
 namespace nyu { namespace cpp {
 
-void build_module::subnamespace(class_type& clas) {
-    if (clas.second.status_ == grammar::Status::PROCESSED) return;
-    else if (clas.second.status_ == grammar::Status::PROCESSING)
-        throw error::dep_cycle(clas.first);
+void build_module::subnamespace(class_type& clss) {
+    if (clss.second.status_ == grammar::Status::PROCESSED) return;
+    else if (clss.second.status_ == grammar::Status::PROCESSING)
+        throw error::dep_cycle(clss.first);
 }
 
 void build_module::subnamespace(grammar_type& gram) {
