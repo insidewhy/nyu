@@ -47,6 +47,7 @@ struct output_file {
     }
 
     void open(ns_type const& ns);
+    void open(ns_type const& ns, range const& id);
 
   public:
     CHILON_GET_REF(stream)

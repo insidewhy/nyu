@@ -36,6 +36,10 @@ struct options {
     void output_path(std::ofstream&                    stream,
                      std::vector<chilon::range> const& path,
                      char const * const                suffix) const;
+    void output_path(std::ofstream&                    stream,
+                     std::vector<chilon::range> const& path,
+                     chilon::range              const& id,
+                     char const * const                suffix) const;
   private:
     void output_path_helper(std::ofstream&     stream,
                             std::string const& filename) const;

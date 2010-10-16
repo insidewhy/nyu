@@ -96,6 +96,18 @@ void options::output_path(
     output_path_helper(stream, s.str());
 }
 
+void options::output_path(
+    std::ofstream&                    stream,
+    std::vector<chilon::range> const& path,
+    chilon::range const&              id,
+    char const * const                suffix) const
+{
+    std::stringstream s;
+    chilon::print_join(s, '/', output_dir_, path);
+    s << '/' << id << suffix;
+    output_path_helper(stream, s.str());
+}
+
 void options::output_path_helper(std::ofstream&     stream,
                                  std::string const& filename) const
 {

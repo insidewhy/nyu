@@ -18,6 +18,8 @@ void build_module::subnamespace(class_type& clss) {
     {
         chilon::variant_apply(*it, class_builder);
     }
+
+    class_builder.close();
 }
 
 void build_module::subnamespace(grammar_type& gram) {

@@ -12,7 +12,8 @@ class build_class : public output_file {
 
   public:
     build_class(builder& builder, ns_type const& module_id, class_type& clss)
-      : output_file(builder), module_id_(module_id), class_(clss) {}
+      : output_file(builder), module_id_(module_id), class_(clss)
+    { open(); }
 
     // TODO: fix this
     template <class T>
@@ -21,7 +22,9 @@ class build_class : public output_file {
     void close();
 
   private:
-    void open();
+    void open() {
+        output_file::open(module_id_, class_.first);
+    }
 };
 
 } }
