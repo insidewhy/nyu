@@ -3,5 +3,8 @@
 
 namespace nyu { namespace grammar {
 
+class WithStatus {
+};
+
 } }
 #endif

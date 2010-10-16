@@ -22,9 +22,7 @@ class build_class : public output_file {
     void close();
 
   private:
-    void open() {
-        output_file::open(module_id_, class_.first);
-    }
+    void open();
 };
 
 } }
