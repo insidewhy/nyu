@@ -3,7 +3,7 @@
 
 namespace nyu { namespace grammar {
 
-class NyuRule {
+struct NyuRule {
     enum class Status {
         UNKNOWN,
         NORMAL,

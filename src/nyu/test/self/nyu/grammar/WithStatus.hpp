@@ -3,7 +3,7 @@
 
 namespace nyu { namespace grammar {
 
-class WithStatus {
+struct WithStatus {
 };
 
 } }

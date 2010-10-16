@@ -10,6 +10,9 @@ class build_class : public output_file {
     ns_type const&  module_id_;
     class_type&     class_;
 
+    // stream for creating attributes
+    std::stringstream ctr_stream_;
+
     typedef typename parser::stored<
         grammar::nyah::Attribute>::type          attr_type;
     typedef typename parser::stored<

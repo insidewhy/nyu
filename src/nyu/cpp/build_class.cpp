@@ -26,7 +26,7 @@ void build_class::close() {
 
 void build_class::open() {
     output_file::open(module_id_, class_.first);
-    body_ << "\nclass " << class_.first << " {";
+    body_ << "\nstruct " << class_.first << " {";
 }
 
 } }
