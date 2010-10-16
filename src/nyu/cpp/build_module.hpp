@@ -28,7 +28,11 @@ class build_module : public output_file {
     void subnamespace(grammar_type& gram);
 
     // enumerations are stored within the grammar namespace
-    void operator()(enum_type& enm);
+    void operator()(enum_type& enm) {
+        if (! is_open()) open();
+        output_file::operator()(enm);
+    }
+
     void grammar_dep(ns_type const& id);
     void close();
 

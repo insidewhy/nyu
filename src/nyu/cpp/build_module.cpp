@@ -1,5 +1,4 @@
 #include <nyu/cpp/build_module.hpp>
-#include <nyu/cpp/config.hpp>
 #include <nyu/cpp/build_class.hpp>
 #include <nyu/error/dep_cycle.hpp>
 
@@ -43,21 +42,6 @@ void build_module::subnamespace(grammar_type& gram) {
     // mega todo: process grammar here
 
     gram.second.status_ = grammar::Status::PROCESSED;
-}
-
-void build_module::operator()(enum_type& enm) {
-    if (! is_open()) open();
-
-    body_ << "\nenum class " << enm.first << " {\n" NYU_CPP_INDENT;
-    if (! enm.second.value_.empty()) {
-        auto it = enm.second.value_.begin();
-        body_ << std::get<0>(*it);
-
-        // todo: handle =
-        for (++it; it != enm.second.value_.end(); ++it)
-            body_ << ",\n" NYU_CPP_INDENT << std::get<0>(*it);
-    }
-    body_ << "\n};\n";
 }
 
 void build_module::close() {

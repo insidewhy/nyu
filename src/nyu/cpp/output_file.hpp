@@ -34,6 +34,8 @@ struct output_file {
         return builder_.opts().verbose_comments_;
     }
 
+    void operator()(enum_type& enm);
+
     void open_namespace(ns_type const& ns) {
         stream_ << "namespace " << ns.front() << " {";
         for (auto it = ns.begin() + 1; it != ns.end(); ++it)
