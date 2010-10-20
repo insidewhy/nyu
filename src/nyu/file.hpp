@@ -5,6 +5,7 @@
 #include <nyu/error/file.hpp>
 
 #include <chilon/getset.hpp>
+#include <chilon/color.hpp>
 
 namespace nyu {
 
@@ -46,15 +47,12 @@ class file {
 
         // TODO: modulus number of columns in display
         for (unsigned int i = 1; i < column; ++i)
-            out << "~";
-        out << "^\n";
+            out << ' ';
+        out << chilon::color::s_red << '^' << chilon::color::s_neutral << '\n';
     }
 
     bool parse(char const * const file_path, ast_type& ast) {
-        // file_path vanishes between these two
-        // std::cout << "before (" << file_path << ")\n";
         if (! stream_.load(file_path)) {
-            // std::cout << "after (" << file_path << ")\n";
             throw error::cannot_open_file(file_path);
         }
 
