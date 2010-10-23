@@ -112,11 +112,11 @@ void options::output_path_helper(std::ofstream&     stream,
                                  std::string const& filename) const
 {
     if (! chilon::filesystem::mkpath_containing(filename))
-        throw error::could_not_open_output_file(filename);
+        throw error::cannot_open_output_file(filename);
 
     stream.open(filename);
     if (! stream.good())
-        throw error::could_not_open_output_file(filename);
+        throw error::cannot_open_output_file(filename);
 }
 
 }

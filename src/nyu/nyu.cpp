@@ -43,7 +43,7 @@ inline int main(int argc, char *argv[]) {
     catch (error::cannot_open_file const& e) {
         chilon::println(std::cerr, e.what(), ": ", e.file_path_);
     }
-    catch (error::could_not_open_output_file const& e) {
+    catch (error::cannot_open_output_file const& e) {
         chilon::println(std::cerr, e.what(), ": ", e.file_path_);
     }
     catch (error::grammar_not_found const& e) {

@@ -5,12 +5,12 @@
 
 namespace nyu { namespace error {
 
-struct could_not_open_output_file : std::runtime_error {
-    could_not_open_output_file(std::string const& file_path)
+struct cannot_open_output_file : std::runtime_error {
+    cannot_open_output_file(std::string const& file_path)
       : std::runtime_error("could not open file for writing"),
         file_path_(file_path)
     {}
-    ~could_not_open_output_file() throw() {}
+    ~cannot_open_output_file() throw() {}
     std::string file_path_;
 };
 
