@@ -11,6 +11,9 @@ struct NyuRule {
         NODE
     };
 
+    NyuRule()
+      : status_(Status::UNKNOWN)
+    {}
 };
 
 } }

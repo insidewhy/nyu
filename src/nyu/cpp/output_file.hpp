@@ -43,7 +43,7 @@ struct output_file {
     void operator()(enum_type& enm, int const indent = 0);
 
     void open_namespace(ns_type const& ns) {
-        stream_ << "namespace " << ns.front() << " {";
+        stream_ << "\nnamespace " << ns.front() << " {";
         for (auto it = ns.begin() + 1; it != ns.end(); ++it)
             stream_ << " namespace " << *it << " {";
         stream_ << '\n';

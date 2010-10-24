@@ -4,6 +4,9 @@
 namespace nyu { namespace grammar {
 
 struct WithStatus {
+    WithStatus()
+      : status_()
+    {}
 };
 
 } }

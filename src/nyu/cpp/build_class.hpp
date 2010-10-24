@@ -7,11 +7,11 @@
 namespace nyu { namespace cpp {
 
 class build_class : public output_file {
-    ns_type const&  module_id_;
-    class_type&     class_;
+    ns_type const&   module_id_;
+    class_type&      class_;
 
-    // stream for creating attributes
-    std::stringstream attr_stream_;
+    std::vector<
+        std::tuple<std::string, std::string, std::string> > attrs_;
 
     typedef typename parser::stored<
         grammar::nyah::Attribute>::type          attr_type;
