@@ -7,13 +7,11 @@
 namespace nyu { namespace cpp {
 
 class build_class : public output_file {
-    class build_class_assigned_attr;
-
     ns_type const&  module_id_;
     class_type&     class_;
 
     // stream for creating attributes
-    std::stringstream ctr_stream_;
+    std::stringstream attr_stream_;
 
     typedef typename parser::stored<
         grammar::nyah::Attribute>::type          attr_type;
@@ -21,6 +19,9 @@ class build_class : public output_file {
         grammar::nyah::AssignedAttribute>::type  assigned_attr_type;
 
   public:
+    class_type&       get_class()       { return class_; }
+    class_type const& get_class() const { return class_; }
+
     build_class(builder& builder, ns_type const& module_id, class_type& clss)
       : output_file(builder), module_id_(module_id), class_(clss)
     { open(); }
