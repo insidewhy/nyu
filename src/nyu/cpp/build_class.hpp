@@ -7,6 +7,8 @@
 namespace nyu { namespace cpp {
 
 class build_class : public output_file {
+    class build_class_assigned_attr;
+
     ns_type const&  module_id_;
     class_type&     class_;
 
