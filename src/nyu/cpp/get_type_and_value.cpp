@@ -15,7 +15,6 @@ void get_type_and_value::operator()(build_class& builder) {
 }
 
 void get_type_and_value::operator()(enum_type& enm) {
-    // todo: throw on error
     scope_.advance();
     if (1 == scope_.size()) {
         type_ << enm.first;

@@ -2,5 +2,5 @@ class Pito {
     enum Status { BAD, GOOD }
     enum Panda  { PAPANDA, KOPANDA }
     status_ := Status.GOOD
-    panda_  := Status.KOPANDA
+    panda_  := Panda.KOPANDA
 }

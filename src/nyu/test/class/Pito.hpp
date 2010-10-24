@@ -13,7 +13,7 @@ struct Pito {
     };
 
     Pito()
-      : ostatus_(Status::GOOD),
+      : status_(Status::GOOD),
         panda_(Panda::KOPANDA)
     {}
 };

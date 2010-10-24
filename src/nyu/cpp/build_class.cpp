@@ -27,11 +27,14 @@ namespace {
         stream << body;
         if (! attrs.empty()) {
             stream << '\n' << NYU_CPP_INDENT << class_name << "()\n";
-            stream << NYU_CPP_INDENT << "  : "
+            stream << NYU_CPP_INDENT "  : "
                    << std::get<0>(attrs.front()) << '('
                    << std::get<2>(attrs.front()) << ')';
 
-            // TODO: attributes after first
+            for (auto it = attrs.begin() + 1; it < attrs.end(); ++it) {
+                stream << ",\n" NYU_CPP_INDENT NYU_CPP_INDENT
+                       << std::get<0>(*it) << '(' << std::get<2>(*it) << ')';
+            }
 
             stream << '\n' << NYU_CPP_INDENT << "{}";
         }
