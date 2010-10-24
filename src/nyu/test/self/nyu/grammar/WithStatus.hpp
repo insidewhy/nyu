@@ -7,6 +7,7 @@ struct WithStatus {
     WithStatus()
       : status_()
     {}
+    status_ Status;
 };
 
 } }

@@ -37,6 +37,11 @@ namespace {
             }
 
             stream << '\n' << NYU_CPP_INDENT << "{}";
+
+            for (auto it = attrs.begin(); it < attrs.end(); ++it) {
+                stream << '\n' << NYU_CPP_INDENT
+                       << std::get<0>(*it) << ' ' << std::get<1>(*it) << ';';
+            }
         }
 
         stream << "\n};\n";

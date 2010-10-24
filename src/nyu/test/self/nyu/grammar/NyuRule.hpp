@@ -14,6 +14,7 @@ struct NyuRule {
     NyuRule()
       : status_(Status::UNKNOWN)
     {}
+    status_ Status;
 };
 
 } }
