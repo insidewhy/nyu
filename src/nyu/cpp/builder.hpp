@@ -15,14 +15,19 @@ namespace nyu { namespace cpp {
 
 namespace parser = chilon::parser;
 
-class builder {
-    typedef grammar::meta::Grammar                  grammar_t;
-    typedef chilon::range                           range;
-    typedef std::unordered_map<std::string, file>   files_t;
+class build_class;
 
-    typename parser::stored<grammar_t>::type  ast_;
-    options&                                  options_;
-    files_t                                   files_;
+class builder {
+    friend class build_class;
+
+    typedef grammar::meta::Grammar                    grammar_t;
+    typedef typename parser::stored<grammar_t>::type  ast_t;
+    typedef chilon::range                             range;
+    typedef std::unordered_map<std::string, file>     files_t;
+
+    ast_t     ast_;
+    options&  options_;
+    files_t   files_;
 
   public:
     typedef typename parser::stored<

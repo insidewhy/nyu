@@ -22,6 +22,11 @@ class build_class : public output_file {
     class_type&       get_class()       { return class_; }
     class_type const& get_class() const { return class_; }
 
+    builder::ast_t&       ast()       { return builder_.ast_; }
+    builder::ast_t const& ast() const { return builder_.ast_; }
+
+    ns_type const& module_id() const { return module_id_; }
+
     build_class(builder& builder, ns_type const& module_id, class_type& clss)
       : output_file(builder), module_id_(module_id), class_(clss)
     { open(); }
