@@ -35,7 +35,7 @@ void build_module::subnamespace(grammar_type& gram) {
     }
     catch (error::dep_cycle& err) {
         // TODO: signify is grammar, add namespace also
-        err.dependencies_.push_back(gram.first);
+        err.push_back(gram.first);
         throw err;
     }
 

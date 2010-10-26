@@ -3,6 +3,7 @@
 #include <nyu/error/not_found.hpp>
 #include <nyu/error/grammar_not_found.hpp>
 #include <nyu/error/include_not_found.hpp>
+#include <nyu/error/dep_cycle.hpp>
 
 #include <cstring>
 #include <stdexcept>
@@ -51,6 +52,10 @@ bool builder::parse_file(std::string const& file_path) {
 }
 
 void builder::operator()(module_type& module) {
+    if (module.second.status_ == grammar::Status::PROCESSED) return;
+    else if (module.second.status_ == grammar::Status::PROCESSING)
+        throw error::dep_cycle(module.first);
+
     // auto& moduleId = module.first;
     auto& grammar = module.second.value_;
 

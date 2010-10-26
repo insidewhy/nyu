@@ -6,7 +6,10 @@ namespace nyu { namespace cpp {
 void get_type_and_value::operator()(build_class& builder) {
     auto& class_scope = builder.get_class().second.value_;
     auto it = class_scope.find(scope_.front());
-    if (it == class_scope.end()) {
+    if (it != class_scope.end()) {
+        chilon::variant_apply(*it, *this);
+    }
+    else {
         // todo: first search in cached includes
 
         auto mod_it = std::get<1>(builder.ast()).find(builder.module_id());
@@ -19,16 +22,9 @@ void get_type_and_value::operator()(build_class& builder) {
             // todo: search in parent module
         }
         else {
-            // todo: make sure module is processed
-
-            // todo: store include
+            builder.new_dep(*mod_it);
             chilon::variant_apply(*search_it, *this);
-
-            // todo: cache include
         }
-    }
-    else {
-        chilon::variant_apply(*it, *this);
     }
 }
 

@@ -66,4 +66,10 @@ void build_class::open() {
     body_ << "\nstruct " << class_.first << " {";
 }
 
+// add a dependency to this class
+void build_class::new_dep(module_type& mod) {
+    // TODO: output #include to body and cache t
+    builder_(mod);
+}
+
 } }
