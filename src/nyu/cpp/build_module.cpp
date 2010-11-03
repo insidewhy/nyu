@@ -11,7 +11,7 @@ void build_module::subnamespace(class_type& clss) {
     else if (clss.second.status_ == grammar::Status::PROCESSING)
         throw error::dep_cycle(clss.first);
 
-    cpp::build_class class_builder(builder_, module_.first, clss);
+    cpp::build_class class_builder(builder_, module_, clss);
     for (auto it = clss.second.value_.begin();
          it != clss.second.value_.end(); ++it)
     {

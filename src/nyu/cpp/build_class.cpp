@@ -49,10 +49,10 @@ namespace {
 }
 
 void build_class::close() {
-    if (! module_id_.empty()) {
-        open_namespace(module_id_);
+    if (! module_.first.empty()) {
+        open_namespace(module_.first);
         end_class(stream_, class_.first, body_.str(), attrs_);
-        close_namespace(module_id_.size());
+        close_namespace(module_.first.size());
     }
     else end_class(stream_, class_.first, body_.str(), attrs_);
 
@@ -62,7 +62,7 @@ void build_class::close() {
 }
 
 void build_class::open() {
-    output_file::open(module_id_, class_.first);
+    output_file::open(module_.first, class_.first);
     body_ << "\nstruct " << class_.first << " {";
 }
 

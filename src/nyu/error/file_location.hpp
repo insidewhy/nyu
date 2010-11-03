@@ -12,6 +12,11 @@ struct file_location : std::runtime_error {
     file_location(std::string const& msg, chilon::range const& loc)
       : std::runtime_error(msg), location_(loc) {}
 
+    file_location(std::string                const& msg,
+                  std::vector<chilon::range> const& loc)
+      : std::runtime_error(msg),
+        location_(loc.front().begin(), (loc.end() - 1)->end()) {}
+
     ~file_location() throw() {}
 
     chilon::range location_;

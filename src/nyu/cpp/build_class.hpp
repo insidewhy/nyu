@@ -5,9 +5,13 @@
 
 namespace nyu { namespace cpp {
 
+class get_type_and_value;
+
 class build_class : public output_file {
-    ns_type const&   module_id_;
-    class_type&      class_;
+    friend class get_type_and_value;
+
+    module_type&   module_;
+    class_type&    class_;
 
     std::vector<
         std::tuple<std::string, std::string, std::string> > attrs_;
@@ -24,10 +28,8 @@ class build_class : public output_file {
     builder::ast_t&       ast()       { return builder_.ast_; }
     builder::ast_t const& ast() const { return builder_.ast_; }
 
-    ns_type const& module_id() const { return module_id_; }
-
-    build_class(builder& builder, ns_type const& module_id, class_type& clss)
-      : output_file(builder), module_id_(module_id), class_(clss)
+    build_class(builder& builder, module_type& module, class_type& clss)
+      : output_file(builder), module_(module), class_(clss)
     { open(); }
 
     void operator()(enum_type& enm) { output_file::operator()(enm, 1); }
