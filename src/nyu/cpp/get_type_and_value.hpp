@@ -1,9 +1,9 @@
 #ifndef NYU_CPP_GET_TYPE_AND_VALUE_HPP
 #define NYU_CPP_GET_TYPE_AND_VALUE_HPP
 
-#include <nyu/cpp/build_class.hpp>
-
 #include <chilon/iterator_range.hpp>
+
+#include <nyu/cpp/output_file.hpp>
 
 #include <sstream>
 #include <vector>
@@ -13,7 +13,10 @@ namespace nyu { namespace cpp {
 class build_class;
 
 class get_type_and_value {
-    typedef std::vector<chilon::range>                          scope_type;
+    struct module_dep;
+
+    typedef builder::module_type                                module_type;
+    typedef output_file::ns_type                                scope_type;
     typedef chilon::iterator_range<scope_type::const_iterator>  scope_range;
     typedef output_file::enum_type                              enum_type;
 

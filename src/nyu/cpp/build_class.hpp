@@ -2,12 +2,13 @@
 #define NYU_CPP_BUILD_CLASS_HPP
 
 #include <nyu/cpp/output_file.hpp>
+#include <nyu/cpp/type_ref_cache.hpp>
 
 namespace nyu { namespace cpp {
 
 class get_type_and_value;
 
-class build_class : public output_file {
+class build_class : public output_file, public type_ref_cache {
     friend class get_type_and_value;
 
     module_type&   module_;
@@ -37,9 +38,6 @@ class build_class : public output_file {
     void operator()(assigned_attr_type& attr);
 
     void close();
-
-    // add a dependency to this class
-    void new_dep(module_type& mod);
 
   private:
     void open();
