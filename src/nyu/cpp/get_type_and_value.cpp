@@ -7,19 +7,19 @@ namespace nyu { namespace cpp {
 
 struct get_type_and_value::module_dep {
     get_type_and_value&               resolver_;
-    type_ref_cache&                   type_cache_;
+    scope_ref_cache&                  scope_cache_;
     get_type_and_value::module_type&  module_;
 
-    module_dep(decltype(resolver_)& resolver,
-               decltype(type_cache_)& type_cache,
-               decltype(module_)& module)
-      : resolver_(resolver), type_cache_(type_cache), module_(module) {}
+    module_dep(decltype(resolver_)&    resolver,
+               decltype(scope_cache_)& scope_cache,
+               decltype(module_)&      module)
+      : resolver_(resolver), scope_cache_(scope_cache), module_(module) {}
 
     template <class T>
     void operator()(T& t) { resolver_(t); }
 
     void operator()(enum_type& enm) {
-        type_cache_.add_type_ref(module_);
+        scope_cache_.add_type_ref(module_);
         resolver_(enm);
     }
 };

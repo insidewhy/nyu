@@ -1,4 +1,4 @@
-#include <nyu/cpp/type_ref_cache.hpp>
+#include <nyu/cpp/scope_ref_cache.hpp>
 
 #include <chilon/print_join.hpp>
 
@@ -16,7 +16,7 @@ struct print_include {
     print_include(decltype(stream_)& stream) : stream_(stream) {}
 };
 
-void type_ref_cache::close() {
+void scope_ref_cache::close() {
     if (type_ref_map_.empty()) return;
 
     stream_ << '\n';

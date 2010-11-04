@@ -49,7 +49,7 @@ namespace {
 }
 
 void build_class::close() {
-    type_ref_cache::close();
+    scope_ref_cache::close();
 
     if (! module_.first.empty()) {
         open_namespace(module_.first);

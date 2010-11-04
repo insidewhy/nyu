@@ -1,13 +1,13 @@
 #ifndef NYU_CPP_BUILD_CLASS_HPP
 #define NYU_CPP_BUILD_CLASS_HPP
 
-#include <nyu/cpp/type_ref_cache.hpp>
+#include <nyu/cpp/scope_ref_cache.hpp>
 
 namespace nyu { namespace cpp {
 
 class get_type_and_value;
 
-class build_class : public type_ref_cache {
+class build_class : public scope_ref_cache {
     friend class get_type_and_value;
 
     module_type&   module_;
@@ -29,7 +29,7 @@ class build_class : public type_ref_cache {
     builder::ast_t const& ast() const { return builder_.ast_; }
 
     build_class(builder& builder, module_type& module, class_type& clss)
-      : type_ref_cache(builder), module_(module), class_(clss)
+      : scope_ref_cache(builder), module_(module), class_(clss)
     { open(); }
 
     void operator()(enum_type& enm) { output_file::operator()(enm, 1); }

@@ -1,5 +1,5 @@
-#ifndef NYU_CPP_TYPE_REF_CACHE_HPP
-#define NYU_CPP_TYPE_REF_CACHE_HPP
+#ifndef NYU_CPP_SCOPE_REF_CACHE_HPP
+#define NYU_CPP_SCOPE_REF_CACHE_HPP
 
 #include <nyu/cpp/output_file.hpp>
 
@@ -21,7 +21,7 @@ namespace grammar {
 
 namespace cpp {
 
-struct type_ref_cache : output_file {
+struct scope_ref_cache : output_file {
     typedef std::vector<chilon::range> scope_type;
 
     typedef chilon::variant_vector_hash_map<
@@ -40,7 +40,7 @@ struct type_ref_cache : output_file {
 
     void close();
 
-    type_ref_cache(builder& builder) : output_file(builder) {}
+    scope_ref_cache(builder& builder) : output_file(builder) {}
   private:
     map_t  type_ref_map_;
 };

@@ -15,7 +15,7 @@ add_definitions(-Wall)
 add_executable(nyu nyu.cpp options.cpp
                cpp/build_class.cpp cpp/output_file.cpp cpp/builder.cpp
                cpp/build_module.cpp cpp/get_type_and_value.cpp
-               cpp/type_ref_cache.cpp)
+               cpp/scope_ref_cache.cpp)
 
 install(TARGETS nyu
         RUNTIME DESTINATION ${BIN_DIR}
