@@ -1,4 +1,5 @@
 #include <nyu/cpp/build_grammar.hpp>
+#include <nyu/cpp/build_rule.hpp>
 
 namespace nyu { namespace cpp {
 
@@ -21,6 +22,11 @@ void build_grammar::open() {
 }
 
 void build_grammar::operator()(rule_type& rule) {
+    typedef grammar::NyuRule::Status RuleStatus;
+    if (RuleStatus::UNKNOWN == rule.second.status_) {
+        build_rule rule_builder(*this);
+        rule_builder(rule);
+    }
 }
 
 } }

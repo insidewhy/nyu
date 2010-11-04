@@ -5,10 +5,13 @@
 
 namespace nyu { namespace cpp {
 
-class build_grammar : public scope_ref_cache {
-    grammar_type&  grammar_;
+class build_rule;
 
+class build_grammar : public scope_ref_cache {
+    friend class build_rule;
     typedef typename parser::stored<grammar::nyu::Rule>::type  rule_type;
+
+    grammar_type&  grammar_;
 
   public:
     build_grammar(builder& builder, module_type& module, grammar_type& grmmr)

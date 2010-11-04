@@ -261,6 +261,7 @@ module {
             "NORMAL" -> empty
             "HASHED" -> empty
             "NODE" -> empty
+            "PROCESSING" -> empty
         }
         "status_" -> AssignedAttribute: [
             "Status"

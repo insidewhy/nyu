@@ -25,7 +25,8 @@ struct NyuRule {
         UNKNOWN,
         NORMAL, // can be a node
         HASHED,
-        NODE   // set while processing dependencies of node
+        NODE,   // set while processing dependencies of node
+        PROCESSING // set while processing rule
     };
 
     NyuRule() : status_(Status::UNKNOWN) {}

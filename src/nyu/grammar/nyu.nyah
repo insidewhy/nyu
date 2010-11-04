@@ -1,7 +1,7 @@
 @module nyu.grammar
 
 class NyuRule {
-    enum Status { UNKNOWN, NORMAL, HASHED, NODE }
+    enum Status { UNKNOWN, NORMAL, HASHED, NODE, PROCESSING }
     status_ := Status.UNKNOWN
 }
 

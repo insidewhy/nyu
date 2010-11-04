@@ -8,7 +8,8 @@ struct NyuRule {
         UNKNOWN,
         NORMAL,
         HASHED,
-        NODE
+        NODE,
+        PROCESSING
     };
 
     NyuRule()
