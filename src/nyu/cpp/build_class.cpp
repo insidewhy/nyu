@@ -57,7 +57,6 @@ void build_class::close() {
     else end_class(stream_, class_.first, body_.str(), attrs_);
 
     chilon::print(stream_, "\n#endif\n");
-    stream_ << std::flush;
     stream_.close();
 }
 

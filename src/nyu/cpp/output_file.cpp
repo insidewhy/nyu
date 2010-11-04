@@ -35,8 +35,7 @@ void output_file::open(ns_type const& ns, range const& id) {
         builder_.opts().output_path(stream_, ns, id, ".hpp");
 
         std::stringstream guard;
-        chilon::print_join(guard, '_', ns);
-        guard << "_" << id;
+        chilon::print_join(guard, '_', ns, id);
         chilon::print(stream_, "#ifndef ", guard.str(), "_HPP\n");
         chilon::print(stream_, "#define ", guard.str(), "_HPP\n");
     }

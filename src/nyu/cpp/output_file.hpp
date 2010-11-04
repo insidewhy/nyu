@@ -52,6 +52,13 @@ struct output_file {
         stream_ << '\n';
     }
 
+    void open_namespace(ns_type const& ns, range const& extra) {
+        stream_ << "\nnamespace " << ns.front() << " {";
+        for (auto it = ns.begin() + 1; it != ns.end(); ++it)
+            stream_ << " namespace " << *it << " {";
+        stream_ << " namespace " << extra << " {\n";
+    }
+
     void close_namespace(unsigned int const depth) {
         stream_ << "\n}";
         for (auto i = 1u; i < depth; ++i) stream_ << " }";
