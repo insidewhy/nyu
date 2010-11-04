@@ -16,8 +16,8 @@ struct Pito {
       : status_(Status::GOOD),
         panda_(Panda::KOPANDA)
     {}
-    status_ Status;
-    panda_ Panda;
+    Status status_;
+    Panda panda_;
 };
 
 #endif

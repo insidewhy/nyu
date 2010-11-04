@@ -9,7 +9,7 @@ struct WithStatus {
     WithStatus()
       : status_(Status::UNKNOWN)
     {}
-    status_ Status;
+    Status status_;
 };
 
 } }
