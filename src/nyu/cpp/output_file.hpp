@@ -25,6 +25,9 @@ struct output_file {
     typedef chilon::key_value<
         range, grammar::nyah::Class, chilon::key_unique>  class_type;
 
+    typedef chilon::key_value<
+        range, grammar::meta::NyuGrammar, chilon::key_unique>  grammar_type;
+
   protected:
     std::stringstream   body_;
     builder&            builder_;

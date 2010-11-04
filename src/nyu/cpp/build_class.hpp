@@ -10,7 +10,6 @@ class get_type_and_value;
 class build_class : public scope_ref_cache {
     friend class get_type_and_value;
 
-    module_type&   module_;
     class_type&    class_;
 
     std::vector<
@@ -22,14 +21,8 @@ class build_class : public scope_ref_cache {
         grammar::nyah::AssignedAttribute>::type  assigned_attr_type;
 
   public:
-    class_type&       get_class()       { return class_; }
-    class_type const& get_class() const { return class_; }
-
-    builder::ast_t&       ast()       { return builder_.ast_; }
-    builder::ast_t const& ast() const { return builder_.ast_; }
-
     build_class(builder& builder, module_type& module, class_type& clss)
-      : scope_ref_cache(builder), module_(module), class_(clss)
+      : scope_ref_cache(builder, module), class_(clss)
     { open(); }
 
     void operator()(enum_type& enm) { output_file::operator()(enm, 1); }

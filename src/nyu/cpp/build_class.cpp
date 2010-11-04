@@ -1,8 +1,6 @@
 #include <nyu/cpp/build_class.hpp>
 #include <nyu/cpp/get_type_and_value.hpp>
 
-#include <chilon/noncopyable.hpp>
-
 namespace nyu { namespace cpp {
 
 void build_class::operator()(attr_type& attr) {

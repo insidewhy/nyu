@@ -42,6 +42,11 @@ struct many_file_locations : std::runtime_error {
         locations_.push_back(loc);
     }
 
+    void push_back(std::vector<chilon::range> const& loc) {
+        locations_.push_back(
+            chilon::range(loc.front().begin(), (loc.end() - 1)->end()));
+    }
+
     ~many_file_locations() throw() {}
 
     std::vector<chilon::range> locations_;

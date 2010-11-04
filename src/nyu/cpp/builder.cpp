@@ -57,21 +57,21 @@ void builder::operator()(module_type& module) {
         throw error::dep_cycle(module.first);
 
     // auto& moduleId = module.first;
-    auto& grammar = module.second.value_;
+    auto& children = module.second.value_;
 
     // in the first pass handle stuff that goes in the namespace file
     // direct, and any dependencies of those
     cpp::build_module module_builder(*this, module);
     module.second.status_ = grammar::Status::PROCESSING;
 
-    for (auto it = grammar.begin(); it != grammar.end(); ++it)
+    for (auto it = children.begin(); it != children.end(); ++it)
         chilon::variant_apply(*it, module_builder);
 
     module.second.status_ = grammar::Status::PROCESSED;
 
     // handle classes and grammars that weren't handled as dependencies
     // in previous pass
-    for (auto it = grammar.begin(); it != grammar.end(); ++it)
+    for (auto it = children.begin(); it != children.end(); ++it)
         chilon::variant_apply(*it, namespace_builder(module_builder));
 
     module_builder.close();

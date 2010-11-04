@@ -9,9 +9,6 @@ namespace nyu { namespace cpp {
 class build_module : public output_file {
     module_type& module_;
 
-    typedef chilon::key_value<
-        range, grammar::meta::NyuGrammar, chilon::key_unique> grammar_type;
-
   public:
     build_module(builder& builder, module_type& module)
       : output_file(builder), module_(module) {}

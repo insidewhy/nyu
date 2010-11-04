@@ -25,7 +25,7 @@ struct get_type_and_value::module_dep {
 };
 
 void get_type_and_value::operator()(build_class& builder) {
-    auto& class_scope = builder.get_class().second.value_;
+    auto& class_scope = builder.class_.second.value_;
 
     // search within current class
     auto it = class_scope.find(scope_.front());

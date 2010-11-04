@@ -1,5 +1,6 @@
 #include <nyu/cpp/build_module.hpp>
 #include <nyu/cpp/build_class.hpp>
+#include <nyu/cpp/build_grammar.hpp>
 #include <nyu/error/dep_cycle.hpp>
 
 #include <chilon/print_join.hpp>
@@ -26,20 +27,25 @@ void build_module::subnamespace(grammar_type& gram) {
     else if (gram.second.status_ == grammar::Status::PROCESSING)
         throw error::dep_cycle(gram.first);
 
+    // todo: move below to grammar builder?
+    auto extends = std::get<0>(gram.second.value_);
     try {
-        auto extends = std::get<0>(gram.second.value_);
         if (! extends.empty()) {
             gram.second.status_ = grammar::Status::PROCESSING;
             grammar_dep(extends);
         }
     }
     catch (error::dep_cycle& err) {
-        // TODO: signify is grammar, add namespace also
-        err.push_back(gram.first);
+        err.push_back(extends);
         throw err;
     }
 
-    // mega todo: process grammar here
+    cpp::build_grammar grammar_builder(builder_, module_, gram);
+    auto& children = std::get<1>(gram.second.value_);
+    for (auto it = children.begin(); it != children.end(); ++it) {
+        grammar_builder(*it);
+    }
+    grammar_builder.close();
 
     gram.second.status_ = grammar::Status::PROCESSED;
 }

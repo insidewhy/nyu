@@ -21,7 +21,7 @@ namespace grammar {
 
 namespace cpp {
 
-struct scope_ref_cache : output_file {
+class scope_ref_cache : public output_file {
     typedef std::vector<chilon::range> scope_type;
 
     typedef chilon::variant_vector_hash_map<
@@ -30,6 +30,12 @@ struct scope_ref_cache : output_file {
             chilon::key_value<scope_type, grammar::meta::Module *> >,
         chilon::hasher>                                   map_t;
 
+    map_t  type_ref_map_;
+
+  protected:
+    module_type& module_;
+
+  public:
     template <class T>
     void add_type_ref(T& dep) {
         builder_(dep);
@@ -40,9 +46,8 @@ struct scope_ref_cache : output_file {
 
     void close();
 
-    scope_ref_cache(builder& builder) : output_file(builder) {}
-  private:
-    map_t  type_ref_map_;
+    scope_ref_cache(builder& builder, decltype(module_)& module)
+      : output_file(builder), module_(module) {}
 };
 
 } }
