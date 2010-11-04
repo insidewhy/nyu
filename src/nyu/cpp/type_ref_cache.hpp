@@ -38,6 +38,8 @@ struct type_ref_cache : output_file {
                 dep.first, &dep.second));
     }
 
+    void close();
+
     type_ref_cache(builder& builder) : output_file(builder) {}
   private:
     map_t  type_ref_map_;

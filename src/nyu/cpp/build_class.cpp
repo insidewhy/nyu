@@ -49,6 +49,8 @@ namespace {
 }
 
 void build_class::close() {
+    type_ref_cache::close();
+
     if (! module_.first.empty()) {
         open_namespace(module_.first);
         end_class(stream_, class_.first, body_.str(), attrs_);
