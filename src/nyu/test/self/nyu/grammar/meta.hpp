@@ -11,6 +11,10 @@ typedef TODO ModuleId;
 
 typedef TODO ModuleDefinition;
 
+struct NyuGrammar : simple_node<NyuGrammar, TODO> {}
+
+struct Module : simple_node<Module, TODO> {}
+
 typedef TODO Include;
 
 typedef TODO Grammar;

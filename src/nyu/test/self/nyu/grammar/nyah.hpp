@@ -11,9 +11,17 @@ typedef TODO UnsignedInteger;
 
 typedef TODO EnumEntry;
 
+struct Enum : simple_node<Enum, TODO> {}
+
 typedef TODO AssignExpression;
 
 typedef TODO Type;
+
+struct Attribute : simple_node<Attribute, TODO> {}
+
+struct AssignedAttribute : simple_node<AssignedAttribute, TODO> {}
+
+struct Class : simple_node<Class, TODO> {}
 
 typedef TODO Grammar;
 
