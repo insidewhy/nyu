@@ -259,9 +259,8 @@ module {
         "Status" -> Enum: {
             "UNKNOWN" -> empty
             "NORMAL" -> empty
-            "HASHED" -> empty
             "NODE" -> empty
-            "PROCESSING" -> empty
+            "PROCESSED" -> empty
         }
         "status_" -> AssignedAttribute: [
             "Status"

@@ -23,10 +23,9 @@ namespace nyu { namespace grammar {
 struct NyuRule {
     enum class Status {
         UNKNOWN,
-        NORMAL, // can be a node
-        HASHED,
+        NORMAL,    // set while processing dependencies of rule
         NODE,      // set while processing dependencies of node
-        PROCESSING // set while processing dependencies of rule
+        PROCESSED // set after processing dependencies
     };
 
     NyuRule() : status_(Status::UNKNOWN) {}

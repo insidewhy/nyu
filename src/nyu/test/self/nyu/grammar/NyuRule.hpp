@@ -7,9 +7,8 @@ struct NyuRule {
     enum class Status {
         UNKNOWN,
         NORMAL,
-        HASHED,
         NODE,
-        PROCESSING
+        PROCESSED
     };
 
     NyuRule()

@@ -3,5 +3,19 @@
 
 namespace nyu { namespace grammar { namespace nyah {
 
+typedef TODO Id;
+
+typedef TODO ScopedId;
+
+typedef TODO UnsignedInteger;
+
+typedef TODO EnumEntry;
+
+typedef TODO AssignExpression;
+
+typedef TODO Type;
+
+typedef TODO Grammar;
+
 } } }
 #endif

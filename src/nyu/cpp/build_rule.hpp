@@ -6,13 +6,18 @@
 namespace nyu { namespace cpp {
 
 class build_rule {
-    typedef build_grammar::rule_type rule_type;
+    class first_node_expr;
 
-    build_grammar& grammar_builder_;
+    typedef build_grammar::rule_type rule_type;
+    typedef grammar::NyuRule::Status RuleStatus;
+
+    build_grammar&     grammar_builder_;
+    int                indent_;
+    std::stringstream  stream_;
 
   public:
     build_rule(decltype(grammar_builder_)& grammar_builder)
-      : grammar_builder_(grammar_builder) {}
+      : grammar_builder_(grammar_builder), indent_(0) {}
 
     void operator()(rule_type& rule);
 };
