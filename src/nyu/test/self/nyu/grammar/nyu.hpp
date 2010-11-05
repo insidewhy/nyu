@@ -1,7 +1,11 @@
 #ifndef nyu_grammar_nyu_HPP
 #define nyu_grammar_nyu_HPP
 
+#include <chilon/parser.hpp>
+
 namespace nyu { namespace grammar { namespace nyu {
+
+using namespace chilon::parser;
 
 typedef TODO Spacing;
 

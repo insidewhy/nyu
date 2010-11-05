@@ -1,7 +1,11 @@
 #ifndef nyu_grammar_meta_HPP
 #define nyu_grammar_meta_HPP
 
+#include <chilon/parser.hpp>
+
 namespace nyu { namespace grammar { namespace meta {
+
+using namespace chilon::parser;
 
 typedef TODO Id;
 

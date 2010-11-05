@@ -1,7 +1,11 @@
 #ifndef nyu_grammar_nyah_HPP
 #define nyu_grammar_nyah_HPP
 
+#include <chilon/parser.hpp>
+
 namespace nyu { namespace grammar { namespace nyah {
+
+using namespace chilon::parser;
 
 typedef TODO Id;
 

@@ -11,6 +11,7 @@ void build_grammar::close() {
     else
         stream_ << "namespace " << grammar_.first << '\n';
 
+    stream_ << "\nusing namespace chilon::parser;\n";
     stream_ << body_.str();
     close_namespace(module_.first.size() + 1);
     chilon::print(stream_, "\n#endif\n");
@@ -19,6 +20,8 @@ void build_grammar::close() {
 
 void build_grammar::open() {
     output_file::open(module_.first, grammar_.first);
+
+    stream_ << "\n#include <chilon/parser.hpp>\n";
 }
 
 void build_grammar::operator()(rule_type& rule) {
