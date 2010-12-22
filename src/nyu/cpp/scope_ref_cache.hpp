@@ -21,7 +21,11 @@ namespace grammar {
 
 namespace cpp {
 
+class get_type_and_value;
+
 class scope_ref_cache : public output_file {
+    friend class get_type_and_value;
+
     typedef std::vector<chilon::range> scope_type;
 
     typedef chilon::variant_vector_hash_map<

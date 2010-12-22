@@ -1,5 +1,8 @@
 #include <nyu/cpp/build_grammar.hpp>
 #include <nyu/cpp/build_rule.hpp>
+#include <nyu/cpp/get_grammar.hpp>
+
+#include <chilon/print_join.hpp>
 
 namespace nyu { namespace cpp {
 
@@ -9,7 +12,7 @@ void build_grammar::close() {
     if (! module_.first.empty())
         open_namespace(module_.first, grammar_.first);
     else
-        stream_ << "namespace " << grammar_.first << '\n';
+        stream_ << "namespace " << grammar_.first << "{\n";
 
     stream_ << "\nusing namespace chilon::parser;\n";
     stream_ << body_.str();
@@ -21,7 +24,16 @@ void build_grammar::close() {
 void build_grammar::open() {
     output_file::open(module_.first, grammar_.first);
 
-    stream_ << "\n#include <chilon/parser.hpp>\n";
+    auto& parent = std::get<0>(grammar_.second.value_);
+    if (! parent.empty()) {
+        // TODO: find grammar
+        stream_ << "\n#include <";
+        chilon::print_join(stream_, '/', parent);
+        stream_ << ".hpp>\n";
+    }
+    else {
+        stream_ << "\n#include <chilon/parser.hpp>\n";
+    }
 }
 
 void build_grammar::operator()(rule_type& rule) {

@@ -5,11 +5,7 @@
 
 namespace nyu { namespace cpp {
 
-class get_type_and_value;
-
 class build_class : public scope_ref_cache {
-    friend class get_type_and_value;
-
     class_type&    class_;
 
     std::vector<

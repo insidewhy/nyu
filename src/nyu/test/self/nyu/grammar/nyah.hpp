@@ -1,7 +1,7 @@
 #ifndef nyu_grammar_nyah_HPP
 #define nyu_grammar_nyah_HPP
 
-#include <chilon/parser.hpp>
+#include <nyu/grammar/nyu.hpp>
 
 namespace nyu { namespace grammar { namespace nyah {
 

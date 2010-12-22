@@ -9,7 +9,7 @@ void build_class::operator()(attr_type& attr) {
 void build_class::operator()(assigned_attr_type& attr) {
     // current rhs can only be a scoped id.. vector of range
     get_type_and_value resolver(attr.second.value_);
-    resolver(*this);
+    resolver(class_, *this);
 
     attrs_.push_back(
         std::make_tuple(attr.first, resolver.type(), resolver.value()));
