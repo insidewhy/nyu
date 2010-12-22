@@ -1,7 +1,6 @@
 #include <nyu/cpp/builder.hpp>
 #include <nyu/cpp/build_module.hpp>
 #include <nyu/error/not_found.hpp>
-#include <nyu/error/grammar_not_found.hpp>
 #include <nyu/error/include_not_found.hpp>
 #include <nyu/error/dep_cycle.hpp>
 
@@ -30,10 +29,10 @@ void builder::generate_code() {
     }
 }
 
-bool builder::parse_file(std::string const& file_path) {
+void builder::parse_file(std::string const& file_path) {
     auto& file = add_file(file_path);
 
-    if (file.parse_succeeded()) return false;
+    if (file.parse_succeeded()) return;
 
     options_.verbose(file_path, ": parsing");
 
@@ -47,8 +46,6 @@ bool builder::parse_file(std::string const& file_path) {
             options_.verbose(file_path, ": parsed");
     }
     else throw error::parsing("nothing parsed", file_path);
-
-    return true;
 }
 
 void builder::operator()(module_type& module) {
@@ -75,12 +72,6 @@ void builder::operator()(module_type& module) {
         chilon::variant_apply(*it, namespace_builder(module_builder));
 
     module_builder.close();
-}
-
-void builder::grammar_dep(ns_type const& from_id, ns_type const& id) {
-    // mega todo: search in parent grammars for grammar id
-
-    throw error::grammar_not_found(id);
 }
 
 void builder::print_ast() const {

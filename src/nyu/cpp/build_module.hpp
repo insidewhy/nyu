@@ -29,7 +29,6 @@ class build_module : public output_file {
         output_file::operator()(enm);
     }
 
-    void grammar_dep(ns_type const& id);
     void close();
 
   private:

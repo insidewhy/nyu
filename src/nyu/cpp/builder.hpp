@@ -49,13 +49,10 @@ class builder {
 
 
   public:
-    // parse file, return true if parsed, false if already parsed,
-    // throw error on parse failure
-    bool parse_file(std::string const& file_path);
+    // parse file, throw error on parse failure
+    void parse_file(std::string const& file_path);
 
     void operator()(module_type& module);
-
-    void grammar_dep(ns_type const& from_id, ns_type const& id);
 
     void print_ast() const;
     void generate_code();

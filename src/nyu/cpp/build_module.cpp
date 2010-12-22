@@ -27,19 +27,6 @@ void build_module::subnamespace(grammar_type& gram) {
     else if (gram.second.status_ == grammar::Status::PROCESSING)
         throw error::dep_cycle(gram.first);
 
-    // todo: move below to grammar builder?
-    auto extends = std::get<0>(gram.second.value_);
-    try {
-        if (! extends.empty()) {
-            gram.second.status_ = grammar::Status::PROCESSING;
-            grammar_dep(extends);
-        }
-    }
-    catch (error::dep_cycle& err) {
-        err.push_back(extends);
-        throw err;
-    }
-
     cpp::build_grammar grammar_builder(builder_, module_, gram);
     auto& children = std::get<1>(gram.second.value_);
     for (auto it = children.begin(); it != children.end(); ++it) {
@@ -63,23 +50,6 @@ void build_module::close() {
     chilon::print(stream_, "\n#endif");
     stream_ << std::flush;
     stream_.close();
-}
-
-void build_module::grammar_dep(ns_type const& id) {
-    if (1 == id.size()) {
-        // TODO: search in current module
-        auto it = module_.second.value_.find(id.front());
-        if (it != module_.second.value_.end()) {
-            // TODO: build grammar
-            return;
-        }
-    }
-    else {
-        // see if id is reference to current module
-    }
-
-    // mega todo: search in current module first
-    builder_.grammar_dep(module_.first, id);
 }
 
 } }
