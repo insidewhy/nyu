@@ -6,6 +6,9 @@
 namespace nyu { namespace cpp {
 
 void get_grammar::operator()(scope_ref_cache& scope) {
+    if (1 == search_.size()) {
+        // auto& ast = get_ast(scope);
+    }
 }
 
 } }

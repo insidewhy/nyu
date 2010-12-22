@@ -4,6 +4,7 @@
 #include <chilon/iterator_range.hpp>
 
 #include <nyu/cpp/output_file.hpp>
+#include <nyu/cpp/search_ast.hpp>
 
 #include <sstream>
 #include <vector>
@@ -12,7 +13,7 @@ namespace nyu { namespace cpp {
 
 class scope_ref_cache;
 
-class get_type_and_value {
+class get_type_and_value : public search_ast {
     struct module_dep;
 
     typedef builder::module_type                                module_type;

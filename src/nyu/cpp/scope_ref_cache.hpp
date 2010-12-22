@@ -22,9 +22,11 @@ namespace grammar {
 namespace cpp {
 
 class get_type_and_value;
+class get_grammar;
+class search_ast;
 
 class scope_ref_cache : public output_file {
-    friend class get_type_and_value;
+    friend class search_ast;
 
     typedef std::vector<chilon::range> scope_type;
 
@@ -35,6 +37,9 @@ class scope_ref_cache : public output_file {
         chilon::hasher>                                   map_t;
 
     map_t  type_ref_map_;
+
+  private:
+    builder& get_builder() { return builder_; }
 
   protected:
     module_type& module_;

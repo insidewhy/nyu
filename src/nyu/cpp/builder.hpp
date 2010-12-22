@@ -17,10 +17,12 @@ namespace parser = chilon::parser;
 
 class build_class;
 class build_grammar;
+class search_ast;
 
 class builder {
     friend class build_class;
     friend class build_grammar;
+    friend class search_ast;
 
     typedef grammar::meta::Grammar                    grammar_t;
     typedef typename parser::stored<grammar_t>::type  ast_t;

@@ -37,10 +37,11 @@ void get_type_and_value::operator()(class_type& clss, scope_ref_cache& scope) {
     // todo: search in cached includes
 
     // search for in module of class
-    auto search_it = scope.module_.second.value_.find(search_.front());
-    if (search_it != scope.module_.second.value_.end()) {
+    auto& module_scope = get_module_scope(scope);
+    auto search_it = module_scope.find(search_.front());
+    if (search_it != module_scope.end()) {
         chilon::variant_apply(*search_it,
-            module_dep(*this, scope, scope.module_));
+            module_dep(*this, scope, get_module(scope)));
         return;
     }
 
