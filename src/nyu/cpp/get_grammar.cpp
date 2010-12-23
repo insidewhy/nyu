@@ -6,8 +6,8 @@
 namespace nyu { namespace cpp {
 
 struct get_grammar::leaf_dep {
-    get_grammar&                  resolver_;
-    search_ast::scope_type const& module_;
+    get_grammar&              resolver_;
+    output_file::module_type& module_;
 
     leaf_dep(decltype(resolver_)&  resolver,
              decltype(module_)&    module)
@@ -20,7 +20,7 @@ struct get_grammar::leaf_dep {
     }
 
     void operator()(get_grammar::grammar_type& grmmr) {
-        resolver_.search_.assign(module_.begin(), module_.end());
+        resolver_.module_ = &module_;
         resolver_.grammar_ = &grmmr;
     }
 };
@@ -33,7 +33,7 @@ void get_grammar::operator()(scope_ref_cache& scope) {
         auto search_it = module_scope.find(search_.front());
         if (search_it != module_scope.end()) {
             chilon::variant_apply(
-                *search_it, leaf_dep(*this, get_module_key(scope)));
+                *search_it, leaf_dep(*this, get_module(scope)));
             return;
         }
 

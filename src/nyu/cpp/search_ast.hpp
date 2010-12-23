@@ -13,12 +13,17 @@ struct search_ast {
     typedef output_file::ns_type                 scope_type;
     typedef module_type::value_type::value_type  module_scope_type;
 
+  protected:
     ast_t& get_ast(scope_ref_cache& scope) {
         return scope.get_builder().ast_;
     }
 
     module_type& get_module(scope_ref_cache& scope) {
        return scope.module_;
+    }
+
+    builder& get_builder(scope_ref_cache& scope) {
+        return scope.get_builder();
     }
 
     scope_type& get_module_key(scope_ref_cache& scope) {

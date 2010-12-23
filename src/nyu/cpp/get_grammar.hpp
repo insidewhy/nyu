@@ -19,7 +19,10 @@ class get_grammar : public search_ast {
     typedef output_file::grammar_type                           grammar_type;
     typedef chilon::iterator_range<scope_type::const_iterator>  scope_range;
 
+    // target grammar
     output_file::grammar_type    *grammar_;
+    // module grammar was found in
+    output_file::module_type     *module_;
     // contains portion of scope currently being searched..
     scope_range                   search_;
 
@@ -29,10 +32,8 @@ class get_grammar : public search_ast {
 
     void operator()(scope_ref_cache& scope);
 
-    grammar_type&      grammar()      { return *grammar_; }
-
-    // reuse search_ to store target module
-    scope_range const& module() const { return search_; }
+    grammar_type&  grammar()      { return *grammar_; }
+    module_type&   module() const { return *module_; }
 };
 
 } }
