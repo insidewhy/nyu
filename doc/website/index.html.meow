@@ -170,10 +170,10 @@ EOF
 
     Id <- [a-zA-Z]+
 
-    // (KeyPair <- Id '=' Id) would store tuple<string, string> but since 
+    // (KeyPair <- Id "=" Id) would store tuple<string, string> but since 
     // the first identifier begins with "#" then key_value<string, string> 
     // is stored.
-    KeyPair <- #Id '=' Id
+    KeyPair <- #Id "=" Id
 
     // (P % Q) would normally store vector<storage type of P>, but when the
     // storage type of P is key_value<...> then it stores a vector_hash_map.
@@ -181,7 +181,7 @@ EOF
     // in addition to a hash index which can be used for fast access to
     // a stored item based on its key. This storage behaviour is the same
     // for all parsers that can store vectors.
-    Grammar <- '{' KeyPair % ',' }
+    Grammar <- "{" KeyPair % "," "}"
 
     // Using { key -> value, ... } to represent the hash map type nyu created
     // parses "{ first = hello, second = bye }" as:
