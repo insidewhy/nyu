@@ -14,11 +14,9 @@ namespace nyu { namespace cpp {
 class scope_ref_cache;
 
 class get_grammar : public search_ast {
-    struct module_dep;
+    struct leaf_dep;
 
     typedef output_file::grammar_type                           grammar_type;
-    typedef output_file::ns_type                                scope_type;
-    typedef output_file::module_type                            module_type;
     typedef chilon::iterator_range<scope_type::const_iterator>  scope_range;
 
     output_file::grammar_type    *grammar_;
@@ -32,7 +30,9 @@ class get_grammar : public search_ast {
     void operator()(scope_ref_cache& scope);
 
     grammar_type&      grammar()      { return *grammar_; }
-    scope_range const& search() const { return search_; }
+
+    // reuse search_ to store target module
+    scope_range const& module() const { return search_; }
 };
 
 } }

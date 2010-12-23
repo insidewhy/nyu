@@ -16,8 +16,6 @@ class scope_ref_cache;
 class get_type_and_value : public search_ast {
     struct module_dep;
 
-    typedef builder::module_type                                module_type;
-    typedef output_file::ns_type                                scope_type;
     typedef chilon::iterator_range<scope_type::const_iterator>  scope_range;
     typedef output_file::enum_type                              enum_type;
     typedef output_file::class_type                             class_type;

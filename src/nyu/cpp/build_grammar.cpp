@@ -26,10 +26,17 @@ void build_grammar::open() {
 
     auto& parent = std::get<0>(grammar_.second.value_);
     if (! parent.empty()) {
-        // TODO: find grammar
+        cpp::get_grammar grammar_get(parent);
+        grammar_get(*this);
+
         stream_ << "\n#include <";
-        chilon::print_join(stream_, '/', parent);
-        stream_ << ".hpp>\n";
+        if (! grammar_get.module().empty()) {
+            for (auto it = grammar_get.module().begin();
+                 it != grammar_get.module().end(); ++it)
+            { stream_ << *it << '/'; }
+        }
+
+        stream_ << grammar_get.grammar().first << ".hpp>\n";
     }
     else {
         stream_ << "\n#include <chilon/parser.hpp>\n";
