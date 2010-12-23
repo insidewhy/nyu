@@ -2,8 +2,6 @@
 #include <nyu/cpp/build_rule.hpp>
 #include <nyu/cpp/get_grammar.hpp>
 
-#include <nyu/error/dep_cycle.hpp>
-
 #include <chilon/print_join.hpp>
 
 namespace nyu { namespace cpp {
@@ -37,11 +35,7 @@ void build_grammar::open() {
         stream_ << ".hpp>\n";
         parent_grammar_ = &grammar_get.grammar();
 
-        if (grammar::Status::PROCESSING == parent_grammar_->second.status_)
-            throw error::dep_cycle(parent_grammar_->first);
-        else if (grammar::Status::PROCESSED != parent_grammar_->second.status_) {
-            // todo: build grammar
-        }
+        build_grammar_scope(*parent_grammar_, grammar_get.module());
     }
     else {
         stream_ << "\n#include <chilon/parser.hpp>\n";

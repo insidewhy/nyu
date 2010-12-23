@@ -2,16 +2,14 @@
 #define NYU_CPP_BUILD_MODULE_HPP
 
 #include <nyu/cpp/builder.hpp>
-#include <nyu/cpp/output_file.hpp>
+#include <nyu/cpp/scope_ref_cache.hpp>
 
 namespace nyu { namespace cpp {
 
-class build_module : public output_file {
-    module_type& module_;
+struct build_module : scope_ref_cache {
 
-  public:
     build_module(builder& builder, module_type& module)
-      : output_file(builder), module_(module) {}
+      : scope_ref_cache(builder, module) {}
 
     template <class T>
     void subnamespace(T& t) {}
@@ -21,7 +19,10 @@ class build_module : public output_file {
 
     // classes and grammars create a new namespace dependency
     void subnamespace(class_type& clss);
-    void subnamespace(grammar_type& gram);
+
+    void subnamespace(grammar_type& gram) {
+        build_grammar_scope(gram, module_);
+    }
 
     // enumerations are stored within the grammar namespace
     void operator()(enum_type& enm) {

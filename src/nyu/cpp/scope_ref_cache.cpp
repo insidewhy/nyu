@@ -1,4 +1,6 @@
 #include <nyu/cpp/scope_ref_cache.hpp>
+#include <nyu/cpp/build_grammar.hpp>
+#include <nyu/error/dep_cycle.hpp>
 
 #include <chilon/print_join.hpp>
 
@@ -25,6 +27,24 @@ void scope_ref_cache::close() {
         chilon::variant_apply(*it, print_include(stream_));
         stream_ << ".hpp>\n";
     }
+}
+
+void scope_ref_cache::build_grammar_scope(grammar_type& grammar,
+                                          module_type&  module)
+{
+    if (grammar::Status::PROCESSING == grammar.second.status_)
+        throw error::dep_cycle(grammar.first);
+    else if (grammar::Status::PROCESSED == grammar.second.status_)
+        return;
+
+    cpp::build_grammar grammar_builder(builder_, module, grammar);
+    auto& children = std::get<1>(grammar.second.value_);
+    for (auto it = children.begin(); it != children.end(); ++it) {
+        grammar_builder(*it);
+    }
+    grammar_builder.close();
+
+    grammar.second.status_ = grammar::Status::PROCESSED;
 }
 
 } }

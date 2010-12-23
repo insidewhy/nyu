@@ -22,10 +22,6 @@ struct search_ast {
        return scope.module_;
     }
 
-    builder& get_builder(scope_ref_cache& scope) {
-        return scope.get_builder();
-    }
-
     scope_type& get_module_key(scope_ref_cache& scope) {
        return scope.module_.first;
     }

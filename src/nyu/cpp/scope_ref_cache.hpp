@@ -44,6 +44,8 @@ class scope_ref_cache : public output_file {
   protected:
     module_type& module_;
 
+    void build_grammar_scope(grammar_type& grmmr, module_type& module);
+
   public:
     template <class T>
     void add_type_ref(T& dep) {
