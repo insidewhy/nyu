@@ -36,10 +36,9 @@ class scope_ref_cache : public output_file {
 
     map_t  type_ref_map_;
 
-  private:
+  protected:
     builder& get_builder() { return builder_; }
 
-  protected:
     module_type& module_;
 
     void build_grammar_scope(grammar_type& grmmr, module_type& module);

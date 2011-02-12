@@ -16,6 +16,7 @@ struct options {
     bool                       verbose_comments_;
     bool                       print_ast_;
     std::string                output_dir_;
+    std::string                namespace_alias_;
     std::vector<std::string>   include_paths_;
 
     options();

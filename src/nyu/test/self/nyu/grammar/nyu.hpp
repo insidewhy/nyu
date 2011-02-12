@@ -5,7 +5,7 @@
 
 namespace nyu { namespace grammar { namespace nyu {
 
-using namespace chilon::parser;
+namespace chpar = chilon::parser;
 
 typedef TODO Spacing;
 

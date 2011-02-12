@@ -14,11 +14,14 @@
 
 namespace nyu {
 
+#define NYU_DEFAULT_NAMESPACE_ALIAS "chpar"
+
 namespace cmd_line = chilon::conf::cmd;
 
 options::options()
   : verbose_(false), verbose_comments_(false),
-    print_ast_(false), output_dir_(".") {}
+    print_ast_(false), output_dir_("."),
+    namespace_alias_(NYU_DEFAULT_NAMESPACE_ALIAS) {}
 
 int options::parse_command_line(char const *header, int argc, char *argv[]) {
     int nPositionals;
@@ -32,6 +35,8 @@ int options::parse_command_line(char const *header, int argc, char *argv[]) {
         ("p,print",      print_ast_, "print AST of grammar")
         ("v,verbose",    verbose_, "increase verbosity")
         ("o,output-dir", output_dir_, "directory to output code")
+        ("n,namespace",  namespace_alias_,
+         "chilon parser namespace alias, default: " NYU_DEFAULT_NAMESPACE_ALIAS)
         ("V",            verbose_comments_, "print lots of comments to generated parser")
         ("I,include",    include_paths_, "include paths")
         ;

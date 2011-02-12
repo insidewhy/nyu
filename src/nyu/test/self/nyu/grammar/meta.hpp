@@ -5,7 +5,7 @@
 
 namespace nyu { namespace grammar { namespace meta {
 
-using namespace chilon::parser;
+namespace chpar = chilon::parser;
 
 typedef TODO Id;
 
