@@ -7,23 +7,29 @@ namespace nyu { namespace grammar { namespace nyu {
 
 namespace chpar = chilon::parser;
 
-typedef TODO Spacing;
+typedef chpar::TODO_suffix<> Spacing;
 
-typedef TODO AnyCharacter;
+typedef chpar::char_<
+> AnyCharacter;
 
 struct CharacterRange : simple_node<CharacterRange, TODO> {}
 
-typedef TODO Escape;
+typedef chpar::joined<
+> Escape;
 
 struct String : simple_node<String, TODO> {}
 
-typedef TODO Id;
+typedef chpar::joined<
+> Id;
 
-typedef TODO ScopedId;
+typedef chpar::join<
+> ScopedId;
 
-typedef TODO ScopedRule;
+typedef chpar::join<
+> ScopedRule;
 
-typedef TODO Primary;
+typedef chpar::choice<
+> Primary;
 
 struct Suffix : simple_node<Suffix, TODO> {}
 
@@ -41,7 +47,7 @@ struct Expression : simple_node<Expression, TODO> {}
 
 struct Rule : simple_node<Rule, TODO> {}
 
-typedef TODO Grammar;
+typedef chpar::TODO_suffix<> Grammar;
 
 } } }
 #endif

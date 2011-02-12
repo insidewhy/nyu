@@ -37,7 +37,8 @@ class scope_ref_cache : public output_file {
     map_t  type_ref_map_;
 
   protected:
-    builder& get_builder() { return builder_; }
+    builder&       get_builder()       { return builder_; }
+    builder const& get_builder() const { return builder_; }
 
     module_type& module_;
 

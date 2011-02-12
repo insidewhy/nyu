@@ -7,21 +7,25 @@ namespace nyu { namespace grammar { namespace meta {
 
 namespace chpar = chilon::parser;
 
-typedef TODO Id;
+typedef TODO_rule Id;
 
-typedef TODO ScopedId;
+typedef TODO_rule ScopedId;
 
-typedef TODO ModuleId;
+typedef chpar::join<
+> ModuleId;
 
-typedef TODO ModuleDefinition;
+typedef chpar::sequence<
+> ModuleDefinition;
 
 struct NyuGrammar : simple_node<NyuGrammar, TODO> {}
 
 struct Module : simple_node<Module, TODO> {}
 
-typedef TODO Include;
+typedef chpar::sequence<
+> Include;
 
-typedef TODO Grammar;
+typedef chpar::sequence<
+> Grammar;
 
 } } }
 #endif

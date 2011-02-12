@@ -3,6 +3,9 @@
 
 #include <nyu/cpp/build_grammar.hpp>
 
+// todo: make this configurable
+#define NYU_INDENT_STRING "    ";
+
 namespace nyu { namespace cpp {
 
 class build_rule {
@@ -24,6 +27,17 @@ class build_rule {
     build_grammar&     grammar_builder_;
     int                indent_;
     std::stringstream  stream_;
+
+    void subparser(char const * const name);
+
+    void print_indent() {
+        for (int i = 0; i < indent_; ++i) stream_ << NYU_INDENT_STRING;
+    }
+
+    void print_indent_on_nl() {
+        stream_ << '\n';
+        print_indent();
+    }
 
   public:
     build_rule(decltype(grammar_builder_)& grammar_builder)

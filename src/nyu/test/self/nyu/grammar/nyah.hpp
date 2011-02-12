@@ -7,19 +7,20 @@ namespace nyu { namespace grammar { namespace nyah {
 
 namespace chpar = chilon::parser;
 
-typedef TODO Id;
+typedef TODO_rule Id;
 
-typedef TODO ScopedId;
+typedef TODO_rule ScopedId;
 
-typedef TODO UnsignedInteger;
+typedef chpar::TODO_suffix<> UnsignedInteger;
 
-typedef TODO EnumEntry;
+typedef chpar::sequence<
+> EnumEntry;
 
 struct Enum : simple_node<Enum, TODO> {}
 
-typedef TODO AssignExpression;
+typedef TODO_rule AssignExpression;
 
-typedef TODO Type;
+typedef TODO_rule Type;
 
 struct Attribute : simple_node<Attribute, TODO> {}
 
@@ -27,7 +28,8 @@ struct AssignedAttribute : simple_node<AssignedAttribute, TODO> {}
 
 struct Class : simple_node<Class, TODO> {}
 
-typedef TODO Grammar;
+typedef chpar::choice<
+> Grammar;
 
 } } }
 #endif

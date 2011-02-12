@@ -46,8 +46,6 @@ void build_rule::operator()(rule_type& rule) {
 
     chilon::variant_apply(
         std::get<2>(rule.second.value_).value_, *this);
-    // todo: remove this
-    stream_ << "TODO";
 
     grammar_builder_.body_ << '\n' << stream_.str();
     grammar_builder_.body_ << ' ' << rule.first << ";\n";
@@ -55,39 +53,88 @@ void build_rule::operator()(rule_type& rule) {
 }
 
 void build_rule::operator()(Sequence& sub) {
+    subparser("sequence");
+    print_indent_on_nl();
+    // todo:
+
+    stream_ << ">";
 }
 
 void build_rule::operator()(Join& sub) {
+    subparser("join");
+    print_indent_on_nl();
+    // todo:
+
+    stream_ << ">";
 }
 
 void build_rule::operator()(Prefix& sub) {
+    // todo:
+    subparser("TODO_prefix");
+    stream_ << ">";
 }
 
 void build_rule::operator()(Suffix& sub) {
+    // todo:
+    subparser("TODO_suffix");
+    stream_ << ">";
 }
 
 void build_rule::operator()(OrderedChoice& sub) {
+    subparser("choice");
+    print_indent_on_nl();
+    // todo:
+
+    stream_ << ">";
 }
 
 void build_rule::operator()(String& sub) {
+    subparser("char_");
+    print_indent_on_nl();
+    // todo:
+    stream_ << ">";
 }
 
 void build_rule::operator()(CharacterRange& sub) {
+    subparser("TODO_char_range");
+    // todo:
+    stream_ << ">";
 }
 
 void build_rule::operator()(chilon::range& sub) {
+    subparser("joined");
+    print_indent_on_nl();
+    stream_ << ">";
 }
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {
+    // todo:
+    stream_ << "TODO_rule";
 }
 
 void build_rule::operator()(char const sub) {
+    subparser("char_");
+    stream_ << '\'' << sub << '\'' << ">";
 }
 
 void build_rule::operator()(Expression& sub) {
+    // todo:
+    subparser("TODO_expression");
+
+    stream_ << ">";
 }
 
 void build_rule::operator()(Joined& sub) {
+    subparser("joined");
+    print_indent_on_nl();
+    // todo:
+
+    stream_ << ">";
+}
+
+void build_rule::subparser(char const * const name) {
+    print_indent();
+    stream_ << grammar_builder_.namespace_alias() << "::" << name << "<";
 }
 
 } }

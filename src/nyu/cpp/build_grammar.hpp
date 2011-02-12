@@ -14,6 +14,10 @@ class build_grammar : public scope_ref_cache {
     grammar_type&  grammar_;
     grammar_type  *parent_grammar_;
 
+    std::string const& namespace_alias() const {
+        return get_builder().options_.namespace_alias_;
+    }
+
   public:
     build_grammar(builder& builder, module_type& module, grammar_type& grmmr)
       : scope_ref_cache(builder, module), grammar_(grmmr), parent_grammar_(0)
