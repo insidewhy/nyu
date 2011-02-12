@@ -13,6 +13,8 @@ namespace nyu { namespace cpp {
 
 class scope_ref_cache;
 
+// splits something like namespace_.class_.colors_enum_.RED
+// into namespace_.class_.colors_enum_ and RED
 class get_type_and_value : public search_ast {
     struct module_dep;
 

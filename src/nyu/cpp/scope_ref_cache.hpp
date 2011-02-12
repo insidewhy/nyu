@@ -21,8 +21,6 @@ namespace grammar {
 
 namespace cpp {
 
-class get_type_and_value;
-class get_grammar;
 class search_ast;
 
 class scope_ref_cache : public output_file {

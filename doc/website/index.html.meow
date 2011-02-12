@@ -170,8 +170,8 @@ EOF
 
     Id <- [a-zA-Z]+
 
-    // (KeyPair <- Id "=" Id) would store tuple<string, string> but since 
-    // the first identifier begins with "#" then key_value<string, string> 
+    // (KeyPair <- Id "=" Id) would store tuple<string, string> but since
+    // the first identifier begins with "#" then key_value<string, string>
     // is stored.
     KeyPair <- #Id "=" Id
 
