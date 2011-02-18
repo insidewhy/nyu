@@ -14,10 +14,10 @@ typedef chpar::many_plus<
             chpar::char_<'/', '/'>,
             chpar::many<
                 chpar::TODO_prefix<
-                    chpar::char_<\n'>
+                    chpar::char_<'\n'>
                 >
             >,
-            chpar::char_<\n'>
+            chpar::char_<'\n'>
         >
     >
 > Spacing;
@@ -64,7 +64,7 @@ struct String : simple_node<
     chpar::choice<
         chpar::lexeme<
             chpar::char_<'"'>,
-            chpar::TODO_suffix<
+            chpar::many_plus<
                 chpar::choice<
                     TODO_rule,
                     chpar::TODO_prefix<
@@ -76,7 +76,7 @@ struct String : simple_node<
         >,
         chpar::lexeme<
             chpar::char_<'\''>,
-            chpar::TODO_suffix<
+            chpar::many_plus<
                 chpar::choice<
                     TODO_rule,
                     chpar::TODO_prefix<
@@ -130,7 +130,7 @@ struct Suffix : simple_node<
     Suffix,
     chpar::sequence<
         TODO_rule,
-        chpar::TODO_suffix<
+        chpar::TODO_suffix_|?<
             chpar::choice<
                 chpar::char_range<
                     TODO
@@ -147,7 +147,7 @@ struct Suffix : simple_node<
 struct Prefix : simple_node<
     Prefix,
     chpar::sequence<
-        chpar::TODO_suffix<
+        chpar::TODO_suffix_|?<
             chpar::choice<
                 chpar::char_<'&', '!'>,
                 chpar::char_<'#', '+'>,
@@ -184,7 +184,7 @@ struct Joined : simple_node<
 
 struct Sequence : simple_node<
     Sequence,
-    chpar::TODO_suffix<
+    chpar::TODO_suffix_|+<
         TODO_rule
     >
 > {};
