@@ -21,13 +21,17 @@ typedef chpar::sequence<
 
 struct NyuGrammar : simple_node<
     NyuGrammar,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 struct Module : simple_node<
     Module,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 typedef chpar::sequence<
     TODO

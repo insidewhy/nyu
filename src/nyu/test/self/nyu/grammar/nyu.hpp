@@ -17,8 +17,10 @@ typedef chpar::char_<
 
 struct CharacterRange : simple_node<
     CharacterRange,
-    TODO
-> {}
+    chpar::joined<
+        TODO
+    >
+> {};
 
 typedef chpar::joined<
     TODO
@@ -26,8 +28,10 @@ typedef chpar::joined<
 
 struct String : simple_node<
     String,
-    TODO
-> {}
+    chpar::choice<
+        TODO
+    >
+> {};
 
 typedef chpar::joined<
     TODO
@@ -47,43 +51,57 @@ typedef chpar::choice<
 
 struct Suffix : simple_node<
     Suffix,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 struct Prefix : simple_node<
     Prefix,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 struct Join : simple_node<
     Join,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 struct Joined : simple_node<
     Joined,
-    TODO
-> {}
+    chpar::join<
+        TODO
+    >
+> {};
 
 struct Sequence : simple_node<
     Sequence,
-    TODO
-> {}
+    chpar::unknown_suffix<
+        TODO
+    >
+> {};
 
 struct OrderedChoice : simple_node<
     OrderedChoice,
-    TODO
-> {}
+    chpar::join<
+        TODO
+    >
+> {};
 
 struct Expression : simple_node<
     Expression,
-    TODO
-> {}
+    TODO_rule
+> {};
 
 struct Rule : simple_node<
     Rule,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 typedef chpar::many_plus<
     TODO

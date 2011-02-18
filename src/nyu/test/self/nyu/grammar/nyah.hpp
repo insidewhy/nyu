@@ -21,8 +21,10 @@ typedef chpar::sequence<
 
 struct Enum : simple_node<
     Enum,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 typedef TODO_rule AssignExpression;
 
@@ -30,18 +32,24 @@ typedef TODO_rule Type;
 
 struct Attribute : simple_node<
     Attribute,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 struct AssignedAttribute : simple_node<
     AssignedAttribute,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 struct Class : simple_node<
     Class,
-    TODO
-> {}
+    chpar::sequence<
+        TODO
+    >
+> {};
 
 typedef chpar::choice<
     TODO
