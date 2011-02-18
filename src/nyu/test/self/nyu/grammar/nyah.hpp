@@ -18,7 +18,7 @@ typedef chpar::many_plus<
 > UnsignedInteger;
 
 typedef chpar::sequence<
-    chpar::TODO_prefix<
+    chpar::key<
         TODO_rule
     >,
     chpar::sequence<
@@ -31,7 +31,7 @@ struct Enum : simple_node<
     Enum,
     chpar::sequence<
         chpar::char_<'e', 'n', 'u', 'm'>,
-        chpar::TODO_prefix<
+        chpar::key<
             TODO_rule
         >,
         chpar::char_<'{'>,
@@ -49,7 +49,7 @@ typedef TODO_rule Type;
 struct Attribute : simple_node<
     Attribute,
     chpar::sequence<
-        chpar::TODO_prefix<
+        chpar::key<
             TODO_rule
         >,
         chpar::char_<':'>,
@@ -60,7 +60,7 @@ struct Attribute : simple_node<
 struct AssignedAttribute : simple_node<
     AssignedAttribute,
     chpar::sequence<
-        chpar::TODO_prefix<
+        chpar::key<
             TODO_rule
         >,
         chpar::char_<':'>,
@@ -73,7 +73,7 @@ struct Class : simple_node<
     Class,
     chpar::sequence<
         chpar::char_<'c', 'l', 'a', 's', 's'>,
-        chpar::TODO_prefix<
+        chpar::key<
             TODO_rule
         >,
         chpar::char_<'{'>,

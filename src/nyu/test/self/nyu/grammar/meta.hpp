@@ -12,7 +12,8 @@ typedef TODO_rule Id;
 typedef TODO_rule ScopedId;
 
 typedef chpar::joined_plus<
-    TODO
+    chpar::char_<'.'>,
+    TODO_rule
 > ModuleId;
 
 typedef chpar::sequence<
@@ -24,7 +25,7 @@ struct NyuGrammar : simple_node<
     NyuGrammar,
     chpar::sequence<
         chpar::char_<'@', 'g', 'r', 'a', 'm', 'm', 'a', 'r'>,
-        chpar::TODO_prefix<
+        chpar::key<
             TODO_rule
         >,
         chpar::optional<
@@ -40,7 +41,7 @@ struct NyuGrammar : simple_node<
 struct Module : simple_node<
     Module,
     chpar::sequence<
-        chpar::TODO_prefix<
+        chpar::key_plus<
             chpar::optional<
                 TODO_rule
             >
@@ -57,7 +58,8 @@ struct Module : simple_node<
 typedef chpar::sequence<
     chpar::char_<'@', 'i', 'n', 'c', 'l', 'u', 'd', 'e'>,
     chpar::joined_plus<
-        TODO
+        chpar::char_<'/'>,
+        TODO_rule
     >
 > Include;
 

@@ -109,7 +109,25 @@ void build_rule::operator()(Join& sub) {
 }
 
 void build_rule::operator()(Prefix& sub) {
-    subparser("TODO_prefix");
+    auto& prefix = std::get<0>(sub.value_);
+    if (prefix.is<char>()) {
+        switch (prefix.at<char>()) {
+            case '&':
+                subparser("try_");
+                break;
+            case '!':
+                subparser("tbpeg_not");
+                break;
+            case '#':
+                subparser("key");
+                break;
+        }
+    }
+    else {
+        auto& prefix_str = prefix.at<chilon::range>();
+        subparser(prefix_str == "&!" ? "not_" : "key_plus");
+    }
+
     chilon::variant_apply(std::get<1>(sub.value_), *this);
     end_subparser();
 }
@@ -130,7 +148,6 @@ void build_rule::operator()(Suffix& sub) {
         }
     }
     else {
-        // subparser("TODO_suffix");
         auto& suffix_str = suffix.at<chilon::range>();
         if (suffix_str == "^+")
             subparser("many_plus_range");
