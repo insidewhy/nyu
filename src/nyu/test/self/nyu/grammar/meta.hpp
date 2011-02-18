@@ -12,19 +12,29 @@ typedef TODO_rule Id;
 typedef TODO_rule ScopedId;
 
 typedef chpar::join<
+    TODO
 > ModuleId;
 
 typedef chpar::sequence<
+    TODO
 > ModuleDefinition;
 
-struct NyuGrammar : simple_node<NyuGrammar, TODO> {}
+struct NyuGrammar : simple_node<
+    NyuGrammar,
+    TODO
+> {}
 
-struct Module : simple_node<Module, TODO> {}
+struct Module : simple_node<
+    Module,
+    TODO
+> {}
 
 typedef chpar::sequence<
+    TODO
 > Include;
 
 typedef chpar::sequence<
+    TODO
 > Grammar;
 
 } } }

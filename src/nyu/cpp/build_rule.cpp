@@ -29,15 +29,18 @@ void build_rule::operator()(rule_type& rule) {
     // todo: handle parent rule
 
     if ('=' == std::get<1>(rule.second.value_)) {
-        stream_ << "struct " << rule.first << " : simple_node<"
-                << rule.first << ", ";
+        stream_ << "struct " << rule.first << " : simple_node<\n";
+        ++indent_;
+        print_indent();
+        stream_ << rule.first << ",\n";
+        print_indent();
 
         // todo: delay until after parent rule has finished if node rule
         chilon::variant_apply(
             std::get<2>(rule.second.value_).value_, first_node_expr(*this, rule));
 
         grammar_builder_.body_ << '\n' << stream_.str();
-        grammar_builder_.body_ << "> {}\n";
+        grammar_builder_.body_ << "\n> {}\n";
         return;
     }
 
@@ -54,57 +57,66 @@ void build_rule::operator()(rule_type& rule) {
 
 void build_rule::operator()(Sequence& sub) {
     subparser("sequence");
-    print_indent_on_nl();
-    // todo:
-
-    stream_ << ">";
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(Join& sub) {
     subparser("join");
-    print_indent_on_nl();
-    // todo:
-
-    stream_ << ">";
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(Prefix& sub) {
-    // todo:
-    subparser("TODO_prefix");
-    stream_ << ">";
+    subparser("unknown_prefix");
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(Suffix& sub) {
-    // todo:
-    subparser("TODO_suffix");
-    stream_ << ">";
+    auto& suffix = std::get<1>(sub.value_);
+    if (suffix.is<char>()) {
+        switch (suffix.at<char>()) {
+            case '+':
+                subparser("many_plus");
+                break;
+            case '*':
+                subparser("many");
+                break;
+            case '?':
+                subparser("optional");
+                break;
+        }
+    }
+    else {
+        subparser("unknown_suffix");
+    }
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(OrderedChoice& sub) {
     subparser("choice");
-    print_indent_on_nl();
-    // todo:
-
-    stream_ << ">";
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(String& sub) {
     subparser("char_");
-    print_indent_on_nl();
-    // todo:
-    stream_ << ">";
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(CharacterRange& sub) {
-    subparser("TODO_char_range");
-    // todo:
-    stream_ << ">";
+    subparser("char_range");
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(chilon::range& sub) {
-    subparser("joined");
-    print_indent_on_nl();
-    stream_ << ">";
+    subparser("unknown_joined");
+    stream_ << "TODO";
+    end_subparser();
 }
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {
@@ -118,23 +130,28 @@ void build_rule::operator()(char const sub) {
 }
 
 void build_rule::operator()(Expression& sub) {
-    // todo:
     subparser("TODO_expression");
-
-    stream_ << ">";
+    end_subparser();
 }
 
 void build_rule::operator()(Joined& sub) {
     subparser("joined");
-    print_indent_on_nl();
-    // todo:
+    stream_ << "TODO";
 
-    stream_ << ">";
+    end_subparser();
 }
 
 void build_rule::subparser(char const * const name) {
     print_indent();
     stream_ << grammar_builder_.namespace_alias() << "::" << name << "<";
+    ++indent_;
+    print_indent_on_nl();
+}
+
+void build_rule::end_subparser() {
+    --indent_;
+    print_indent_on_nl();
+    stream_ << '>';
 }
 
 } }

@@ -12,23 +12,24 @@ class build_rule {
     class first_node_expr;
 
     typedef build_grammar::rule_type rule_type;
-    typedef grammar::NyuRule::Status RuleStatus;
 
-    typedef nyu::grammar::nyu::Sequence        Sequence;
-    typedef nyu::grammar::nyu::Join            Join;
-    typedef nyu::grammar::nyu::Prefix          Prefix;
-    typedef nyu::grammar::nyu::Suffix          Suffix;
-    typedef nyu::grammar::nyu::OrderedChoice   OrderedChoice;
-    typedef nyu::grammar::nyu::String          String;
-    typedef nyu::grammar::nyu::CharacterRange  CharacterRange;
-    typedef nyu::grammar::nyu::Expression      Expression;
-    typedef nyu::grammar::nyu::Joined          Joined;
+    typedef grammar::NyuRule::Status      RuleStatus;
+    typedef grammar::nyu::Sequence        Sequence;
+    typedef grammar::nyu::Join            Join;
+    typedef grammar::nyu::Prefix          Prefix;
+    typedef grammar::nyu::Suffix          Suffix;
+    typedef grammar::nyu::OrderedChoice   OrderedChoice;
+    typedef grammar::nyu::String          String;
+    typedef grammar::nyu::CharacterRange  CharacterRange;
+    typedef grammar::nyu::Expression      Expression;
+    typedef grammar::nyu::Joined          Joined;
 
     build_grammar&     grammar_builder_;
     int                indent_;
     std::stringstream  stream_;
 
     void subparser(char const * const name);
+    void end_subparser();
 
     void print_indent() {
         for (int i = 0; i < indent_; ++i) stream_ << NYU_INDENT_STRING;

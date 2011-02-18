@@ -11,24 +11,40 @@ typedef TODO_rule Id;
 
 typedef TODO_rule ScopedId;
 
-typedef chpar::TODO_suffix<> UnsignedInteger;
+typedef chpar::many_plus<
+    TODO
+> UnsignedInteger;
 
 typedef chpar::sequence<
+    TODO
 > EnumEntry;
 
-struct Enum : simple_node<Enum, TODO> {}
+struct Enum : simple_node<
+    Enum,
+    TODO
+> {}
 
 typedef TODO_rule AssignExpression;
 
 typedef TODO_rule Type;
 
-struct Attribute : simple_node<Attribute, TODO> {}
+struct Attribute : simple_node<
+    Attribute,
+    TODO
+> {}
 
-struct AssignedAttribute : simple_node<AssignedAttribute, TODO> {}
+struct AssignedAttribute : simple_node<
+    AssignedAttribute,
+    TODO
+> {}
 
-struct Class : simple_node<Class, TODO> {}
+struct Class : simple_node<
+    Class,
+    TODO
+> {}
 
 typedef chpar::choice<
+    TODO
 > Grammar;
 
 } } }
