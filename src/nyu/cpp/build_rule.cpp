@@ -80,8 +80,7 @@ void build_rule::operator()(rule_type& rule) {
 
 void build_rule::operator()(Sequence& sub) {
     subparser("sequence");
-    print_indent(); stream_ << "TODO";
-    end_subparser();
+    nested_parser(sub.value_);
 }
 
 void build_rule::operator()(Join& sub) {

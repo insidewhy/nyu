@@ -16,29 +16,58 @@ typedef chpar::joined_plus<
 > ModuleId;
 
 typedef chpar::sequence<
-    TODO
+    chpar::char_<'@', 'm', 'o', 'd', 'u', 'l', 'e'>,
+    TODO_rule
 > ModuleDefinition;
 
 struct NyuGrammar : simple_node<
     NyuGrammar,
     chpar::sequence<
-        TODO
+        chpar::char_<'@', 'g', 'r', 'a', 'm', 'm', 'a', 'r'>,
+        chpar::TODO_prefix<
+            TODO_rule
+        >,
+        chpar::optional<
+            chpar::sequence<
+                chpar::char_<':'>,
+                TODO_rule
+            >
+        >,
+        TODO_rule
     >
 > {};
 
 struct Module : simple_node<
     Module,
     chpar::sequence<
-        TODO
+        chpar::TODO_prefix<
+            chpar::optional<
+                TODO_rule
+            >
+        >,
+        chpar::many_plus<
+            chpar::TODO_choice<
+                TODO_rule,
+                TODO_rule
+            >
+        >
     >
 > {};
 
 typedef chpar::sequence<
-    TODO
+    chpar::char_<'@', 'i', 'n', 'c', 'l', 'u', 'd', 'e'>,
+    chpar::joined_plus<
+        TODO
+    >
 > Include;
 
 typedef chpar::sequence<
-    TODO
+    chpar::many<
+        TODO_rule
+    >,
+    chpar::many<
+        TODO_rule
+    >
 > Grammar;
 
 } } }

@@ -114,31 +114,64 @@ typedef chpar::TODO_choice<
     TODO_rule,
     TODO_rule,
     chpar::sequence<
-        TODO
+        TODO_rule,
+        chpar::TODO_prefix<
+            chpar::char_<'<'>
+        >
     >,
     chpar::sequence<
-        TODO
+        chpar::char_<'('>,
+        TODO_rule,
+        chpar::char_<')'>
     >
 > Primary;
 
 struct Suffix : simple_node<
     Suffix,
     chpar::sequence<
-        TODO
+        TODO_rule,
+        chpar::TODO_suffix<
+            chpar::TODO_choice<
+                chpar::char_range<
+                    TODO
+                >,
+                chpar::char_<'^', '+'>,
+                chpar::char_<'^', '*'>,
+                chpar::char_<'|', '+'>,
+                chpar::char_<'|', '?'>
+            >
+        >
     >
 > {};
 
 struct Prefix : simple_node<
     Prefix,
     chpar::sequence<
-        TODO
+        chpar::TODO_suffix<
+            chpar::TODO_choice<
+                chpar::char_<'&', '!'>,
+                chpar::char_<'#', '+'>,
+                chpar::char_range<
+                    TODO
+                >
+            >
+        >,
+        TODO_rule
     >
 > {};
 
 struct Join : simple_node<
     Join,
     chpar::sequence<
-        TODO
+        TODO_rule,
+        chpar::TODO_choice<
+            chpar::char_<'^', '%'>,
+            chpar::char_<'%', '+'>,
+            chpar::char_<'%'>,
+            chpar::char_<'|', '%'>,
+            chpar::char_<'|', '^', '%'>
+        >,
+        TODO_rule
     >
 > {};
 
@@ -171,7 +204,17 @@ struct Expression : simple_node<
 struct Rule : simple_node<
     Rule,
     chpar::sequence<
-        TODO
+        chpar::TODO_prefix<
+            TODO_rule
+        >,
+        chpar::char_<'<'>,
+        chpar::joined<
+            TODO
+        >,
+        chpar::char_range<
+            TODO
+        >,
+        TODO_rule
     >
 > {};
 

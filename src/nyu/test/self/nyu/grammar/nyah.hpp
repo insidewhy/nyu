@@ -18,13 +18,27 @@ typedef chpar::many_plus<
 > UnsignedInteger;
 
 typedef chpar::sequence<
-    TODO
+    chpar::TODO_prefix<
+        TODO_rule
+    >,
+    chpar::sequence<
+        chpar::char_<'='>,
+        TODO_rule
+    >
 > EnumEntry;
 
 struct Enum : simple_node<
     Enum,
     chpar::sequence<
-        TODO
+        chpar::char_<'e', 'n', 'u', 'm'>,
+        chpar::TODO_prefix<
+            TODO_rule
+        >,
+        chpar::char_<'{'>,
+        chpar::many<
+            TODO_rule
+        >,
+        chpar::char_<'}'>
     >
 > {};
 
@@ -35,21 +49,42 @@ typedef TODO_rule Type;
 struct Attribute : simple_node<
     Attribute,
     chpar::sequence<
-        TODO
+        chpar::TODO_prefix<
+            TODO_rule
+        >,
+        chpar::char_<':'>,
+        TODO_rule
     >
 > {};
 
 struct AssignedAttribute : simple_node<
     AssignedAttribute,
     chpar::sequence<
-        TODO
+        chpar::TODO_prefix<
+            TODO_rule
+        >,
+        chpar::char_<':'>,
+        chpar::char_<'='>,
+        TODO_rule
     >
 > {};
 
 struct Class : simple_node<
     Class,
     chpar::sequence<
-        TODO
+        chpar::char_<'c', 'l', 'a', 's', 's'>,
+        chpar::TODO_prefix<
+            TODO_rule
+        >,
+        chpar::char_<'{'>,
+        chpar::many<
+            chpar::TODO_choice<
+                TODO_rule,
+                TODO_rule,
+                TODO_rule
+            >
+        >,
+        chpar::char_<'}'>
     >
 > {};
 
