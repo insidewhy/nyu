@@ -9,14 +9,40 @@ class build_rule::first_node_expr {
 
   public:
     template <class T>
-    void operator()(T& t) {
+    void operator()(T& sub) {
         rule_.second.status_ = RuleStatus::NODE;
-        rule_builder_(t);
+        rule_builder_(sub);
         rule_.second.status_ = RuleStatus::PROCESSED;
     }
 
-    // mega TODO: specialise operator() on sequence/tree_joined to
-    //            see if it is NODE or NORMAL
+    void operator()(Join& sub) {
+        auto& op = std::get<1>(sub.value_);
+        if (op.is<chilon::range>()) {
+            auto& op_str = op.at<chilon::range>();
+            if (op_str.front() == '|') {
+                rule_.second.status_ = RuleStatus::NORMAL;
+                if (op_str == "|%") {
+                    rule_builder_.subparser("tree_joined");
+                }
+                else {
+                    rule_builder_.subparser("tree_joined_lexeme");
+                }
+
+                // TODO: child nodes
+                rule_builder_.stream_ << "TODO";
+                rule_builder_.end_subparser();
+            };
+        }
+        else {
+            rule_.second.status_ = RuleStatus::NODE;
+            rule_builder_(sub);
+        }
+
+        rule_.second.status_ = RuleStatus::PROCESSED;
+    }
+
+    // mega TODO: specialise operator() on sequence also to look for
+    //            tree_optional
 
     first_node_expr(decltype(rule_builder_)& rule_builder,
                     decltype(rule_)&         rule)

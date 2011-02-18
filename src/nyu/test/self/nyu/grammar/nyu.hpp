@@ -72,7 +72,7 @@ struct Join : simple_node<
 
 struct Joined : simple_node<
     Joined,
-    chpar::unknown_joined<
+    chpar::tree_joined<
         TODO
     >
 > {};
@@ -86,7 +86,7 @@ struct Sequence : simple_node<
 
 struct OrderedChoice : simple_node<
     OrderedChoice,
-    chpar::unknown_joined<
+    chpar::tree_joined<
         TODO
     >
 > {};
