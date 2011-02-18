@@ -177,7 +177,7 @@ void build_rule::operator()(Expression& sub) {
 }
 
 void build_rule::operator()(Joined& sub) {
-    subparser("joined");
+    subparser("lexeme");
     stream_ << "TODO";
 
     end_subparser();

@@ -17,12 +17,12 @@ typedef chpar::char_<
 
 struct CharacterRange : simple_node<
     CharacterRange,
-    chpar::joined<
+    chpar::lexeme<
         TODO
     >
 > {};
 
-typedef chpar::joined<
+typedef chpar::lexeme<
     TODO
 > Escape;
 
@@ -33,7 +33,7 @@ struct String : simple_node<
     >
 > {};
 
-typedef chpar::joined<
+typedef chpar::lexeme<
     TODO
 > Id;
 
