@@ -134,7 +134,7 @@ void build_rule::operator()(Suffix& sub) {
 }
 
 void build_rule::operator()(OrderedChoice& sub) {
-    subparser("TODO_choice");
+    subparser("choice");
     nested_parser(sub.value_);
 }
 
@@ -168,7 +168,25 @@ void build_rule::operator()(CharacterRange& sub) {
 
 void build_rule::operator()(chilon::range& sub) {
     print_indent();
-    stream_ << "TODO_escape_sequence";
+
+    stream_ << grammar_builder_.namespace_alias() << "::";
+    switch (sub[1]) {
+        case 'S':
+            stream_ << "not_";
+        case 's':
+            stream_ << "char_from<'\\n', '\\t', ' '>";
+            break;
+        case 'N':
+        case 'T':
+            stream_ << "not_";
+        case 'n':
+        case 't':
+            stream_ << "char_<\\" << sub[1] << "'>";
+            break;
+        default:
+            stream_ << "char_<'" << sub[1] << "'>";
+            break;
+    }
 }
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {

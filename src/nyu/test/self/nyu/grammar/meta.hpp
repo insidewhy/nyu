@@ -46,7 +46,7 @@ struct Module : simple_node<
             >
         >,
         chpar::many_plus<
-            chpar::TODO_choice<
+            chpar::choice<
                 TODO_rule,
                 TODO_rule
             >

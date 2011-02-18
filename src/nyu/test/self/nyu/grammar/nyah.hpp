@@ -78,7 +78,7 @@ struct Class : simple_node<
         >,
         chpar::char_<'{'>,
         chpar::many<
-            chpar::TODO_choice<
+            chpar::choice<
                 TODO_rule,
                 TODO_rule,
                 TODO_rule
@@ -88,7 +88,7 @@ struct Class : simple_node<
     >
 > {};
 
-typedef chpar::TODO_choice<
+typedef chpar::choice<
     TODO_rule,
     TODO_rule
 > Grammar;

@@ -53,7 +53,7 @@ struct CharacterRange : simple_node<CharacterRange, lexeme<
         choice<
             lexeme<
                 store<char_<'\\'>>,
-                char_from<'\\',']',s,S,n,N,t,T,w,W> >,
+                char_from<'\\',']',s,S,n,N,t,T> >,
             sequence< not_char<']'>, char_<'-'>, not_char<']'> >,
             not_char<']'> > >,
     char_<']'>
@@ -61,7 +61,7 @@ struct CharacterRange : simple_node<CharacterRange, lexeme<
 
 typedef lexeme<
     store<char_<'\\'>>,
-    char_from<s,S,n,N,t,T,w,W,'.','"','\'','&','!','+','*','\\'>> Escape;
+    char_from<s,S,n,N,t,T,'.','"','\'','&','!','+','*','\\'>> Escape;
 
 struct String : simple_node<String, choice<
     lexeme< char_<'"'>,

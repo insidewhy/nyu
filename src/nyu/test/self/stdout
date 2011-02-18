@@ -314,8 +314,6 @@ module {
                                     'N'
                                     't'
                                     'T'
-                                    'w'
-                                    'W'
                                 ]
                             ]
                             Expression: Joined: [
@@ -342,8 +340,6 @@ module {
                         'N'
                         't'
                         'T'
-                        'w'
-                        'W'
                         '.'
                         '"'
                         '\''

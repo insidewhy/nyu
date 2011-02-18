@@ -8,16 +8,16 @@ namespace nyu { namespace grammar { namespace nyu {
 namespace chpar = chilon::parser;
 
 typedef chpar::many_plus<
-    chpar::TODO_choice<
-        TODO_escape_sequence,
+    chpar::choice<
+        chpar::char_from<'\n', '\t', ' '>,
         chpar::lexeme<
             chpar::char_<'/', '/'>,
             chpar::many<
                 chpar::TODO_prefix<
-                    TODO_escape_sequence
+                    chpar::char_<\n'>
                 >
             >,
-            TODO_escape_sequence
+            chpar::char_<\n'>
         >
     >
 > Spacing;
@@ -29,7 +29,7 @@ struct CharacterRange : simple_node<
     chpar::lexeme<
         chpar::char_<'['>,
         chpar::many<
-            chpar::TODO_choice<
+            chpar::choice<
                 chpar::lexeme<
                     chpar::char_range<
                         TODO
@@ -61,11 +61,11 @@ typedef chpar::lexeme<
 
 struct String : simple_node<
     String,
-    chpar::TODO_choice<
+    chpar::choice<
         chpar::lexeme<
             chpar::char_<'"'>,
             chpar::TODO_suffix<
-                chpar::TODO_choice<
+                chpar::choice<
                     TODO_rule,
                     chpar::TODO_prefix<
                         chpar::char_<'"'>
@@ -77,7 +77,7 @@ struct String : simple_node<
         chpar::lexeme<
             chpar::char_<'\''>,
             chpar::TODO_suffix<
-                chpar::TODO_choice<
+                chpar::choice<
                     TODO_rule,
                     chpar::TODO_prefix<
                         chpar::char_<'\''>
@@ -108,7 +108,7 @@ typedef chpar::joined_plus<
     TODO
 > ScopedRule;
 
-typedef chpar::TODO_choice<
+typedef chpar::choice<
     TODO_rule,
     TODO_rule,
     TODO_rule,
@@ -131,7 +131,7 @@ struct Suffix : simple_node<
     chpar::sequence<
         TODO_rule,
         chpar::TODO_suffix<
-            chpar::TODO_choice<
+            chpar::choice<
                 chpar::char_range<
                     TODO
                 >,
@@ -148,7 +148,7 @@ struct Prefix : simple_node<
     Prefix,
     chpar::sequence<
         chpar::TODO_suffix<
-            chpar::TODO_choice<
+            chpar::choice<
                 chpar::char_<'&', '!'>,
                 chpar::char_<'#', '+'>,
                 chpar::char_range<
@@ -164,7 +164,7 @@ struct Join : simple_node<
     Join,
     chpar::sequence<
         TODO_rule,
-        chpar::TODO_choice<
+        chpar::choice<
             chpar::char_<'^', '%'>,
             chpar::char_<'%', '+'>,
             chpar::char_<'%'>,

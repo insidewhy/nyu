@@ -9,8 +9,8 @@ class NyuRule {
 
 Spacing         <- (\s / "//" ^ (!\n)* ^ \n)+
 AnyCharacter    <- '.'
-CharacterRange  <= "[" ^ ( [\\] ^ [\\\]sSnNtTwW] / (. ^ "-" ^ .) / .)* ^ "]"
-Escape          <- [\\] ^ [sSnNtTwW."'&!+*\\]
+CharacterRange  <= "[" ^ ( [\\] ^ [\\\]sSnNtT] / (. ^ "-" ^ .) / .)* ^ "]"
+Escape          <- [\\] ^ [sSnNtT."'&!+*\\]
 String          <= '"' ^ (Escape / ! '"')^* ^ '"' /
                    "'" ^ (Escape / ! "'")^* ^ "'"
 Id              <- [a-zA-Z_] ^ [a-zA-Z0-9_]+
