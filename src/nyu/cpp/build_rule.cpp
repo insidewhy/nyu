@@ -1,4 +1,5 @@
 #include <nyu/cpp/build_rule.hpp>
+#include <nyu/error/file_location.hpp>
 
 namespace nyu { namespace cpp {
 
@@ -43,8 +44,7 @@ void build_rule::operator()(rule_type& rule) {
     rule.second.status_ = RuleStatus::NORMAL;
     stream_ << "typedef ";
 
-    chilon::variant_apply(
-        std::get<2>(rule.second.value_).value_, *this);
+    chilon::variant_apply(std::get<2>(rule.second.value_).value_, *this);
 
     grammar_builder_.body_ << '\n' << stream_.str();
     grammar_builder_.body_ << ' ' << rule.first << ";\n";
@@ -58,7 +58,24 @@ void build_rule::operator()(Sequence& sub) {
 }
 
 void build_rule::operator()(Join& sub) {
-    subparser("join");
+    auto& op = std::get<1>(sub.value_);
+    if (op.is<char>()) {
+        subparser("joined");
+    }
+    else {
+        auto& op_str = op.at<chilon::range>();
+        if (op_str == "%+") {
+            subparser("joined_plus");
+        }
+        else if (op_str == "^%") {
+            subparser("joined_lexeme");
+        }
+        else {
+            // throw file_location("join type not allowed at this scope", op_str);
+            subparser("unknown_joined");
+        }
+    }
+
     stream_ << "TODO";
     end_subparser();
 }

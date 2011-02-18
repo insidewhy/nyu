@@ -37,11 +37,11 @@ typedef chpar::joined<
     TODO
 > Id;
 
-typedef chpar::join<
+typedef chpar::joined_plus<
     TODO
 > ScopedId;
 
-typedef chpar::join<
+typedef chpar::joined_plus<
     TODO
 > ScopedRule;
 
@@ -72,7 +72,7 @@ struct Join : simple_node<
 
 struct Joined : simple_node<
     Joined,
-    chpar::join<
+    chpar::unknown_joined<
         TODO
     >
 > {};
@@ -86,7 +86,7 @@ struct Sequence : simple_node<
 
 struct OrderedChoice : simple_node<
     OrderedChoice,
-    chpar::join<
+    chpar::unknown_joined<
         TODO
     >
 > {};

@@ -11,7 +11,7 @@ typedef TODO_rule Id;
 
 typedef TODO_rule ScopedId;
 
-typedef chpar::join<
+typedef chpar::joined_plus<
     TODO
 > ModuleId;
 
