@@ -12,7 +12,9 @@ typedef TODO_rule Id;
 typedef TODO_rule ScopedId;
 
 typedef chpar::many_plus<
-    TODO
+    chpar::char_range<
+        TODO
+    >
 > UnsignedInteger;
 
 typedef chpar::sequence<
@@ -51,8 +53,9 @@ struct Class : simple_node<
     >
 > {};
 
-typedef chpar::choice<
-    TODO
+typedef chpar::unknown_choice<
+    TODO_rule,
+    TODO_rule
 > Grammar;
 
 } } }

@@ -29,6 +29,7 @@ class build_rule::first_node_expr {
                 }
 
                 // TODO: child nodes
+                rule_builder_.print_indent();
                 rule_builder_.stream_ << "TODO";
                 rule_builder_.end_subparser();
             };
@@ -79,7 +80,7 @@ void build_rule::operator()(rule_type& rule) {
 
 void build_rule::operator()(Sequence& sub) {
     subparser("sequence");
-    stream_ << "TODO";
+    print_indent(); stream_ << "TODO";
     end_subparser();
 }
 
@@ -96,19 +97,17 @@ void build_rule::operator()(Join& sub) {
         else if (op_str == "^%") {
             subparser("joined_lexeme");
         }
-        else {
-            // throw file_location("join type not allowed at this scope", op_str);
-            subparser("unknown_joined");
-        }
+        else throw
+            error::file_location("join type not allowed at this scope", op_str);
     }
 
-    stream_ << "TODO";
+    print_indent(); stream_ << "TODO";
     end_subparser();
 }
 
 void build_rule::operator()(Prefix& sub) {
     subparser("unknown_prefix");
-    stream_ << "TODO";
+    print_indent(); stream_ << "TODO";
     end_subparser();
 }
 
@@ -130,36 +129,35 @@ void build_rule::operator()(Suffix& sub) {
     else {
         subparser("unknown_suffix");
     }
-    stream_ << "TODO";
+
+    chilon::variant_apply(std::get<0>(sub.value_), *this);
     end_subparser();
 }
 
 void build_rule::operator()(OrderedChoice& sub) {
-    subparser("choice");
-    stream_ << "TODO";
-    end_subparser();
+    subparser("unknown_choice");
+    nested_parser(sub.value_);
 }
 
 void build_rule::operator()(String& sub) {
     subparser("char_");
-    stream_ << "TODO";
+    print_indent(); stream_ << "TODO";
     end_subparser();
 }
 
 void build_rule::operator()(CharacterRange& sub) {
     subparser("char_range");
-    stream_ << "TODO";
+    print_indent(); stream_ << "TODO";
     end_subparser();
 }
 
 void build_rule::operator()(chilon::range& sub) {
-    subparser("unknown_joined");
-    stream_ << "TODO";
-    end_subparser();
+    // not sure what this is
+    print_indent();
+    stream_ << "TODO_unknown";
 }
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {
-    // todo:
     print_indent();
     stream_ << "TODO_rule";
 }
@@ -170,30 +168,36 @@ void build_rule::operator()(char const sub) {
 }
 
 void build_rule::operator()(Expression& sub) {
-    // todo:
     print_indent();
-    subparser("TODO_expression");
-    end_subparser();
+    stream_ << "TODO_expression";
 }
 
 void build_rule::operator()(Joined& sub) {
     subparser("lexeme");
-    stream_ << "TODO";
-
-    end_subparser();
+    nested_parser(sub.value_);
 }
 
 void build_rule::subparser(char const * const name) {
     print_indent();
-    stream_ << grammar_builder_.namespace_alias() << "::" << name << "<";
+    stream_ << grammar_builder_.namespace_alias() << "::" << name << "<\n";
     ++indent_;
-    print_indent_on_nl();
 }
 
 void build_rule::end_subparser() {
     --indent_;
     print_indent_on_nl();
     stream_ << '>';
+}
+
+template <class T>
+void build_rule::nested_parser(T& sub) {
+    auto it = sub.begin();
+    chilon::variant_apply(*it, *this);
+    for (++it; it != sub.end(); ++it) {
+        stream_ << ",\n";
+        chilon::variant_apply(*it, *this);
+    }
+    end_subparser();
 }
 
 } }

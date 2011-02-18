@@ -58,6 +58,10 @@ class build_rule {
     void operator()(char const sub);
     void operator()(Expression& sub);
     void operator()(Joined& sub);
+
+  private:
+    template <class T>
+    void nested_parser(T& sub);
 };
 
 } }

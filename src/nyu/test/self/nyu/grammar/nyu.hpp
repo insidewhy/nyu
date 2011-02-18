@@ -8,7 +8,7 @@ namespace nyu { namespace grammar { namespace nyu {
 namespace chpar = chilon::parser;
 
 typedef chpar::many_plus<
-    TODO
+    TODO_expression
 > Spacing;
 
 typedef chpar::char_<
@@ -18,23 +18,64 @@ typedef chpar::char_<
 struct CharacterRange : simple_node<
     CharacterRange,
     chpar::lexeme<
-        TODO
+        chpar::char_<
+            TODO
+        >,
+        chpar::many<
+            TODO_expression
+        >,
+        chpar::char_<
+            TODO
+        >
     >
 > {};
 
 typedef chpar::lexeme<
-    TODO
+    chpar::char_range<
+        TODO
+    >,
+    chpar::char_range<
+        TODO
+    >
 > Escape;
 
 struct String : simple_node<
     String,
-    chpar::choice<
-        TODO
+    chpar::unknown_choice<
+        chpar::lexeme<
+            chpar::char_<
+                TODO
+            >,
+            chpar::unknown_suffix<
+                TODO_expression
+            >,
+            chpar::char_<
+                TODO
+            >
+        >,
+        chpar::lexeme<
+            chpar::char_<
+                TODO
+            >,
+            chpar::unknown_suffix<
+                TODO_expression
+            >,
+            chpar::char_<
+                TODO
+            >
+        >
     >
 > {};
 
 typedef chpar::lexeme<
-    TODO
+    chpar::char_range<
+        TODO
+    >,
+    chpar::many_plus<
+        chpar::char_range<
+            TODO
+        >
+    >
 > Id;
 
 typedef chpar::joined_plus<
@@ -45,8 +86,17 @@ typedef chpar::joined_plus<
     TODO
 > ScopedRule;
 
-typedef chpar::choice<
-    TODO
+typedef chpar::unknown_choice<
+    TODO_rule,
+    TODO_rule,
+    TODO_rule,
+    TODO_rule,
+    chpar::sequence<
+        TODO
+    >,
+    chpar::sequence<
+        TODO
+    >
 > Primary;
 
 struct Suffix : simple_node<
@@ -80,7 +130,7 @@ struct Joined : simple_node<
 struct Sequence : simple_node<
     Sequence,
     chpar::unknown_suffix<
-        TODO
+        TODO_rule
     >
 > {};
 
@@ -104,7 +154,7 @@ struct Rule : simple_node<
 > {};
 
 typedef chpar::many_plus<
-    TODO
+    TODO_rule
 > Grammar;
 
 } } }
