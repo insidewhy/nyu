@@ -8,7 +8,20 @@ namespace nyu { namespace grammar { namespace nyu {
 namespace chpar = chilon::parser;
 
 typedef chpar::many_plus<
-    TODO_expression
+    chpar::unknown_choice<
+        TODO_escape_sequence,
+        chpar::lexeme<
+            chpar::char_<
+                TODO
+            >,
+            chpar::many<
+                chpar::unknown_prefix<
+                    TODO
+                >
+            >,
+            TODO_escape_sequence
+        >
+    >
 > Spacing;
 
 typedef chpar::char_<
@@ -22,7 +35,24 @@ struct CharacterRange : simple_node<
             TODO
         >,
         chpar::many<
-            TODO_expression
+            chpar::unknown_choice<
+                chpar::lexeme<
+                    chpar::char_range<
+                        TODO
+                    >,
+                    chpar::char_range<
+                        TODO
+                    >
+                >,
+                chpar::lexeme<
+                    chpar::char_<'.'>,
+                    chpar::char_<
+                        TODO
+                    >,
+                    chpar::char_<'.'>
+                >,
+                chpar::char_<'.'>
+            >
         >,
         chpar::char_<
             TODO
@@ -47,7 +77,12 @@ struct String : simple_node<
                 TODO
             >,
             chpar::unknown_suffix<
-                TODO_expression
+                chpar::unknown_choice<
+                    TODO_rule,
+                    chpar::unknown_prefix<
+                        TODO
+                    >
+                >
             >,
             chpar::char_<
                 TODO
@@ -58,7 +93,12 @@ struct String : simple_node<
                 TODO
             >,
             chpar::unknown_suffix<
-                TODO_expression
+                chpar::unknown_choice<
+                    TODO_rule,
+                    chpar::unknown_prefix<
+                        TODO
+                    >
+                >
             >,
             chpar::char_<
                 TODO

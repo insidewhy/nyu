@@ -152,9 +152,8 @@ void build_rule::operator()(CharacterRange& sub) {
 }
 
 void build_rule::operator()(chilon::range& sub) {
-    // not sure what this is
     print_indent();
-    stream_ << "TODO_unknown";
+    stream_ << "TODO_escape_sequence";
 }
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {
@@ -163,13 +162,13 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
 }
 
 void build_rule::operator()(char const sub) {
-    subparser("char_");
-    stream_ << '\'' << sub << '\'' << ">";
+    print_indent();
+    stream_ << grammar_builder_.namespace_alias() << "::"
+            << "char_<\'" << sub << '\'' << ">";
 }
 
 void build_rule::operator()(Expression& sub) {
-    print_indent();
-    stream_ << "TODO_expression";
+    chilon::variant_apply(sub.value_, *this);
 }
 
 void build_rule::operator()(Joined& sub) {
