@@ -28,9 +28,9 @@ class build_rule::first_node_expr {
                     rule_builder_.subparser("tree_joined_lexeme");
                 }
 
-                // TODO: child nodes
-                rule_builder_.print_indent();
-                rule_builder_.stream_ << "TODO";
+                chilon::variant_apply(std::get<2>(sub.value_), rule_builder_);
+                rule_builder_.stream_ << ",\n";
+                chilon::variant_apply(std::get<0>(sub.value_), rule_builder_);
                 rule_builder_.end_subparser();
             };
         }
@@ -102,7 +102,9 @@ void build_rule::operator()(Join& sub) {
             "join type not allowed at this scope", op_str);
     }
 
-    print_indent(); stream_ << "TODO";
+    chilon::variant_apply(std::get<2>(sub.value_), *this);
+    stream_ << ",\n";
+    chilon::variant_apply(std::get<0>(sub.value_), *this);
     end_subparser();
 }
 

@@ -178,7 +178,11 @@ struct Join : simple_node<
 struct Joined : simple_node<
     Joined,
     chpar::tree_joined<
-        TODO
+        chpar::char_<'^'>,
+        chpar::choice<
+            TODO_rule,
+            TODO_rule
+        >
     >
 > {};
 
@@ -192,7 +196,8 @@ struct Sequence : simple_node<
 struct OrderedChoice : simple_node<
     OrderedChoice,
     chpar::tree_joined<
-        TODO
+        chpar::char_<'/'>,
+        TODO_rule
     >
 > {};
 
