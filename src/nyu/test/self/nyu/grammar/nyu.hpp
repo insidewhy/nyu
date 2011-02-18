@@ -8,15 +8,13 @@ namespace nyu { namespace grammar { namespace nyu {
 namespace chpar = chilon::parser;
 
 typedef chpar::many_plus<
-    chpar::unknown_choice<
+    chpar::TODO_choice<
         TODO_escape_sequence,
         chpar::lexeme<
-            chpar::char_<
-                TODO
-            >,
+            chpar::char_<'/', '/'>,
             chpar::many<
-                chpar::unknown_prefix<
-                    TODO
+                chpar::TODO_prefix<
+                    TODO_escape_sequence
                 >
             >,
             TODO_escape_sequence
@@ -24,18 +22,14 @@ typedef chpar::many_plus<
     >
 > Spacing;
 
-typedef chpar::char_<
-    TODO
-> AnyCharacter;
+typedef chpar::char_<'.'> AnyCharacter;
 
 struct CharacterRange : simple_node<
     CharacterRange,
     chpar::lexeme<
-        chpar::char_<
-            TODO
-        >,
+        chpar::char_<'['>,
         chpar::many<
-            chpar::unknown_choice<
+            chpar::TODO_choice<
                 chpar::lexeme<
                     chpar::char_range<
                         TODO
@@ -46,17 +40,13 @@ struct CharacterRange : simple_node<
                 >,
                 chpar::lexeme<
                     chpar::char_<'.'>,
-                    chpar::char_<
-                        TODO
-                    >,
+                    chpar::char_<'-'>,
                     chpar::char_<'.'>
                 >,
                 chpar::char_<'.'>
             >
         >,
-        chpar::char_<
-            TODO
-        >
+        chpar::char_<']'>
     >
 > {};
 
@@ -71,38 +61,30 @@ typedef chpar::lexeme<
 
 struct String : simple_node<
     String,
-    chpar::unknown_choice<
+    chpar::TODO_choice<
         chpar::lexeme<
-            chpar::char_<
-                TODO
-            >,
-            chpar::unknown_suffix<
-                chpar::unknown_choice<
+            chpar::char_<'"'>,
+            chpar::TODO_suffix<
+                chpar::TODO_choice<
                     TODO_rule,
-                    chpar::unknown_prefix<
-                        TODO
+                    chpar::TODO_prefix<
+                        chpar::char_<'"'>
                     >
                 >
             >,
-            chpar::char_<
-                TODO
-            >
+            chpar::char_<'"'>
         >,
         chpar::lexeme<
-            chpar::char_<
-                TODO
-            >,
-            chpar::unknown_suffix<
-                chpar::unknown_choice<
+            chpar::char_<'\''>,
+            chpar::TODO_suffix<
+                chpar::TODO_choice<
                     TODO_rule,
-                    chpar::unknown_prefix<
-                        TODO
+                    chpar::TODO_prefix<
+                        chpar::char_<'\''>
                     >
                 >
             >,
-            chpar::char_<
-                TODO
-            >
+            chpar::char_<'\''>
         >
     >
 > {};
@@ -126,7 +108,7 @@ typedef chpar::joined_plus<
     TODO
 > ScopedRule;
 
-typedef chpar::unknown_choice<
+typedef chpar::TODO_choice<
     TODO_rule,
     TODO_rule,
     TODO_rule,
@@ -169,7 +151,7 @@ struct Joined : simple_node<
 
 struct Sequence : simple_node<
     Sequence,
-    chpar::unknown_suffix<
+    chpar::TODO_suffix<
         TODO_rule
     >
 > {};

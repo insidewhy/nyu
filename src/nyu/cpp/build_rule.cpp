@@ -106,8 +106,8 @@ void build_rule::operator()(Join& sub) {
 }
 
 void build_rule::operator()(Prefix& sub) {
-    subparser("unknown_prefix");
-    print_indent(); stream_ << "TODO";
+    subparser("TODO_prefix");
+    chilon::variant_apply(std::get<1>(sub.value_), *this);
     end_subparser();
 }
 
@@ -127,7 +127,7 @@ void build_rule::operator()(Suffix& sub) {
         }
     }
     else {
-        subparser("unknown_suffix");
+        subparser("TODO_suffix");
     }
 
     chilon::variant_apply(std::get<0>(sub.value_), *this);
@@ -135,14 +135,30 @@ void build_rule::operator()(Suffix& sub) {
 }
 
 void build_rule::operator()(OrderedChoice& sub) {
-    subparser("unknown_choice");
+    subparser("TODO_choice");
     nested_parser(sub.value_);
 }
 
+namespace {
+    template <class S>
+    inline void print_char(S& stream, char const c) {
+        stream << '\'';
+        if ('\'' == c || '\\' == c) stream << '\\';
+        stream << c << '\'';
+    }
+}
+
 void build_rule::operator()(String& sub) {
-    subparser("char_");
-    print_indent(); stream_ << "TODO";
-    end_subparser();
+    print_indent();
+    stream_ << grammar_builder_.namespace_alias() << "::char_<";
+    auto it = sub.value_.begin();
+    print_char(stream_, *it);
+    for (++it; it != sub.value_.end(); ++it) {
+        stream_ << ", ";
+        print_char(stream_, *it);
+    }
+
+    stream_ << '>';
 }
 
 void build_rule::operator()(CharacterRange& sub) {
@@ -164,7 +180,9 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
 void build_rule::operator()(char const sub) {
     print_indent();
     stream_ << grammar_builder_.namespace_alias() << "::"
-            << "char_<\'" << sub << '\'' << ">";
+            << "char_<";
+    print_char(stream_, sub);
+    stream_ << '>';
 }
 
 void build_rule::operator()(Expression& sub) {

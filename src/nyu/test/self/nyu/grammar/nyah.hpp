@@ -53,7 +53,7 @@ struct Class : simple_node<
     >
 > {};
 
-typedef chpar::unknown_choice<
+typedef chpar::TODO_choice<
     TODO_rule,
     TODO_rule
 > Grammar;
