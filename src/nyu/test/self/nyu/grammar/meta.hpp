@@ -21,7 +21,7 @@ typedef chpar::sequence<
     ModuleId
 > ModuleDefinition;
 
-struct NyuGrammar : chpar::simple_node<
+struct NyuGrammar : WithStatus, chpar::simple_node<
     NyuGrammar,
     chpar::sequence<
         chpar::char_<'@', 'g', 'r', 'a', 'm', 'm', 'a', 'r'>,
@@ -38,7 +38,7 @@ struct NyuGrammar : chpar::simple_node<
     >
 > {};
 
-struct Module : chpar::simple_node<
+struct Module : WithStatus, chpar::simple_node<
     Module,
     chpar::sequence<
         chpar::key_plus<

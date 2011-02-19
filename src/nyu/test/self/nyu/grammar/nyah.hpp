@@ -70,7 +70,7 @@ struct AssignedAttribute : chpar::simple_node<
     >
 > {};
 
-struct Class : chpar::simple_node<
+struct Class : WithStatus, chpar::simple_node<
     Class,
     chpar::sequence<
         chpar::char_<'c', 'l', 'a', 's', 's'>,

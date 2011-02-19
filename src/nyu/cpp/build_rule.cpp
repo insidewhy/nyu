@@ -1,6 +1,8 @@
 #include <nyu/cpp/build_rule.hpp>
 #include <nyu/error/file_location.hpp>
 
+#include <chilon/print_join.hpp>
+
 namespace nyu { namespace cpp {
 
 class build_rule::first_node_expr {
@@ -53,11 +55,23 @@ class build_rule::first_node_expr {
 };
 
 void build_rule::operator()(rule_type& rule) {
-    // todo: handle parent rule
-
     if ('=' == std::get<1>(rule.second.value_)) {
-        stream_ << "struct " << rule.first << " : "
-                << grammar_builder_.namespace_alias() << "::simple_node<\n";
+        stream_ << "struct " << rule.first << " : ";
+
+        auto& parent_rules = std::get<0>(rule.second.value_);
+        if (! parent_rules.empty()) {
+            // TODO: validate parent rule exists
+            for (auto it = parent_rules.begin(); it != parent_rules.end(); ++it) {
+                auto rule_it = it->begin();
+                stream_ << *rule_it;
+                for (++rule_it; rule_it != it->end(); ++rule_it) {
+                    stream_ << "::" << *rule_it;
+                }
+                stream_ << ", ";
+            }
+        }
+
+        stream_ << grammar_builder_.namespace_alias() << "::simple_node<\n";
         ++indent_;
         print_indent();
         stream_ << rule.first << ",\n";
@@ -70,6 +84,8 @@ void build_rule::operator()(rule_type& rule) {
         grammar_builder_.body_ << "\n> {};\n";
         return;
     }
+    // todo: else { handle parent rule }
+
 
     rule.second.status_ = RuleStatus::NORMAL;
     stream_ << "typedef ";

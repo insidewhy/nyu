@@ -7,39 +7,94 @@
 namespace nyu { namespace grammar { namespace nyah {
 
 namespace chpar = chilon::parser;
-using namespace chilon::parser;
-using namespace chilon::parser::ascii;
 
 using nyu::Spacing;
 using nyu::Id;
 using nyu::ScopedId;
 
-typedef many_plus<char_range<'0','9'>> UnsignedInteger;
+// generated from here below
+typedef chpar::many_plus<
+    chpar::char_range<'0','9'>
+> UnsignedInteger;
 
-typedef sequence<
-    key<Id>, optional<char_<'='>, UnsignedInteger>> EnumEntry;
+typedef chpar::sequence<
+    chpar::key<
+        Id
+    >,
+    chpar::optional<
+        chpar::sequence<
+            chpar::char_<'='>,
+            UnsignedInteger
+        >
+    >
+> EnumEntry;
 
-struct Enum : simple_node<Enum,
-    char_<e,n,u,m>, key<Id>, char_<'{'>,
-        joined<char_<','>, EnumEntry>,
-    char_<'}'> >
-{};
+struct Enum : chpar::simple_node<
+    Enum,
+    chpar::sequence<
+        chpar::char_<'e', 'n', 'u', 'm'>,
+        chpar::key<
+            Id
+        >,
+        chpar::char_<'{'>,
+        chpar::joined<
+            chpar::char_<','>,
+            EnumEntry
+        >,
+        chpar::char_<'}'>
+    >
+> {};
 
-typedef ScopedId Type;
 typedef ScopedId AssignExpression;
 
-struct Attribute : simple_node<Attribute,
-    key<Id>, char_<':'>, Type> {};
+typedef ScopedId Type;
 
-struct AssignedAttribute : simple_node<AssignedAttribute,
-    key<Id>, char_<':'>, char_<'='>, AssignExpression> {};
+struct Attribute : chpar::simple_node<
+    Attribute,
+    chpar::sequence<
+        chpar::key<
+            Id
+        >,
+        chpar::char_<':'>,
+        Type
+    >
+> {};
 
-struct Class : WithStatus, simple_node<Class,
-    char_<c,l,a,s,s>, key<Id>, char_<'{'>,
-    many<choice<Attribute, AssignedAttribute, Enum>>,
-    char_<'}'> > {};
+struct AssignedAttribute : chpar::simple_node<
+    AssignedAttribute,
+    chpar::sequence<
+        chpar::key<
+            Id
+        >,
+        chpar::char_<':'>,
+        chpar::char_<'='>,
+        AssignExpression
+    >
+> {};
 
-typedef choice<Class, Enum>  Grammar;
+struct Class : WithStatus, chpar::simple_node<
+    Class,
+    chpar::sequence<
+        chpar::char_<'c', 'l', 'a', 's', 's'>,
+        chpar::key<
+            Id
+        >,
+        chpar::char_<'{'>,
+        chpar::many<
+            chpar::choice<
+                Attribute,
+                AssignedAttribute,
+                Enum
+            >
+        >,
+        chpar::char_<'}'>
+    >
+> {};
+
+typedef chpar::choice<
+    Class,
+    Enum
+> Grammar;
 
 } } }
 #endif

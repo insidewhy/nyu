@@ -229,7 +229,7 @@ struct Expression : chpar::simple_node<
     OrderedChoice
 > {};
 
-struct Rule : chpar::simple_node<
+struct Rule : NyuRule, chpar::simple_node<
     Rule,
     chpar::sequence<
         chpar::key<
