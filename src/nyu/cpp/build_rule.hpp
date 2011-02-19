@@ -60,6 +60,7 @@ class build_rule {
     void operator()(char const sub);
     void operator()(Expression& sub);
     void operator()(Joined& sub);
+    void operator()(std::tuple<char, char> const& char_range);
 
   private:
     template <class T>

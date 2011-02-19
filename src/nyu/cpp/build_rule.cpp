@@ -242,9 +242,7 @@ void build_rule::operator()(CharacterRange& sub) {
     }
 
     subparser("choice");
-    print_indent(); stream_ << "TODO_char_range";
-    end_subparser();
-
+    nested_parser(sub.value_);
 }
 
 void build_rule::operator()(chilon::range& sub) {
@@ -308,6 +306,14 @@ void build_rule::operator()(Expression& sub) {
 void build_rule::operator()(Joined& sub) {
     subparser("lexeme");
     nested_parser(sub.value_);
+}
+
+void build_rule::operator()(std::tuple<char, char> const& char_range) {
+    line_subparser("char_range");
+    print_char(stream_, std::get<0>(char_range));
+    stream_ << ',';
+    print_char(stream_, std::get<1>(char_range));
+    stream_ << '>';
 }
 
 inline void build_rule::line_subparser(char const * const name) {

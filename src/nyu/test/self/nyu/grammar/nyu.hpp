@@ -32,10 +32,17 @@ struct CharacterRange : simple_node<
             chpar::choice<
                 chpar::lexeme<
                     chpar::choice<
-                        TODO_char_range
+                        chpar::char_<'\'>
                     >,
                     chpar::choice<
-                        TODO_char_range
+                        chpar::char_<'\'>,
+                        chpar::char_<']'>,
+                        chpar::char_<'s'>,
+                        chpar::char_<'S'>,
+                        chpar::char_<'n'>,
+                        chpar::char_<'N'>,
+                        chpar::char_<'t'>,
+                        chpar::char_<'T'>
                     >
                 >,
                 chpar::lexeme<
@@ -52,10 +59,23 @@ struct CharacterRange : simple_node<
 
 typedef chpar::lexeme<
     chpar::choice<
-        TODO_char_range
+        chpar::char_<'\'>
     >,
     chpar::choice<
-        TODO_char_range
+        chpar::char_<'s'>,
+        chpar::char_<'S'>,
+        chpar::char_<'n'>,
+        chpar::char_<'N'>,
+        chpar::char_<'t'>,
+        chpar::char_<'T'>,
+        chpar::char_<'.'>,
+        chpar::char_<'"'>,
+        chpar::char_<'\''>,
+        chpar::char_<'&'>,
+        chpar::char_<'!'>,
+        chpar::char_<'+'>,
+        chpar::char_<'*'>,
+        chpar::char_<'\'>
     >
 > Escape;
 
@@ -91,11 +111,16 @@ struct String : simple_node<
 
 typedef chpar::lexeme<
     chpar::choice<
-        TODO_char_range
+        chpar::char_range<'a','z'>,
+        chpar::char_range<'A','Z'>,
+        chpar::char_<'_'>
     >,
     chpar::many_plus<
         chpar::choice<
-            TODO_char_range
+            chpar::char_range<'a','z'>,
+            chpar::char_range<'A','Z'>,
+            chpar::char_range<'0','9'>,
+            chpar::char_<'_'>
         >
     >
 > Id;
