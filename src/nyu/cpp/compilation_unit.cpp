@@ -30,11 +30,11 @@ void compilation_unit::close() {
 }
 
 void compilation_unit::build_grammar_scope(grammar_type& grammar,
-                                          module_type&  module)
+                                           module_type&  module)
 {
     if (grammar::Status::PROCESSING == grammar.second.status_)
         throw error::dep_cycle(grammar.first);
-    else if (grammar::Status::PROCESSED == grammar.second.status_)
+    else if (grammar::Status::UNKNOWN != grammar.second.status_)
         return;
 
     cpp::build_grammar grammar_builder(builder_, module, grammar);
