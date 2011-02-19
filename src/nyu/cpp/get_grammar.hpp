@@ -11,7 +11,7 @@
 
 namespace nyu { namespace cpp {
 
-class scope_ref_cache;
+class compilation_unit;
 
 class get_grammar : public search_ast {
     struct leaf_dep;
@@ -30,7 +30,7 @@ class get_grammar : public search_ast {
     get_grammar(scope_type const& search)
       : search_(search.begin(), search.end()) {}
 
-    void operator()(scope_ref_cache& scope);
+    void operator()(compilation_unit& scope);
 
     grammar_type&  grammar()      { return *grammar_; }
     module_type&   module() const { return *module_; }

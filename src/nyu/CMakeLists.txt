@@ -15,7 +15,7 @@ add_definitions(-Wall)
 add_executable(nyu nyu.cpp options.cpp
                cpp/build_class.cpp cpp/output_file.cpp cpp/builder.cpp
                cpp/build_module.cpp cpp/get_type_and_value.cpp
-               cpp/scope_ref_cache.cpp cpp/build_grammar.cpp
+               cpp/compilation_unit.cpp cpp/build_grammar.cpp
                cpp/get_grammar.cpp cpp/build_rule.cpp)
 
 install(TARGETS nyu

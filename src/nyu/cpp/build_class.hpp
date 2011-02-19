@@ -1,11 +1,11 @@
 #ifndef NYU_CPP_BUILD_CLASS_HPP
 #define NYU_CPP_BUILD_CLASS_HPP
 
-#include <nyu/cpp/scope_ref_cache.hpp>
+#include <nyu/cpp/compilation_unit.hpp>
 
 namespace nyu { namespace cpp {
 
-class build_class : public scope_ref_cache {
+class build_class : public compilation_unit {
     class_type&    class_;
 
     std::vector<
@@ -18,7 +18,7 @@ class build_class : public scope_ref_cache {
 
   public:
     build_class(builder& builder, module_type& module, class_type& clss)
-      : scope_ref_cache(builder, module), class_(clss)
+      : compilation_unit(builder, module), class_(clss)
     { open(); }
 
     void operator()(enum_type& enm) { output_file::operator()(enm, 1); }

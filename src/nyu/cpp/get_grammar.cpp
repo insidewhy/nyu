@@ -1,5 +1,5 @@
 #include <nyu/cpp/get_grammar.hpp>
-#include <nyu/cpp/scope_ref_cache.hpp>
+#include <nyu/cpp/compilation_unit.hpp>
 
 #include <nyu/error/file_location.hpp>
 
@@ -25,7 +25,7 @@ struct get_grammar::leaf_dep {
     }
 };
 
-void get_grammar::operator()(scope_ref_cache& scope) {
+void get_grammar::operator()(compilation_unit& scope) {
     if (1 == search_.size()) {
         // todo: search in cached includes
 

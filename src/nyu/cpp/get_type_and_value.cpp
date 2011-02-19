@@ -1,5 +1,5 @@
 #include <nyu/cpp/get_type_and_value.hpp>
-#include <nyu/cpp/scope_ref_cache.hpp>
+#include <nyu/cpp/compilation_unit.hpp>
 
 #include <nyu/error/file_location.hpp>
 
@@ -7,7 +7,7 @@ namespace nyu { namespace cpp {
 
 struct get_type_and_value::module_dep {
     get_type_and_value&               resolver_;
-    scope_ref_cache&                  scope_cache_;
+    compilation_unit&                  scope_cache_;
     get_type_and_value::module_type&  module_;
 
     module_dep(decltype(resolver_)&    resolver,
@@ -24,7 +24,7 @@ struct get_type_and_value::module_dep {
     }
 };
 
-void get_type_and_value::operator()(class_type& clss, scope_ref_cache& scope) {
+void get_type_and_value::operator()(class_type& clss, compilation_unit& scope) {
     auto& class_scope = clss.second.value_;
 
     // search within current class

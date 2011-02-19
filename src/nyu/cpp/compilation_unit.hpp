@@ -1,5 +1,5 @@
-#ifndef NYU_CPP_SCOPE_REF_CACHE_HPP
-#define NYU_CPP_SCOPE_REF_CACHE_HPP
+#ifndef NYU_CPP_COMPILATION_UNIT_HPP
+#define NYU_CPP_COMPILATION_UNIT_HPP
 
 #include <nyu/cpp/output_file.hpp>
 
@@ -23,7 +23,7 @@ namespace cpp {
 
 class search_ast;
 
-class scope_ref_cache : public output_file {
+class compilation_unit : public output_file {
     friend class search_ast;
 
     typedef std::vector<chilon::range> scope_type;
@@ -55,7 +55,7 @@ class scope_ref_cache : public output_file {
 
     void close();
 
-    scope_ref_cache(builder& builder, decltype(module_)& module)
+    compilation_unit(builder& builder, decltype(module_)& module)
       : output_file(builder), module_(module) {}
 };
 

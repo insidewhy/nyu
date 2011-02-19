@@ -1,4 +1,4 @@
-#include <nyu/cpp/scope_ref_cache.hpp>
+#include <nyu/cpp/compilation_unit.hpp>
 #include <nyu/cpp/build_grammar.hpp>
 #include <nyu/error/dep_cycle.hpp>
 
@@ -18,7 +18,7 @@ struct print_include {
     print_include(decltype(stream_)& stream) : stream_(stream) {}
 };
 
-void scope_ref_cache::close() {
+void compilation_unit::close() {
     if (type_ref_map_.empty()) return;
 
     stream_ << '\n';
@@ -29,7 +29,7 @@ void scope_ref_cache::close() {
     }
 }
 
-void scope_ref_cache::build_grammar_scope(grammar_type& grammar,
+void compilation_unit::build_grammar_scope(grammar_type& grammar,
                                           module_type&  module)
 {
     if (grammar::Status::PROCESSING == grammar.second.status_)

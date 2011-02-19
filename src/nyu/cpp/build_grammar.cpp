@@ -7,7 +7,7 @@
 namespace nyu { namespace cpp {
 
 void build_grammar::close() {
-    scope_ref_cache::close();
+    compilation_unit::close();
 
     if (! module_.first.empty())
         open_namespace(module_.first, grammar_.first);

@@ -1,13 +1,13 @@
 #ifndef NYU_CPP_BUILD_GRAMMAR_HPP
 #define NYU_CPP_BUILD_GRAMMAR_HPP
 
-#include <nyu/cpp/scope_ref_cache.hpp>
+#include <nyu/cpp/compilation_unit.hpp>
 
 namespace nyu { namespace cpp {
 
 class build_rule;
 
-class build_grammar : public scope_ref_cache {
+class build_grammar : public compilation_unit {
     friend class build_rule;
     typedef typename parser::stored<grammar::nyu::Rule>::type  rule_type;
 
@@ -20,7 +20,7 @@ class build_grammar : public scope_ref_cache {
 
   public:
     build_grammar(builder& builder, module_type& module, grammar_type& grmmr)
-      : scope_ref_cache(builder, module), grammar_(grmmr), parent_grammar_(0)
+      : compilation_unit(builder, module), grammar_(grmmr), parent_grammar_(0)
     { open(); }
 
     void close();

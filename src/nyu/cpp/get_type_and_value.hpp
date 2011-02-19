@@ -11,7 +11,7 @@
 
 namespace nyu { namespace cpp {
 
-class scope_ref_cache;
+class compilation_unit;
 
 // splits something like namespace_.class_.colors_enum_.RED
 // into namespace_.class_.colors_enum_ and RED
@@ -33,7 +33,7 @@ class get_type_and_value : public search_ast {
     std::string type() { return type_.str(); }
     std::string value() { return value_.str(); }
 
-    void operator()(class_type& clss, scope_ref_cache& scope);
+    void operator()(class_type& clss, compilation_unit& scope);
 
     template <class T>
     void operator()(T& t) {

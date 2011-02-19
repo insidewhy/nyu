@@ -2,14 +2,14 @@
 #define NYU_CPP_BUILD_MODULE_HPP
 
 #include <nyu/cpp/builder.hpp>
-#include <nyu/cpp/scope_ref_cache.hpp>
+#include <nyu/cpp/compilation_unit.hpp>
 
 namespace nyu { namespace cpp {
 
-struct build_module : scope_ref_cache {
+struct build_module : compilation_unit {
 
     build_module(builder& builder, module_type& module)
-      : scope_ref_cache(builder, module) {}
+      : compilation_unit(builder, module) {}
 
     template <class T>
     void subnamespace(T& t) {}
