@@ -6,6 +6,7 @@
 
 namespace nyu { namespace grammar { namespace nyah {
 
+namespace chpar = chilon::parser;
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;
 

@@ -19,9 +19,11 @@ typedef chpar::sequence<
     chpar::key<
         Id
     >,
-    chpar::sequence<
-        chpar::char_<'='>,
-        UnsignedInteger
+    chpar::optional<
+        chpar::sequence<
+            chpar::char_<'='>,
+            UnsignedInteger
+        >
     >
 > EnumEntry;
 

@@ -14,7 +14,7 @@ ScopedId <- nyu::ScopedId
 
 UnsignedInteger <- [0-9]+
 
-EnumEntry  <- #Id ('=' UnsignedInteger)
+EnumEntry  <- #Id ('=' UnsignedInteger)?
 Enum       <= 'enum' #Id '{' EnumEntry* '}'
 
 // todo: add more to these

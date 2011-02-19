@@ -166,10 +166,13 @@ module {
                         '#'
                         [ "Id" ]
                     )
-                    Expression: Sequence: [
-                        String: "="
-                        [ "UnsignedInteger" ]
-                    ]
+                    Suffix: (
+                        Expression: Sequence: [
+                            String: "="
+                            [ "UnsignedInteger" ]
+                        ]
+                        '?'
+                    )
                 ]
             )
             "Enum" -> Rule: (
