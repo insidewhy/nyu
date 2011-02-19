@@ -24,7 +24,7 @@ typedef chpar::many_plus<
 
 typedef chpar::char_<'.'> AnyCharacter;
 
-struct CharacterRange : simple_node<
+struct CharacterRange : chpar::simple_node<
     CharacterRange,
     chpar::lexeme<
         chpar::char_<'['>,
@@ -79,7 +79,7 @@ typedef chpar::lexeme<
     >
 > Escape;
 
-struct String : simple_node<
+struct String : chpar::simple_node<
     String,
     chpar::choice<
         chpar::lexeme<
@@ -153,7 +153,7 @@ typedef chpar::choice<
     >
 > Primary;
 
-struct Suffix : simple_node<
+struct Suffix : chpar::simple_node<
     Suffix,
     chpar::sequence<
         Primary,
@@ -169,7 +169,7 @@ struct Suffix : simple_node<
     >
 > {};
 
-struct Prefix : simple_node<
+struct Prefix : chpar::simple_node<
     Prefix,
     chpar::sequence<
         chpar::TODO_suffix_|?<
@@ -183,7 +183,7 @@ struct Prefix : simple_node<
     >
 > {};
 
-struct Join : simple_node<
+struct Join : chpar::simple_node<
     Join,
     chpar::sequence<
         Prefix,
@@ -198,7 +198,7 @@ struct Join : simple_node<
     >
 > {};
 
-struct Joined : simple_node<
+struct Joined : chpar::simple_node<
     Joined,
     chpar::tree_joined<
         chpar::char_<'^'>,
@@ -209,14 +209,14 @@ struct Joined : simple_node<
     >
 > {};
 
-struct Sequence : simple_node<
+struct Sequence : chpar::simple_node<
     Sequence,
     chpar::TODO_suffix_|+<
         Joined
     >
 > {};
 
-struct OrderedChoice : simple_node<
+struct OrderedChoice : chpar::simple_node<
     OrderedChoice,
     chpar::tree_joined<
         chpar::char_<'/'>,
@@ -224,12 +224,12 @@ struct OrderedChoice : simple_node<
     >
 > {};
 
-struct Expression : simple_node<
+struct Expression : chpar::simple_node<
     Expression,
     OrderedChoice
 > {};
 
-struct Rule : simple_node<
+struct Rule : chpar::simple_node<
     Rule,
     chpar::sequence<
         chpar::key<

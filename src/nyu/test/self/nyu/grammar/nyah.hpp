@@ -27,7 +27,7 @@ typedef chpar::sequence<
     >
 > EnumEntry;
 
-struct Enum : simple_node<
+struct Enum : chpar::simple_node<
     Enum,
     chpar::sequence<
         chpar::char_<'e', 'n', 'u', 'm'>,
@@ -47,7 +47,7 @@ typedef ScopedId AssignExpression;
 
 typedef ScopedId Type;
 
-struct Attribute : simple_node<
+struct Attribute : chpar::simple_node<
     Attribute,
     chpar::sequence<
         chpar::key<
@@ -58,7 +58,7 @@ struct Attribute : simple_node<
     >
 > {};
 
-struct AssignedAttribute : simple_node<
+struct AssignedAttribute : chpar::simple_node<
     AssignedAttribute,
     chpar::sequence<
         chpar::key<
@@ -70,7 +70,7 @@ struct AssignedAttribute : simple_node<
     >
 > {};
 
-struct Class : simple_node<
+struct Class : chpar::simple_node<
     Class,
     chpar::sequence<
         chpar::char_<'c', 'l', 'a', 's', 's'>,
