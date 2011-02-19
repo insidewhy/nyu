@@ -12,9 +12,7 @@ typedef TODO_parent_rule Id;
 typedef TODO_parent_rule ScopedId;
 
 typedef chpar::many_plus<
-    chpar::char_range<
-        TODO
-    >
+    chpar::char_range<'0','9'>
 > UnsignedInteger;
 
 typedef chpar::sequence<

@@ -28,8 +28,10 @@ class build_rule {
     int                indent_;
     std::stringstream  stream_;
 
-    void subparser(char const * const name);
-    void end_subparser();
+    // a small subparser that will be on a single line
+    inline void line_subparser(char const * const name);
+    inline void subparser(char const * const name);
+    inline void end_subparser();
 
     void print_indent() {
         for (int i = 0; i < indent_; ++i) stream_ << NYU_INDENT_STRING;
@@ -61,7 +63,7 @@ class build_rule {
 
   private:
     template <class T>
-    void nested_parser(T& sub);
+    inline void nested_parser(T& sub);
 };
 
 } }

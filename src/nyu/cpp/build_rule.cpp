@@ -182,8 +182,7 @@ namespace {
 }
 
 void build_rule::operator()(String& sub) {
-    print_indent();
-    stream_ << grammar_builder_.namespace_alias() << "::char_<";
+    line_subparser("char_");
     auto it = sub.value_.begin();
     print_char(stream_, *it);
     for (++it; it != sub.value_.end(); ++it) {
@@ -195,14 +194,61 @@ void build_rule::operator()(String& sub) {
 }
 
 void build_rule::operator()(CharacterRange& sub) {
-    subparser("char_range");
-    print_indent(); stream_ << "TODO";
+    auto it = sub.value_.begin();
+
+    if (it->is<std::tuple<char, char>>()) {
+        for (++it; it != sub.value_.end(); ++it) {
+            if (! it->is<std::tuple<char, char>>()) break;
+        }
+
+        if (it == sub.value_.end()) {
+            line_subparser("char_range");
+
+            it = sub.value_.begin();
+            auto& tup = it->at<std::tuple<char, char>>();
+            print_char(stream_, std::get<0>(tup));
+            stream_ << ',';
+            print_char(stream_, std::get<1>(tup));
+
+            for (++it; it != sub.value_.end(); ++it) {
+                stream_ << ", ";
+
+                auto& tup = it->at<std::tuple<char, char>>();
+                print_char(stream_, std::get<0>(tup));
+                stream_ << ',';
+                print_char(stream_, std::get<1>(tup));
+            }
+
+            stream_ << '>';
+            return;
+        }
+    }
+    else if (it->is<char>()) {
+        for (++it; it != sub.value_.end(); ++it) {
+            if (! it->is<char>()) break;
+        }
+
+        if (it == sub.value_.end()) {
+            line_subparser("char_from");
+            it = sub.value_.begin();
+            print_char(stream_, it->at<char>());
+            for (++it; it != sub.value_.end(); ++it) {
+                stream_ << ", ";
+                print_char(stream_, it->at<char>());
+            }
+            stream_ << '>';
+            return;
+        }
+    }
+
+    subparser("choice");
+    print_indent(); stream_ << "TODO_char_range";
     end_subparser();
+
 }
 
 void build_rule::operator()(chilon::range& sub) {
     print_indent();
-
     stream_ << grammar_builder_.namespace_alias() << "::";
     switch (sub[1]) {
         case 'S':
@@ -250,9 +296,7 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
 }
 
 void build_rule::operator()(char const sub) {
-    print_indent();
-    stream_ << grammar_builder_.namespace_alias() << "::"
-            << "char_<";
+    line_subparser("char_");
     print_char(stream_, sub);
     stream_ << '>';
 }
@@ -266,20 +310,25 @@ void build_rule::operator()(Joined& sub) {
     nested_parser(sub.value_);
 }
 
-void build_rule::subparser(char const * const name) {
+inline void build_rule::line_subparser(char const * const name) {
+    print_indent();
+    stream_ << grammar_builder_.namespace_alias() << "::" << name << '<';
+}
+
+inline void build_rule::subparser(char const * const name) {
     print_indent();
     stream_ << grammar_builder_.namespace_alias() << "::" << name << "<\n";
     ++indent_;
 }
 
-void build_rule::end_subparser() {
+inline void build_rule::end_subparser() {
     --indent_;
     print_indent_on_nl();
     stream_ << '>';
 }
 
 template <class T>
-void build_rule::nested_parser(T& sub) {
+inline void build_rule::nested_parser(T& sub) {
     auto it = sub.begin();
     chilon::variant_apply(*it, *this);
     for (++it; it != sub.end(); ++it) {

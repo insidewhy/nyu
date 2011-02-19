@@ -31,11 +31,11 @@ struct CharacterRange : simple_node<
         chpar::many<
             chpar::choice<
                 chpar::lexeme<
-                    chpar::char_range<
-                        TODO
+                    chpar::choice<
+                        TODO_char_range
                     >,
-                    chpar::char_range<
-                        TODO
+                    chpar::choice<
+                        TODO_char_range
                     >
                 >,
                 chpar::lexeme<
@@ -51,11 +51,11 @@ struct CharacterRange : simple_node<
 > {};
 
 typedef chpar::lexeme<
-    chpar::char_range<
-        TODO
+    chpar::choice<
+        TODO_char_range
     >,
-    chpar::char_range<
-        TODO
+    chpar::choice<
+        TODO_char_range
     >
 > Escape;
 
@@ -90,12 +90,12 @@ struct String : simple_node<
 > {};
 
 typedef chpar::lexeme<
-    chpar::char_range<
-        TODO
+    chpar::choice<
+        TODO_char_range
     >,
     chpar::many_plus<
-        chpar::char_range<
-            TODO
+        chpar::choice<
+            TODO_char_range
         >
     >
 > Id;
@@ -134,9 +134,7 @@ struct Suffix : simple_node<
         Primary,
         chpar::TODO_suffix_|?<
             chpar::choice<
-                chpar::char_range<
-                    TODO
-                >,
+                chpar::char_from<'?', '*', '+'>,
                 chpar::char_<'^', '+'>,
                 chpar::char_<'^', '*'>,
                 chpar::char_<'|', '+'>,
@@ -153,9 +151,7 @@ struct Prefix : simple_node<
             chpar::choice<
                 chpar::char_<'&', '!'>,
                 chpar::char_<'#', '+'>,
-                chpar::char_range<
-                    TODO
-                >
+                chpar::char_from<'&', '!', '#'>
             >
         >,
         Suffix
@@ -219,9 +215,7 @@ struct Rule : simple_node<
             chpar::char_<','>,
             ScopedId
         >,
-        chpar::char_range<
-            TODO
-        >,
+        chpar::char_from<'-', '='>,
         Expression
     >
 > {};
