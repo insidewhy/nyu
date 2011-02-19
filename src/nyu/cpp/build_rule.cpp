@@ -56,7 +56,8 @@ void build_rule::operator()(rule_type& rule) {
     // todo: handle parent rule
 
     if ('=' == std::get<1>(rule.second.value_)) {
-        stream_ << "struct " << rule.first << " : simple_node<\n";
+        stream_ << "struct " << rule.first << " : "
+                << grammar_builder_.namespace_alias() << "::simple_node<\n";
         ++indent_;
         print_indent();
         stream_ << rule.first << ",\n";
