@@ -224,8 +224,29 @@ void build_rule::operator()(chilon::range& sub) {
 }
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {
-    print_indent();
-    stream_ << "TODO_rule";
+    if (1 == sub.size()) {
+        print_indent();
+        auto& grammar_rules = std::get<1>(grammar_builder_.grammar_.second.value_);
+        // look for rule in grammar
+        auto it = grammar_rules.find(sub.front());
+
+        // TODO: look in parent grammar if not found here
+        if (it == grammar_rules.end())
+            throw error::file_location("rule not found", sub.front());
+
+        // TODO: build parent, but delay building node rules until necessary
+        // grammar_builder_(*it);
+
+        stream_ << sub.front();
+    }
+    else if (2 == sub.size()) {
+        print_indent();
+        stream_ << "TODO_parent_rule";
+    }
+    else {
+        print_indent();
+        stream_ << "TODO_qualified_rule";
+    }
 }
 
 void build_rule::operator()(char const sub) {

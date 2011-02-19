@@ -9,6 +9,7 @@
 #include <chilon/parser/until.hpp>
 #include <chilon/parser/any_char.hpp>
 #include <chilon/parser/not_char.hpp>
+#include <chilon/parser/tbpeg_not.hpp>
 #include <chilon/parser/char.hpp>
 #include <chilon/parser/char_range.hpp>
 #include <chilon/parser/lexeme.hpp>
@@ -37,12 +38,27 @@ namespace nyu {
 using namespace chilon::parser;
 using namespace chilon::parser::ascii;
 
-typedef choice<
-    sequence<
-        char_<'/', '/'>,
-        until<char_<'\n'>, any_char>
-    >,
-    whitespace
+// for compatibility with generated code
+namespace chpar = chilon::parser;
+
+// typedef choice<
+//     sequence<
+//         char_<'/', '/'>,
+//         until<char_<'\n'>, any_char>
+//     >,
+//     whitespace
+// > Spacing;
+typedef chpar::choice<
+    chpar::char_from<'\n', '\t', ' '>,
+    chpar::lexeme<
+        chpar::char_<'/', '/'>,
+        chpar::many<
+            chpar::tbpeg_not<
+                chpar::char_<'\n'>
+            >
+        >,
+        chpar::char_<'\n'>
+    >
 > Spacing;
 
 typedef char_<'.'> AnyCharacter;

@@ -1,6 +1,5 @@
 #include <nyu/cpp/build_module.hpp>
 #include <nyu/cpp/build_class.hpp>
-#include <nyu/cpp/build_grammar.hpp>
 #include <nyu/error/dep_cycle.hpp>
 
 #include <chilon/print_join.hpp>

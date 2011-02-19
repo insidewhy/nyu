@@ -66,7 +66,7 @@ struct String : simple_node<
             chpar::char_<'"'>,
             chpar::many_plus<
                 chpar::choice<
-                    TODO_rule,
+                    Escape,
                     chpar::tbpeg_not<
                         chpar::char_<'"'>
                     >
@@ -78,7 +78,7 @@ struct String : simple_node<
             chpar::char_<'\''>,
             chpar::many_plus<
                 chpar::choice<
-                    TODO_rule,
+                    Escape,
                     chpar::tbpeg_not<
                         chpar::char_<'\''>
                     >
@@ -102,28 +102,28 @@ typedef chpar::lexeme<
 
 typedef chpar::joined_plus<
     chpar::char_<'.'>,
-    TODO_rule
+    Id
 > ScopedId;
 
 typedef chpar::joined_plus<
     chpar::char_<':', ':'>,
-    TODO_rule
+    Id
 > ScopedRule;
 
 typedef chpar::choice<
-    TODO_rule,
-    TODO_rule,
-    TODO_rule,
-    TODO_rule,
+    String,
+    CharacterRange,
+    Escape,
+    AnyCharacter,
     chpar::sequence<
-        TODO_rule,
+        ScopedRule,
         chpar::not_<
             chpar::char_<'<'>
         >
     >,
     chpar::sequence<
         chpar::char_<'('>,
-        TODO_rule,
+        Expression,
         chpar::char_<')'>
     >
 > Primary;
@@ -131,7 +131,7 @@ typedef chpar::choice<
 struct Suffix : simple_node<
     Suffix,
     chpar::sequence<
-        TODO_rule,
+        Primary,
         chpar::TODO_suffix_|?<
             chpar::choice<
                 chpar::char_range<
@@ -158,14 +158,14 @@ struct Prefix : simple_node<
                 >
             >
         >,
-        TODO_rule
+        Suffix
     >
 > {};
 
 struct Join : simple_node<
     Join,
     chpar::sequence<
-        TODO_rule,
+        Prefix,
         chpar::choice<
             chpar::char_<'^', '%'>,
             chpar::char_<'%', '+'>,
@@ -173,7 +173,7 @@ struct Join : simple_node<
             chpar::char_<'|', '%'>,
             chpar::char_<'|', '^', '%'>
         >,
-        TODO_rule
+        Prefix
     >
 > {};
 
@@ -182,8 +182,8 @@ struct Joined : simple_node<
     chpar::tree_joined<
         chpar::char_<'^'>,
         chpar::choice<
-            TODO_rule,
-            TODO_rule
+            Join,
+            Prefix
         >
     >
 > {};
@@ -191,7 +191,7 @@ struct Joined : simple_node<
 struct Sequence : simple_node<
     Sequence,
     chpar::TODO_suffix_|+<
-        TODO_rule
+        Joined
     >
 > {};
 
@@ -199,35 +199,35 @@ struct OrderedChoice : simple_node<
     OrderedChoice,
     chpar::tree_joined<
         chpar::char_<'/'>,
-        TODO_rule
+        Sequence
     >
 > {};
 
 struct Expression : simple_node<
     Expression,
-    TODO_rule
+    OrderedChoice
 > {};
 
 struct Rule : simple_node<
     Rule,
     chpar::sequence<
         chpar::key<
-            TODO_rule
+            Id
         >,
         chpar::char_<'<'>,
         chpar::joined<
             chpar::char_<','>,
-            TODO_rule
+            ScopedId
         >,
         chpar::char_range<
             TODO
         >,
-        TODO_rule
+        Expression
     >
 > {};
 
 typedef chpar::many_plus<
-    TODO_rule
+    Rule
 > Grammar;
 
 } } }

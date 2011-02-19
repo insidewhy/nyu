@@ -7,18 +7,18 @@ namespace nyu { namespace grammar { namespace meta {
 
 namespace chpar = chilon::parser;
 
-typedef TODO_rule Id;
+typedef TODO_parent_rule Id;
 
-typedef TODO_rule ScopedId;
+typedef TODO_parent_rule ScopedId;
 
 typedef chpar::joined_plus<
     chpar::char_<'.'>,
-    TODO_rule
+    Id
 > ModuleId;
 
 typedef chpar::sequence<
     chpar::char_<'@', 'm', 'o', 'd', 'u', 'l', 'e'>,
-    TODO_rule
+    ModuleId
 > ModuleDefinition;
 
 struct NyuGrammar : simple_node<
@@ -26,15 +26,15 @@ struct NyuGrammar : simple_node<
     chpar::sequence<
         chpar::char_<'@', 'g', 'r', 'a', 'm', 'm', 'a', 'r'>,
         chpar::key<
-            TODO_rule
+            Id
         >,
         chpar::optional<
             chpar::sequence<
                 chpar::char_<':'>,
-                TODO_rule
+                ScopedId
             >
         >,
-        TODO_rule
+        TODO_parent_rule
     >
 > {};
 
@@ -43,13 +43,13 @@ struct Module : simple_node<
     chpar::sequence<
         chpar::key_plus<
             chpar::optional<
-                TODO_rule
+                ModuleDefinition
             >
         >,
         chpar::many_plus<
             chpar::choice<
-                TODO_rule,
-                TODO_rule
+                TODO_parent_rule,
+                NyuGrammar
             >
         >
     >
@@ -59,16 +59,16 @@ typedef chpar::sequence<
     chpar::char_<'@', 'i', 'n', 'c', 'l', 'u', 'd', 'e'>,
     chpar::joined_plus<
         chpar::char_<'/'>,
-        TODO_rule
+        Id
     >
 > Include;
 
 typedef chpar::sequence<
     chpar::many<
-        TODO_rule
+        Include
     >,
     chpar::many<
-        TODO_rule
+        Module
     >
 > Grammar;
 
