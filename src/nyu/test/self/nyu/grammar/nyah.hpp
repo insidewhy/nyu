@@ -35,7 +35,8 @@ struct Enum : simple_node<
             Id
         >,
         chpar::char_<'{'>,
-        chpar::many<
+        chpar::joined<
+            chpar::char_<','>,
             EnumEntry
         >,
         chpar::char_<'}'>

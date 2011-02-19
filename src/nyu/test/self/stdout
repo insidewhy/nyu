@@ -185,9 +185,10 @@ module {
                         [ "Id" ]
                     )
                     String: "{"
-                    Suffix: (
+                    Join: (
                         [ "EnumEntry" ]
-                        '*'
+                        '%'
+                        String: ","
                     )
                     String: "}"
                 ]
