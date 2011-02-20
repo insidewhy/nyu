@@ -1,0 +1,7 @@
+@grammar order
+Spacing <- \s
+
+C <- "t" B D
+B <- "i" A D
+A <- "p"
+D <= ..

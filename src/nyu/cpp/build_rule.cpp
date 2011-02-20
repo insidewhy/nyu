@@ -5,7 +5,18 @@
 
 namespace nyu { namespace cpp {
 
-class build_rule::first_node_expr {
+struct build_rule::is_tree_node {
+    template <class T>
+    bool operator()(T&) const { return false; }
+
+    bool operator()(build_rule::Join& sub) const {
+        auto& op = std::get<1>(sub.value_);
+        return op.is<chilon::range>() &&
+               op.at<chilon::range>().front() == '|';
+    }
+};
+
+class build_rule::first_node_expr : is_tree_node {
     build_rule&  rule_builder_;
     rule_type&   rule_;
 
@@ -18,23 +29,20 @@ class build_rule::first_node_expr {
     }
 
     void operator()(Join& sub) {
-        auto& op = std::get<1>(sub.value_);
-        if (op.is<chilon::range>()) {
-            auto& op_str = op.at<chilon::range>();
-            if (op_str.front() == '|') {
-                rule_.second.status_ = RuleStatus::NORMAL;
-                if (op_str == "|%") {
-                    rule_builder_.subparser("tree_joined");
-                }
-                else {
-                    rule_builder_.subparser("tree_joined_lexeme");
-                }
+        if (is_tree_node::operator()(sub)) {
+            rule_.second.status_ = RuleStatus::NORMAL;
 
-                chilon::variant_apply(std::get<2>(sub.value_), rule_builder_);
-                rule_builder_.stream_ << ",\n";
-                chilon::variant_apply(std::get<0>(sub.value_), rule_builder_);
-                rule_builder_.end_subparser();
-            };
+            // the at<...>() must succeed when is_tree_node returns true
+            auto const& op_str = std::get<1>(sub.value_).at<chilon::range>();
+            if (op_str == "|%")
+                rule_builder_.subparser("tree_joined");
+            else
+                rule_builder_.subparser("tree_joined_lexeme");
+
+            chilon::variant_apply(std::get<2>(sub.value_), rule_builder_);
+            rule_builder_.stream_ << ",\n";
+            chilon::variant_apply(std::get<0>(sub.value_), rule_builder_);
+            rule_builder_.end_subparser();
         }
         else {
             rule_.second.status_ = RuleStatus::NODE;
@@ -56,32 +64,12 @@ class build_rule::first_node_expr {
 
 void build_rule::operator()(rule_type& rule) {
     if ('=' == std::get<1>(rule.second.value_)) {
-        stream_ << "struct " << rule.first << " : ";
-
-        auto& parent_rules = std::get<0>(rule.second.value_);
-        if (! parent_rules.empty()) {
-            // TODO: validate parent rule exists
-            for (auto it = parent_rules.begin(); it != parent_rules.end(); ++it) {
-                auto rule_it = it->begin();
-                stream_ << *rule_it;
-                for (++rule_it; rule_it != it->end(); ++rule_it) {
-                    stream_ << "::" << *rule_it;
-                }
-                stream_ << ", ";
-            }
-        }
-
-        stream_ << grammar_builder_.namespace_alias() << "::simple_node<\n";
-        ++indent_;
-        print_indent();
-        stream_ << rule.first << ",\n";
-
+        begin_node_rule(rule);
         // todo: delay until after parent rule has finished if node rule
         chilon::variant_apply(
             std::get<2>(rule.second.value_).value_, first_node_expr(*this, rule));
-
-        grammar_builder_.body_ << '\n' << stream_.str();
-        grammar_builder_.body_ << "\n> {};\n";
+        end_node_rule();
+        rule.second.status_ = RuleStatus::PROCESSED;
         return;
     }
     // todo: else { handle parent rule }
@@ -286,7 +274,6 @@ void build_rule::operator()(chilon::range& sub) {
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {
     if (1 == sub.size()) {
-        print_indent();
         auto& grammar_rules = std::get<1>(grammar_builder_.grammar_.second.value_);
         // look for rule in grammar
         auto it = grammar_rules.find(sub.front());
@@ -295,10 +282,42 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
         if (it == grammar_rules.end())
             throw error::file_location("rule not found", sub.front());
 
-        // TODO: build parent, but delay building node rules until necessary
-        // grammar_builder_(*it);
+        if (it->second.status_ == RuleStatus::PROCESSED) {
+            print_indent();
+            stream_ << sub.front();
+            grammar_builder_(*it);
+        }
+        else if (it->second.status_ == RuleStatus::NODE) {
+            line_subparser("node");
+            stream_ << sub.front() << '>';
+            // already marked as a node
+        }
+        else if (it->second.status_ == RuleStatus::NORMAL) {
+            throw error::file_location("circular rule dependency", sub.front());
+        }
+        else if ('=' == std::get<1>(it->second.value_)) {
+            // mega todo: if it is a tree_node then process it now, else mark
+            //            it as NODE for future processing.
 
-        stream_ << sub.front();
+            if (chilon::variant_apply(
+                    std::get<2>(it->second.value_).value_, is_tree_node()))
+            {
+                print_indent();
+                stream_ << sub.front();
+                grammar_builder_(*it);
+            }
+            else {
+                it->second.status_ = RuleStatus::NODE;
+                grammar_builder_.body_ << "\nstruct " << sub.front() << ";\n";
+                line_subparser("node");
+                stream_ << sub.front() << '>';
+            }
+        }
+        else {
+            print_indent();
+            stream_ << sub.front();
+            grammar_builder_(*it);
+        }
     }
     else if (2 == sub.size()) {
         print_indent();
@@ -331,6 +350,33 @@ void build_rule::operator()(std::tuple<char, char> const& char_range) {
     stream_ << ',';
     print_char(stream_, std::get<1>(char_range));
     stream_ << '>';
+}
+
+void build_rule::begin_node_rule(rule_type& rule) {
+    stream_ << "struct " << rule.first << " : ";
+
+    auto& parent_rules = std::get<0>(rule.second.value_);
+    if (! parent_rules.empty()) {
+        // TODO: validate parent rules exist
+        for (auto it = parent_rules.begin(); it != parent_rules.end(); ++it) {
+            auto rule_it = it->begin();
+            stream_ << *rule_it;
+            for (++rule_it; rule_it != it->end(); ++rule_it) {
+                stream_ << "::" << *rule_it;
+            }
+            stream_ << ", ";
+        }
+    }
+
+    stream_ << grammar_builder_.namespace_alias() << "::simple_node<\n";
+    ++indent_;
+    print_indent();
+    stream_ << rule.first << ",\n";
+}
+
+void build_rule::end_node_rule() {
+    grammar_builder_.body_ << '\n' << stream_.str();
+    grammar_builder_.body_ << "\n> {};\n";
 }
 
 inline void build_rule::line_subparser(char const * const name) {

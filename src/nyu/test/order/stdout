@@ -1,0 +1,45 @@
+include []
+module id []
+module {
+    "order" -> NyuGrammar: (
+        []
+        {
+            "Spacing" -> Rule: (
+                []
+                '-'
+                Expression: "\s"
+            )
+            "C" -> Rule: (
+                []
+                '-'
+                Expression: Sequence: [
+                    String: "t"
+                    [ "B" ]
+                    [ "D" ]
+                ]
+            )
+            "B" -> Rule: (
+                []
+                '-'
+                Expression: Sequence: [
+                    String: "i"
+                    [ "A" ]
+                    [ "D" ]
+                ]
+            )
+            "A" -> Rule: (
+                []
+                '-'
+                Expression: String: "p"
+            )
+            "D" -> Rule: (
+                []
+                '='
+                Expression: Sequence: [
+                    '.'
+                    '.'
+                ]
+            )
+        }
+    )
+}

@@ -9,9 +9,10 @@
 namespace nyu { namespace cpp {
 
 class build_rule {
+    class is_tree_node;
     class first_node_expr;
 
-    typedef build_grammar::rule_type rule_type;
+    typedef build_grammar::rule_type      rule_type;
 
     typedef grammar::NyuRule::Status      RuleStatus;
     typedef grammar::nyu::Sequence        Sequence;
@@ -28,11 +29,6 @@ class build_rule {
     int                indent_;
     std::stringstream  stream_;
 
-    // a small subparser that will be on a single line
-    inline void line_subparser(char const * const name);
-    inline void subparser(char const * const name);
-    inline void end_subparser();
-
     void print_indent() {
         for (int i = 0; i < indent_; ++i) stream_ << NYU_INDENT_STRING;
     }
@@ -47,7 +43,6 @@ class build_rule {
       : grammar_builder_(grammar_builder), indent_(0) {}
 
     void operator()(rule_type& rule);
-
     void operator()(Sequence& sub);
     void operator()(Join& sub);
     void operator()(Prefix& sub);
@@ -62,7 +57,15 @@ class build_rule {
     void operator()(Joined& sub);
     void operator()(std::tuple<char, char> const& char_range);
 
+    void begin_node_rule(rule_type& rule);
+    void end_node_rule();
+
   private:
+    // a small subparser that will be on a single line
+    inline void line_subparser(char const * const name);
+    inline void subparser(char const * const name);
+    inline void end_subparser();
+
     template <class T>
     inline void nested_parser(T& sub);
 };

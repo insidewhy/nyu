@@ -12,7 +12,7 @@ void build_grammar::close() {
     if (! module_.first.empty())
         open_namespace(module_.first, grammar_.first);
     else
-        stream_ << "namespace " << grammar_.first << "{\n";
+        stream_ << "namespace " << grammar_.first << " {\n";
 
     stream_ << "\nnamespace " << namespace_alias() << " = chilon::parser;\n";
 
@@ -45,9 +45,22 @@ void build_grammar::open() {
 
 void build_grammar::operator()(rule_type& rule) {
     typedef grammar::NyuRule::Status RuleStatus;
-    if (RuleStatus::UNKNOWN == rule.second.status_) {
-        build_rule rule_builder(*this);
-        rule_builder(rule);
+    switch (rule.second.status_) {
+        case RuleStatus::UNKNOWN: {
+            build_rule rule_builder(*this);
+            rule_builder(rule);
+            break;
+        }
+        case RuleStatus::NODE: {
+            build_rule rule_builder(*this);
+            rule_builder.begin_node_rule(rule);
+            chilon::variant_apply(
+                std::get<2>(rule.second.value_).value_, rule_builder);
+            rule_builder.end_node_rule();
+            rule.second.status_ = RuleStatus::PROCESSED;
+            break;
+        }
+        default: break; // already processed
     }
 }
 

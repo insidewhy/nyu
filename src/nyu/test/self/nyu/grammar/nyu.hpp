@@ -135,6 +135,8 @@ typedef chpar::joined_plus<
     Id
 > ScopedRule;
 
+struct Expression;
+
 typedef chpar::choice<
     String,
     CharacterRange,
@@ -148,7 +150,7 @@ typedef chpar::choice<
     >,
     chpar::sequence<
         chpar::char_<'('>,
-        Expression,
+        chpar::node<Expression>,
         chpar::char_<')'>
     >
 > Primary;
