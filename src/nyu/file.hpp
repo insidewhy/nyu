@@ -11,7 +11,7 @@ namespace nyu {
 
 class file {
     typedef chilon::parser::source_code_stream<
-        chilon::parser::file_stream, grammar::meta::Spacing>  stream_t;
+        chilon::parser::file_stream, grammar::nyu::Spacing>  stream_t;
 
     typedef grammar::meta::Grammar                            grammar_t;
     typedef typename chilon::parser::stored<grammar_t>::type  ast_type;

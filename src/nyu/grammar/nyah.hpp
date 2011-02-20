@@ -8,9 +8,9 @@ namespace nyu { namespace grammar { namespace nyah {
 
 namespace chpar = chilon::parser;
 
-using nyu::Spacing;
-using nyu::Id;
-using nyu::ScopedId;
+typedef nyu::Id Id;
+
+typedef nyu::ScopedId ScopedId;
 
 // generated from here below
 typedef chpar::many_plus<

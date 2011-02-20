@@ -5,31 +5,73 @@
 
 namespace nyu { namespace grammar { namespace meta {
 
-using namespace chilon::parser;
-using namespace chilon::parser::ascii;
+namespace chpar = chilon::parser;
 
-using nyah::Spacing;
-using nyah::Id;
-using nyah::ScopedId;
+// generated from here except for type references to parent rules
+typedef nyah::Id        Id;
 
-typedef joined_plus<char_<'.'>, Id> ModuleId;
+typedef nyah::ScopedId  ScopedId;
 
-typedef sequence<char_<'@',m,o,d,u,l,e>, ModuleId> ModuleDefinition;
+typedef chpar::joined_plus<
+    chpar::char_<'.'>,
+    Id
+> ModuleId;
 
-struct NyuGrammar : WithStatus, simple_node<NyuGrammar,
-    char_<'@',g,r,a,m,m,a,r>, key<Id>,
-    optional<char_<':'>, ScopedId>,
-    nyu::Grammar> {};
+typedef chpar::sequence<
+    chpar::char_<'@', 'm', 'o', 'd', 'u', 'l', 'e'>,
+    ModuleId
+> ModuleDefinition;
 
-struct Module : WithStatus, simple_node<Module,
-    key_plus< optional<ModuleDefinition> >,
-    many_plus< choice<nyah::Grammar, NyuGrammar> > > {};
+struct NyuGrammar : WithStatus, chpar::simple_node<
+    NyuGrammar,
+    chpar::sequence<
+        chpar::char_<'@', 'g', 'r', 'a', 'm', 'm', 'a', 'r'>,
+        chpar::key<
+            Id
+        >,
+        chpar::optional<
+            chpar::sequence<
+                chpar::char_<':'>,
+                ScopedId
+            >
+        >,
+        nyu::Grammar
+    >
+> {};
 
-typedef sequence<
-    char_<'@',i,n,c,l,u,d,e>,
-    joined_plus<char_<'/'>, Id> > Include;
+struct Module : WithStatus, chpar::simple_node<
+    Module,
+    chpar::sequence<
+        chpar::key_plus<
+            chpar::optional<
+                ModuleDefinition
+            >
+        >,
+        chpar::many_plus<
+            chpar::choice<
+                nyah::Grammar,
+                NyuGrammar
+            >
+        >
+    >
+> {};
 
-typedef sequence<many<Include>, many<Module>> Grammar;
+typedef chpar::sequence<
+    chpar::char_<'@', 'i', 'n', 'c', 'l', 'u', 'd', 'e'>,
+    chpar::joined_plus<
+        chpar::char_<'/'>,
+        Id
+    >
+> Include;
+
+typedef chpar::sequence<
+    chpar::many<
+        Include
+    >,
+    chpar::many<
+        Module
+    >
+> Grammar;
 
 } } }
 #endif
