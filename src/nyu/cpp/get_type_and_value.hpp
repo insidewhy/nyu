@@ -33,7 +33,7 @@ class get_type_and_value : public search_ast {
     std::string type() { return type_.str(); }
     std::string value() { return value_.str(); }
 
-    void operator()(class_type& clss, compilation_unit& scope);
+    void operator()(class_type& clss, compilation_unit& unit);
 
     template <class T>
     void operator()(T& t) {

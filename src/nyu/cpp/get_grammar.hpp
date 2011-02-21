@@ -30,7 +30,7 @@ class get_grammar : public search_ast {
     get_grammar(scope_type const& search)
       : search_(search.begin(), search.end()) {}
 
-    void operator()(compilation_unit& scope);
+    void operator()(compilation_unit& unit);
 
     grammar_type&  grammar()      { return *grammar_; }
     module_type&   module() const { return *module_; }

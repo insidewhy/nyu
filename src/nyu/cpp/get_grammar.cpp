@@ -25,15 +25,15 @@ struct get_grammar::leaf_dep {
     }
 };
 
-void get_grammar::operator()(compilation_unit& scope) {
+void get_grammar::operator()(compilation_unit& unit) {
     if (1 == search_.size()) {
         // todo: search in cached includes
 
-        auto& module_scope = get_module_scope(scope);
+        auto& module_scope = get_module_scope(unit);
         auto search_it = module_scope.find(search_.front());
         if (search_it != module_scope.end()) {
             chilon::variant_apply(
-                *search_it, leaf_dep(*this, get_module(scope)));
+                *search_it, leaf_dep(*this, get_module(unit)));
             return;
         }
 
@@ -43,6 +43,8 @@ void get_grammar::operator()(compilation_unit& scope) {
         // todo: search for submodule
 
     }
+
+    throw error::file_location("could not find grammar", search_.front());
 }
 
 } }

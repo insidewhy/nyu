@@ -14,20 +14,20 @@ struct search_ast {
     typedef module_type::value_type::value_type  module_scope_type;
 
   protected:
-    ast_t& get_ast(compilation_unit& scope) {
-        return scope.get_builder().ast_;
+    ast_t& get_ast(compilation_unit& unit) {
+        return unit.get_builder().ast_;
     }
 
-    module_type& get_module(compilation_unit& scope) {
-       return scope.module_;
+    module_type& get_module(compilation_unit& unit) {
+       return unit.module_;
     }
 
-    scope_type& get_module_key(compilation_unit& scope) {
-       return scope.module_.first;
+    scope_type& get_module_key(compilation_unit& unit) {
+       return unit.module_.first;
     }
 
-    module_scope_type& get_module_scope(compilation_unit& scope) {
-       return scope.module_.second.value_;
+    module_scope_type& get_module_scope(compilation_unit& unit) {
+       return unit.module_.second.value_;
     }
 };
 

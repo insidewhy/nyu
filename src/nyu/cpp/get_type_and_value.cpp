@@ -7,24 +7,24 @@ namespace nyu { namespace cpp {
 
 struct get_type_and_value::module_dep {
     get_type_and_value&               resolver_;
-    compilation_unit&                  scope_cache_;
+    compilation_unit&                 unit_; // dependant
     get_type_and_value::module_type&  module_;
 
-    module_dep(decltype(resolver_)&    resolver,
-               decltype(scope_cache_)& scope_cache,
-               decltype(module_)&      module)
-      : resolver_(resolver), scope_cache_(scope_cache), module_(module) {}
+    module_dep(decltype(resolver_)& resolver,
+               decltype(unit_)&     unit_,
+               decltype(module_)&   module)
+      : resolver_(resolver), unit_(unit_), module_(module) {}
 
     template <class T>
     void operator()(T& t) { resolver_(t); }
 
     void operator()(enum_type& enm) {
-        scope_cache_.add_type_ref(module_);
+        unit_.add_type_ref(module_);
         resolver_(enm);
     }
 };
 
-void get_type_and_value::operator()(class_type& clss, compilation_unit& scope) {
+void get_type_and_value::operator()(class_type& clss, compilation_unit& unit) {
     auto& class_scope = clss.second.value_;
 
     // search within current class
@@ -37,17 +37,19 @@ void get_type_and_value::operator()(class_type& clss, compilation_unit& scope) {
     // todo: search in cached includes
 
     // search for in module of class
-    auto& module_scope = get_module_scope(scope);
+    auto& module_scope = get_module_scope(unit);
     auto search_it = module_scope.find(search_.front());
     if (search_it != module_scope.end()) {
         chilon::variant_apply(*search_it,
-            module_dep(*this, scope, get_module(scope)));
+            module_dep(*this, unit, get_module(unit)));
         return;
     }
 
     // todo: search for submodule
 
     // todo: search in ancestors of class module
+
+    throw error::file_location("could not resolve", search_.front());
 }
 
 void get_type_and_value::operator()(enum_type& enm) {
