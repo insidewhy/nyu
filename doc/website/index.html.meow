@@ -12,184 +12,58 @@ head {
     links:
     %a(href=http://github.com/tuxjay/nyu) source
     %a(href=https://sourceforge.net/projects/nyu/files/) download
+    %a(href=tutorial.html) tutorial
     %a(href=changelog.html) changelog
     %a(href=#status) status
 }
 
 %p {
-    nyu is a powerful and flexible parser generator based on the | %a(href=http://chilon.net/papers/tbpeg.pdf)TBPEG | (tree building parsing expression grammar) notation. nyu outputs both an appropriate AST type (based on vectors, variants, custom classes, strings and primitive types) in addition to a parser which populates this AST as it parses text. The nyu language is based on parsing expression grammars (PEGs) with simple and powerful extensions to allow the tree representation to be inferred from the same grammar that is used to create the parser.
+    nyu is a powerful and flexible parser generator based on the | %a(href=http://chilon.net/papers/tbpeg.pdf)TBPEG | (tree building parsing expression grammar) notation. nyu grammars describe both how to parse data and how to create custom ASTs at the same time. PEG rules have been extended and modified where appropriate and new operators have been added to the PEG notation to make this task feasible.
 }
 
-%h2 Using % to parse joined sequences
-%pre <<EOF
-    @grammar list
-    Spacing    <- \s
+%p {
+    nyu outputs parsers that take advantage of the | %a(href=http://chilon.net/library.html) chilon::parser | meta-programming library for C++0x. The generated code is very neat and there is an almost one to one mapping between the structure of an input grammar and the generated parser.
+}
 
-    // * or + repetitions of a character storing parser store a string.
-    IdSuffix <- [0-9a-zA-Z_]*
+%p {
+    The following is an example that shows how a list of sums can be represented in nyu and the kind of ASTs it would build. There are more examples in the | %a(href=tutorial.html) "tutorial."
+}
 
-    // Spacing* is allowed between parsers in a sequence. Spacing* is not
-    // allowed between parsers joined with ^.
-    // The storage types of adjacent string/char storing parsers joined with ^
-    // are collapsed to store a single string, so Id stores a string.
-    Id <- [a-zA-Z_] ^ IdSuffix
-
-    // (P % Q) matches many P joined with Q (with optional Spacing* around
-    // the Q) and stores vector[storage type of P]
-    // In Grammar "[", "," and "]" are not stored as they always match the
-    // same data. (P ^% Q) is the same as (P % Q) but does not allow
-    // Spacing* to match around Q.
-    Grammar    <- "[" (Id % ",") "]"
-
-    // Grammar stores: vector<string>
-    //         parses: [ hello, king ]
-    //             as: vector<string>("hello", "king")
-EOF
-
-%h2 Using / to parse ordered choice and store variant
-%pre <<EOF
-    @grammar js
-    Spacing     <- \s
-    Id  <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
-
-    // Sequences store tuples.  sub-tuples are broken down into the parent
-    // tuple type, and a tuple that stores a single type is broken down into
-    // that type.
-    // FuncCall stores tuple<string, string>.
-    FuncCall <- Id "(" Id ")"
-
-    // FuncCall stores tuple<string, string> and Id stores string so
-    // Grammar stores vector< variant<string, tuple<string, string> > >
-    // Duplicate types are collapsed into a single entry in a variant, and a
-    // variant that stores a single type is collapsed to that type.
-    Grammar <- (FuncCall / Id)+
-EOF
-
-%h2 Using &lt;= to create node parsers which store new types
-%pre <<EOF
-    @grammar mathematics_basic
-    Spacing   <- \s
-
-    // <int- stores resulting parsed string as int
-    Number    < int - [0-9]+
-
-    // <= creates a "node parser". Node parsers store a new type with the same
-    // name as the parsing rule. The storage types of node parsers are not
-    // flattened into the storage type of including parsers.
-    Product   <= Number %+ "*"
-
-    // %+ is like % but at least one join item must be stored.
-    // P %+ Q matches P (Q P)* and stores vector[storage type of P]
-    Addition  <= Product %+ "+"
-
-    // Spacing* is allowed between elements in each P in P+ or P* unless
-    // P stores a character. P^+ is the same as P+ with no spacing allowed.
-    Grammar   <- Addition+
-
-    // These examples uses [ .. ] to represent a stored list/vector type.
-    // stores: vector<Addition>
-    // creates:
-    //     class Product {
-    //          vector<int> value_;
-    //     }
-    //     class Addition {
-    //          vector<Product> value_;
-    //     }
-    // parses: 4 + 2
-    // as:     [ Addition[Product[4], Product[2]] ]
-    // parses: 4
-    // as:     [ Addition[Product[4]] ]
-    // parses: 4 7
-    // as:     [ Addition[Product[4]], Addition[Product[7]]]
-EOF
-
-%h2 Node parsers can refer to themselves
-%pre <<EOF
-    @grammar mathematics_basic
-    Spacing    <- \s
-    Number     < int - [0-9]+
-
-    // Expression recursively refers to itself through Term. This would not be
-    // possible if Expression was not a node parser as in this case the type of
-    // Expression would recursively depend on its own storage type.
-    // Term stores variant<int, Expression>
-    Term       <= Number / "(" Expression ")"
-    Product    <= Number %+ "*"
-    Addition   <= Product %+ "+"
-    Expression <= Addition
-    Grammar    <- Expression+
-EOF
-
-%h2 "Using |% to recursively collapse unjoined nodes"
-
+%h2 An example grammar - basic maths.
+%p The following Grammar stores list&lt; variant&lt;Addition, Product, int&gt; &gt;
 %pre <<EOF
     @grammar mathematics
     Spacing   <- \s
     Number    < int - [0-9]+
-
-    // |% parses the same data as %+ but stores parsed data differently.
-    // The node type is only created if the join matches more than one item,
-    // otherwise it stores the item to the left of the |%. The resulting type
-    // of the whole expression is a variant that can store either type.
-    // In this case Product stores variant<int, Product> which is populated
-    // with either int or Product depending on whether Number matches one or
-    // many times.
     Product   <= Number  |% "*"
-
-    // Node parsers that use |+, |* or |% cannot refer to themselves.
-
-    // Addition stores: variant<Addition, storage type of Product>
-    //          expand: variant<Addition, variant<Product, int>>
-    //        collapse: variant<Addition, Product, int>
     Addition  <= Product |% "+"
-
     Grammar   <- Addition+
-
-    // stores: vector< variant<int, Product, Addition> >
-    // creates:
-    //     class Product {
-    //          vector<int> value_;
-    //     }
-    //     class Addition {
-    //          vector<variant<int, Product>> value_;
-    //     }
-    // parses: 4 + 2
-    // as:     [ Addition[4, 2] ]
-    // parses: 4
-    // as:     [ 4 ]
-    // parses: 4 7
-    // as:     [ 4, 7 ]
-    // parses: 4 + 2 * 7
-    // as:     [ Addition[4, Product[2, 7]] ]
 EOF
 
-%h2 "Using &#35; to hash data"
+%p This table demonstrates some text parsed with the above grammar and a short-hand representation of the AST stored (&ldquo;[ .. ]&rdquo; for lists, variants are expanded).
+%table {
+    %tr {
+        %th Parse Data
+        %th AST
+    }
+    %tr {
+        %td &ldquo;4 + 2&rdquo;
+        %td [ Addition[4, 2] ]
+    }
+    %tr {
+        %td &ldquo;4&rdquo;
+        %td [ 4 ]
+    }
+    %tr {
+        %td &ldquo;4 7&rdquo;
+        %td [ 4, 7 ]
+    }
+    %tr {
+        %td &ldquo;4 + 2 * 7&rdquo;
+        %td [ Addition[4, Product[2, 7]] ]
+    }
+}
 
-%pre <<EOF
-    @grammar hash
-
-    Id <- [a-zA-Z]+
-
-    // (KeyPair <- Id "=" Id) would store tuple<string, string> but since
-    // the first identifier begins with "#" then key_value<string, string>
-    // is stored.
-    KeyPair <- #Id "=" Id
-
-    // (P % Q) would normally store vector<storage type of P>, but when the
-    // storage type of P is key_value<...> then it stores a vector_hash_map.
-    // A vector_hash_map stores the order in which items were inserted
-    // in addition to a hash index which can be used for fast access to
-    // a stored item based on its key. This storage behaviour is the same
-    // for all parsers that can store vectors.
-    Grammar <- "{" KeyPair % "," "}"
-
-    // Using { key -> value, ... } to represent the hash map type nyu created
-    // parses "{ first = hello, second = bye }" as:
-    // {
-    //     "first" -> "hello",
-    //     "second" -> "bye"
-    // }
-EOF
 
 %h2 Further Reading
 
@@ -209,6 +83,6 @@ EOF
 
 %h2 Contributing
 
-%div Wanted: Code for output languages, suggestions and art for the website.
+%div Wanted: Code, bug reports, suggestions and art for the website.
 %div E-mail: nyu (@) chilon.net.
 %div { IRC Channel: #nyah on | %a(href=irc://irc.freenode.net/nyah) "irc.freenode.net" }

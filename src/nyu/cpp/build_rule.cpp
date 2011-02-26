@@ -1,4 +1,5 @@
 #include <nyu/cpp/build_rule.hpp>
+#include <nyu/cpp/get_class.hpp>
 #include <nyu/error/file_location.hpp>
 
 #include <chilon/print_join.hpp>
@@ -296,9 +297,6 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
             throw error::file_location("circular rule dependency", sub.front());
         }
         else if ('=' == std::get<1>(it->second.value_)) {
-            // mega todo: if it is a tree_node then process it now, else mark
-            //            it as NODE for future processing.
-
             if (chilon::variant_apply(
                     std::get<2>(it->second.value_).value_, is_tree_node()))
             {
@@ -357,13 +355,14 @@ void build_rule::begin_node_rule(rule_type& rule) {
 
     auto& parent_rules = std::get<0>(rule.second.value_);
     if (! parent_rules.empty()) {
-        // TODO: validate parent rules exist
         for (auto it = parent_rules.begin(); it != parent_rules.end(); ++it) {
-            auto rule_it = it->begin();
-            stream_ << *rule_it;
-            for (++rule_it; rule_it != it->end(); ++rule_it) {
-                stream_ << "::" << *rule_it;
+            get_class class_getter(*it);
+            class_getter(grammar_builder_);
+            if (! class_getter.clss()) {
+                // TODO: throw file_exception()
             }
+
+            chilon::print_join(stream_, "::", *it);
             stream_ << ", ";
         }
     }
