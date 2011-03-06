@@ -235,18 +235,30 @@ void build_rule::operator()(String& sub) {
 }
 
 void build_rule::operator()(CharacterRange& sub) {
+    typedef std::tuple<char, char> char_range_t;
+
+    if (1 == sub.value_.size() && ! sub.value_.front().is<char_range_t>()) {
+        line_subparser("store");
+        stream_ << " char_<\n";
+        ++indent_;
+        chilon::variant_apply(sub.value_.front(), *this);
+        end_subparser();
+        stream_ << " >";
+        return;
+    }
+
     auto it = sub.value_.begin();
 
-    if (it->is<std::tuple<char, char>>()) {
+    if (it->is<char_range_t>()) {
         for (++it; it != sub.value_.end(); ++it) {
-            if (! it->is<std::tuple<char, char>>()) break;
+            if (! it->is<char_range_t>()) break;
         }
 
         if (it == sub.value_.end()) {
             line_subparser("char_range");
 
             it = sub.value_.begin();
-            auto& tup = it->at<std::tuple<char, char>>();
+            auto& tup = it->at<char_range_t>();
             print_char(stream_, std::get<0>(tup));
             stream_ << ',';
             print_char(stream_, std::get<1>(tup));
@@ -254,7 +266,7 @@ void build_rule::operator()(CharacterRange& sub) {
             for (++it; it != sub.value_.end(); ++it) {
                 stream_ << ", ";
 
-                auto& tup = it->at<std::tuple<char, char>>();
+                auto& tup = it->at<char_range_t>();
                 print_char(stream_, std::get<0>(tup));
                 stream_ << ',';
                 print_char(stream_, std::get<1>(tup));
