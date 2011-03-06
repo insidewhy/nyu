@@ -213,7 +213,7 @@ struct Joined : chpar::simple_node<
 
 struct Sequence : chpar::simple_node<
     Sequence,
-    chpar::TODO_suffix_|+<
+    chpar::tree_many<
         Joined
     >
 > {};

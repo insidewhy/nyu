@@ -15,6 +15,15 @@ struct is_tree_node {
         return op.is<chilon::range>() &&
                op.at<chilon::range>().front() == '|';
     }
+
+    bool operator()(grammar::nyu::Suffix& sub) const {
+        auto& op = std::get<1>(sub.value_);
+        return op.is<chilon::range>() && op.at<chilon::range>().front() == '|';
+    }
+
+    // mega TODO: specialise operator() on sequence also to look for
+    //            |?
+
 };
 
 struct build_rule::build_tree_node {
@@ -24,7 +33,7 @@ struct build_rule::build_tree_node {
 
   public:
     template <class T>
-    void operator()(T&) { }
+    void operator()(T&) { assert(0); }
 
     void operator()(grammar::nyu::Join& sub) {
         rule_.second.status_ = RuleStatus::NORMAL;
@@ -43,6 +52,19 @@ struct build_rule::build_tree_node {
         rule_.second.status_ = RuleStatus::PROCESSED;
     }
 
+    void operator()(grammar::nyu::Suffix& sub) {
+        rule_.second.status_ = RuleStatus::NORMAL;
+        rule_builder_.subparser("tree_many");
+        chilon::variant_apply(std::get<0>(sub.value_), rule_builder_);
+        rule_builder_.end_subparser();
+        rule_.second.status_ = RuleStatus::PROCESSED;
+    }
+
+    void operator()(grammar::nyu::Sequence& sub) {
+        rule_builder_.print_indent();
+        rule_builder_.stream_ << "TODO_tree_optional_sequence";
+    }
+
     build_tree_node(decltype(rule_builder_)& rule_builder,
                     decltype(rule_)&         rule)
       : rule_builder_(rule_builder), rule_(rule) {}
@@ -50,27 +72,27 @@ struct build_rule::build_tree_node {
 
 struct build_rule::first_node_expr : build_rule::build_tree_node, is_tree_node {
     template <class T>
-    void operator()(T& sub) {
+    inline void operator()(T& sub) { build_normal_rule(sub); }
+    inline void operator()(Join& sub) { build_subrule(sub); }
+    inline void operator()(Suffix& sub) { build_subrule(sub); }
+    inline void operator()(Sequence& sub) { build_subrule(sub); }
+
+  private:
+    template <class T>
+    inline void build_subrule(T& sub) {
+        if (is_tree_node::operator()(sub))
+            build_rule::build_tree_node::operator()(sub);
+        else build_normal_rule(sub);
+    }
+
+    template <class T>
+    inline void build_normal_rule(T& sub) {
         rule_.second.status_ = RuleStatus::NODE;
         rule_builder_(sub);
         rule_.second.status_ = RuleStatus::PROCESSED;
     }
 
-    void operator()(Join& sub) {
-        if (is_tree_node::operator()(sub))
-            build_rule::build_tree_node::operator()(sub);
-        else {
-            rule_.second.status_ = RuleStatus::NODE;
-            rule_builder_(sub);
-            rule_.second.status_ = RuleStatus::PROCESSED;
-        }
-    }
-
-    // mega TODO: specialise operator() on sequence also to look for
-    //            |?
-    // mega TODO: specialise operator() on suffix also to look for
-    //            |+
-
+  public:
     first_node_expr(decltype(rule_builder_)& rule_builder,
                     decltype(rule_)&         rule)
       : build_rule::build_tree_node(rule_builder, rule) {}
