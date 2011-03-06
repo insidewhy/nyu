@@ -9,7 +9,7 @@
 namespace nyu { namespace cpp {
 
 class build_rule {
-    class is_tree_node;
+    class build_tree_node;
     class first_node_expr;
 
     typedef build_grammar::rule_type      rule_type;

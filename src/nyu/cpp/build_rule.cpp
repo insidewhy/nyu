@@ -6,22 +6,49 @@
 
 namespace nyu { namespace cpp {
 
-struct build_rule::is_tree_node {
+struct is_tree_node {
     template <class T>
     bool operator()(T&) const { return false; }
 
-    bool operator()(build_rule::Join& sub) const {
+    bool operator()(grammar::nyu::Join& sub) const {
         auto& op = std::get<1>(sub.value_);
         return op.is<chilon::range>() &&
                op.at<chilon::range>().front() == '|';
     }
 };
 
-class build_rule::first_node_expr : is_tree_node {
+struct build_rule::build_tree_node {
+  protected:
     build_rule&  rule_builder_;
     rule_type&   rule_;
 
   public:
+    template <class T>
+    void operator()(T&) { }
+
+    void operator()(grammar::nyu::Join& sub) {
+        rule_.second.status_ = RuleStatus::NORMAL;
+
+        // the at<...>() must succeed when is_tree_node returns true
+        auto const& op_str = std::get<1>(sub.value_).at<chilon::range>();
+        if (op_str == "|%")
+            rule_builder_.subparser("tree_joined");
+        else
+            rule_builder_.subparser("tree_joined_lexeme");
+
+        chilon::variant_apply(std::get<2>(sub.value_), rule_builder_);
+        rule_builder_.stream_ << ",\n";
+        chilon::variant_apply(std::get<0>(sub.value_), rule_builder_);
+        rule_builder_.end_subparser();
+        rule_.second.status_ = RuleStatus::PROCESSED;
+    }
+
+    build_tree_node(decltype(rule_builder_)& rule_builder,
+                    decltype(rule_)&         rule)
+      : rule_builder_(rule_builder), rule_(rule) {}
+};
+
+struct build_rule::first_node_expr : build_rule::build_tree_node, is_tree_node {
     template <class T>
     void operator()(T& sub) {
         rule_.second.status_ = RuleStatus::NODE;
@@ -30,27 +57,13 @@ class build_rule::first_node_expr : is_tree_node {
     }
 
     void operator()(Join& sub) {
-        if (is_tree_node::operator()(sub)) {
-            rule_.second.status_ = RuleStatus::NORMAL;
-
-            // the at<...>() must succeed when is_tree_node returns true
-            auto const& op_str = std::get<1>(sub.value_).at<chilon::range>();
-            if (op_str == "|%")
-                rule_builder_.subparser("tree_joined");
-            else
-                rule_builder_.subparser("tree_joined_lexeme");
-
-            chilon::variant_apply(std::get<2>(sub.value_), rule_builder_);
-            rule_builder_.stream_ << ",\n";
-            chilon::variant_apply(std::get<0>(sub.value_), rule_builder_);
-            rule_builder_.end_subparser();
-        }
+        if (is_tree_node::operator()(sub))
+            build_rule::build_tree_node::operator()(sub);
         else {
             rule_.second.status_ = RuleStatus::NODE;
             rule_builder_(sub);
+            rule_.second.status_ = RuleStatus::PROCESSED;
         }
-
-        rule_.second.status_ = RuleStatus::PROCESSED;
     }
 
     // mega TODO: specialise operator() on sequence also to look for
@@ -60,7 +73,7 @@ class build_rule::first_node_expr : is_tree_node {
 
     first_node_expr(decltype(rule_builder_)& rule_builder,
                     decltype(rule_)&         rule)
-      : rule_builder_(rule_builder), rule_(rule) {}
+      : build_rule::build_tree_node(rule_builder, rule) {}
 };
 
 void build_rule::operator()(rule_type& rule) {
@@ -300,9 +313,13 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
             if (chilon::variant_apply(
                     std::get<2>(it->second.value_).value_, is_tree_node()))
             {
+                build_rule build_this_tree(grammar_builder_);
+                chilon::variant_apply(
+                    std::get<2>(it->second.value_).value_,
+                    build_tree_node(build_this_tree, *it));
+
                 print_indent();
                 stream_ << sub.front();
-                grammar_builder_(*it);
             }
             else {
                 it->second.status_ = RuleStatus::NODE;

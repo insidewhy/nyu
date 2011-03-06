@@ -12,7 +12,7 @@ head {
 
 %h2 Creating a grammar
 
-%p { Grammars must begin with &ldquo;@grammar&rdquo; and this determines the namespace the output grammar lives within. }
+%p { Grammars must begin with a &ldquo;@grammar&rdquo; statement which is used to determines the namespace the output grammar lives within. }
 
 %pre {
     @grammar MyGrammar
@@ -75,7 +75,7 @@ EOF
 %pre <<EOF
     @grammar js
     Spacing     <- \s
-    Id  <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
+    Id          <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
 
     // Sequences store tuples.  sub-tuples are broken down into the parent
     // tuple type, and a tuple that stores a single type is broken down into
