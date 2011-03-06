@@ -300,6 +300,7 @@ void build_rule::operator()(chilon::range& sub) {
             stream_ << "not_";
         case 'n':
         case 't':
+        case '\\':
             stream_ << "char_<'\\" << sub[1] << "'>";
             break;
         default:

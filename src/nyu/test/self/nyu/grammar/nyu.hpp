@@ -32,10 +32,10 @@ struct CharacterRange : chpar::simple_node<
             chpar::choice<
                 chpar::lexeme<
                     chpar::choice<
-                        chpar::char_<'\'>
+                        chpar::char_<'\\'>
                     >,
                     chpar::choice<
-                        chpar::char_<'\'>,
+                        chpar::char_<'\\'>,
                         chpar::char_<']'>,
                         chpar::char_<'s'>,
                         chpar::char_<'S'>,
@@ -59,7 +59,7 @@ struct CharacterRange : chpar::simple_node<
 
 typedef chpar::lexeme<
     chpar::choice<
-        chpar::char_<'\'>
+        chpar::char_<'\\'>
     >,
     chpar::choice<
         chpar::char_<'s'>,
@@ -75,7 +75,7 @@ typedef chpar::lexeme<
         chpar::char_<'!'>,
         chpar::char_<'+'>,
         chpar::char_<'*'>,
-        chpar::char_<'\'>
+        chpar::char_<'\\'>
     >
 > Escape;
 
