@@ -61,8 +61,8 @@ module {
                         '?'
                     )
                     [
-                        "nyu"
-                        "Grammar"
+                        "nyah"
+                        "NyuGrammar"
                     ]
                 ]
             )
@@ -145,6 +145,14 @@ module {
                 Expression: [
                     "nyu"
                     "ScopedId"
+                ]
+            )
+            "NyuGrammar" -> Rule: (
+                []
+                '-'
+                Expression: [
+                    "nyu"
+                    "Grammar"
                 ]
             )
             "UnsignedInteger" -> Rule: (

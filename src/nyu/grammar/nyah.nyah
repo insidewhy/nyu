@@ -9,8 +9,9 @@ class WithStatus {
 
 @grammar nyah : nyu
 
-Id       <- nyu::Id
-ScopedId <- nyu::ScopedId
+Id         <- nyu::Id
+ScopedId   <- nyu::ScopedId
+NyuGrammar <- nyu::Grammar // todo: erase
 
 UnsignedInteger <- [0-9]+
 

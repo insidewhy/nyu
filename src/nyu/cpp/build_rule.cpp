@@ -323,7 +323,8 @@ void build_rule::operator()(chilon::range& sub) {
 
 void build_rule::operator()(std::vector<chilon::range>& sub) {
     if (1 == sub.size()) {
-        auto& grammar_rules = std::get<1>(grammar_builder_.grammar_.second.value_);
+        auto& grammar_rules =
+            std::get<1>(grammar_builder_.grammar_.second.value_);
         // look for rule in grammar
         auto it = grammar_rules.find(sub.front());
 
@@ -371,11 +372,24 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
     }
     else if (2 == sub.size()) {
         print_indent();
-        stream_ << "TODO_parent_rule";
+
+        if (! grammar_builder_.parent_grammar_)
+            throw error::file_location("no parent grammar", sub.front());
+
+        // TODO: check all ancestor grammars
+        if (sub.front() != grammar_builder_.parent_grammar_->first)
+            throw error::file_location("not a valid parent grammar", sub.front());
+
+        auto& parent_rules =
+            std::get<1>(grammar_builder_.grammar_.second.value_);
+
+        if (! parent_rules.count(sub.back()))
+            throw error::file_location("rule does not exist", sub.back());
+
+        chilon::print_join(stream_, "::", sub);
     }
     else {
-        print_indent();
-        stream_ << "TODO_qualified_rule";
+        throw error::file_location("qualified rule not supported", sub.front());
     }
 }
 

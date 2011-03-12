@@ -1,5 +1,5 @@
-#ifndef NYU_GRAMMAR_META_HPP
-#define NYU_GRAMMAR_META_HPP
+#ifndef nyu_grammar_meta_HPP
+#define nyu_grammar_meta_HPP
 
 #include <nyu/grammar/nyah.hpp>
 
@@ -7,10 +7,9 @@ namespace nyu { namespace grammar { namespace meta {
 
 namespace chpar = chilon::parser;
 
-// generated from here except for type references to parent rules
-typedef nyah::Id        Id;
+typedef nyah::Id Id;
 
-typedef nyah::ScopedId  ScopedId;
+typedef nyah::ScopedId ScopedId;
 
 typedef chpar::joined_plus<
     chpar::char_<'.'>,
@@ -35,7 +34,7 @@ struct NyuGrammar : WithStatus, chpar::simple_node<
                 ScopedId
             >
         >,
-        nyu::Grammar
+        nyah::NyuGrammar
     >
 > {};
 

@@ -7,9 +7,11 @@ namespace nyu { namespace grammar { namespace nyah {
 
 namespace chpar = chilon::parser;
 
-typedef TODO_parent_rule Id;
+typedef nyu::Id Id;
 
-typedef TODO_parent_rule ScopedId;
+typedef nyu::ScopedId ScopedId;
+
+typedef nyu::Grammar NyuGrammar;
 
 typedef chpar::many_plus<
     chpar::char_range<'0','9'>

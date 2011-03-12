@@ -1,7 +1,8 @@
-#ifndef NYU_GRAMMAR_NYAH_HPP
-#define NYU_GRAMMAR_NYAH_HPP
+#ifndef nyu_grammar_nyah_HPP
+#define nyu_grammar_nyah_HPP
 
 #include <nyu/grammar/nyu.hpp>
+// include not generated yet
 #include <nyu/grammar.hpp>
 
 namespace nyu { namespace grammar { namespace nyah {
@@ -12,7 +13,8 @@ typedef nyu::Id Id;
 
 typedef nyu::ScopedId ScopedId;
 
-// generated from here below
+typedef nyu::Grammar NyuGrammar;
+
 typedef chpar::many_plus<
     chpar::char_range<'0','9'>
 > UnsignedInteger;

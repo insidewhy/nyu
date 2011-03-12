@@ -7,9 +7,9 @@ namespace nyu { namespace grammar { namespace meta {
 
 namespace chpar = chilon::parser;
 
-typedef TODO_parent_rule Id;
+typedef nyah::Id Id;
 
-typedef TODO_parent_rule ScopedId;
+typedef nyah::ScopedId ScopedId;
 
 typedef chpar::joined_plus<
     chpar::char_<'.'>,
@@ -34,7 +34,7 @@ struct NyuGrammar : WithStatus, chpar::simple_node<
                 ScopedId
             >
         >,
-        TODO_parent_rule
+        nyah::NyuGrammar
     >
 > {};
 
@@ -48,7 +48,7 @@ struct Module : WithStatus, chpar::simple_node<
         >,
         chpar::many_plus<
             chpar::choice<
-                TODO_parent_rule,
+                nyah::Grammar,
                 NyuGrammar
             >
         >

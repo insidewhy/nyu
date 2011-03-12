@@ -9,8 +9,9 @@ ScopedId         <- nyah::ScopedId
 ModuleId         <- Id %+ '.'
 ModuleDefinition <- "@module" ModuleId
 
+// todo: use nyu::Grammar instead of nyah::NyuGrammar
 NyuGrammar       < WithStatus =
-    "@grammar" #Id (":" ScopedId)?  nyu::Grammar
+    "@grammar" #Id (":" ScopedId)? nyah::NyuGrammar
 
 Module           < WithStatus =
     #+(ModuleDefinition?) (nyah::Grammar / NyuGrammar)+
