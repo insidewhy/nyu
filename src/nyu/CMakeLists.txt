@@ -23,6 +23,8 @@ install(TARGETS nyu
         LIBRARY DESTINATION ${LIB_DIR})
 file(GLOB headers *.hpp)
 install(FILES ${headers} DESTINATION ${HEADER_DIR}/nyu)
+install(DIRECTORY ${CHILON_DIR} DESTINATION ${HEADER_DIR}
+        REGEX /\(.git|doc|test|bin|TODO|README\)\(/|$\) EXCLUDE)
 
 set(MOUSEDEER_SYSTEM_INCLUDE_PATH
     "${CMAKE_INSTALL_PREFIX}/include/nyu"
