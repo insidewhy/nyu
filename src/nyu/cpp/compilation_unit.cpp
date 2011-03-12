@@ -19,10 +19,10 @@ struct print_include {
 };
 
 void compilation_unit::close() {
-    if (type_ref_map_.empty()) return;
+    if (dependencies_.empty()) return;
 
     stream_ << '\n';
-    for (auto it = type_ref_map_.begin(); it != type_ref_map_.end(); ++it) {
+    for (auto it = dependencies_.begin(); it != dependencies_.end(); ++it) {
         stream_ << "#include <";
         chilon::variant_apply(*it, print_include(stream_));
         stream_ << ".hpp>\n";

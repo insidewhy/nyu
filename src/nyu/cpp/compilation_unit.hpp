@@ -34,7 +34,7 @@ class compilation_unit : public output_file {
             chilon::key_value<scope_type, grammar::meta::Module *> >,
         chilon::hasher>                                   map_t;
 
-    map_t  type_ref_map_;
+    map_t  dependencies_;
 
   protected:
     builder&       get_builder()       { return builder_; }
@@ -46,9 +46,9 @@ class compilation_unit : public output_file {
 
   public:
     template <class T>
-    void add_type_ref(T& dep) {
+    void register_and_build_dep(T& dep) {
         builder_(dep);
-        type_ref_map_.insert(
+        dependencies_.insert(
             chilon::key_value<scope_type, decltype(dep.second) *>(
                 dep.first, &dep.second));
     }

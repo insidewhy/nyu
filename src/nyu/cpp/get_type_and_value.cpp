@@ -19,7 +19,7 @@ struct get_type_and_value::module_dep {
     void operator()(T& t) { resolver_(t); }
 
     void operator()(enum_type& enm) {
-        unit_.add_type_ref(module_);
+        unit_.register_and_build_dep(module_);
         resolver_(enm);
     }
 };

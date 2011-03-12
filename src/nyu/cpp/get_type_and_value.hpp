@@ -15,6 +15,8 @@ class compilation_unit;
 
 // splits something like namespace_.class_.colors_enum_.RED
 // into namespace_.class_.colors_enum_ and RED
+// when a dependency compilation unit is found it is built and added
+// to the list of dependencies of the dependent.
 class get_type_and_value : public search_ast {
     struct module_dep;
 
