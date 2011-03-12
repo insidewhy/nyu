@@ -3,6 +3,8 @@
 
 #include <nyu/grammar/nyah.hpp>
 
+#include <nyu/grammar/WithStatus.hpp>
+
 namespace nyu { namespace grammar { namespace meta {
 
 namespace chpar = chilon::parser;

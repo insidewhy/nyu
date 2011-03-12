@@ -18,7 +18,7 @@ struct build_module : compilation_unit {
     void operator()(T& t) {}
 
     // classes and grammars create a new namespace dependency
-    void subnamespace(class_type& clss);
+    void subnamespace(class_type& clss) { builder_(clss, module_); }
 
     void subnamespace(grammar_type& gram) {
         build_grammar_scope(gram, module_);

@@ -1,37 +1,11 @@
 #ifndef NYU_GRAMMAR_GRAMMAR_HPP
 #define NYU_GRAMMAR_GRAMMAR_HPP
 
-#include <chilon/parser/source_code_stream.hpp>
-#include <chilon/parser/sequence.hpp>
-#include <chilon/parser/ascii.hpp>
-#include <chilon/parser/joined.hpp>
-#include <chilon/parser/choice.hpp>
-#include <chilon/parser/until.hpp>
-#include <chilon/parser/any_char.hpp>
-#include <chilon/parser/not_char.hpp>
-#include <chilon/parser/tbpeg_not.hpp>
-#include <chilon/parser/char.hpp>
-#include <chilon/parser/char_range.hpp>
-#include <chilon/parser/lexeme.hpp>
-#include <chilon/parser/not.hpp>
-#include <chilon/parser/optional.hpp>
-#include <chilon/parser/simple_node.hpp>
-#include <chilon/parser/tree_joined.hpp>
-#include <chilon/parser/tree_many.hpp>
+#include <nyu/grammar/NyuRule.hpp>
+
+#include <chilon/parser.hpp>
 
 namespace nyu { namespace grammar {
-
-struct NyuRule {
-    enum class Status {
-        UNKNOWN,
-        NORMAL,    // set while processing dependencies of rule
-        NODE,      // set while processing dependencies of node
-        PROCESSED // set after processing dependencies
-    };
-
-    NyuRule() : status_(Status::UNKNOWN) {}
-    Status status_;
-};
 
 namespace nyu {
 
@@ -41,13 +15,6 @@ using namespace chilon::parser::ascii;
 // for compatibility with generated code
 namespace chpar = chilon::parser;
 
-// typedef choice<
-//     sequence<
-//         char_<'/', '/'>,
-//         until<char_<'\n'>, any_char>
-//     >,
-//     whitespace
-// > Spacing;
 typedef chpar::choice<
     chpar::char_from<'\n', '\t', ' '>,
     chpar::lexeme<

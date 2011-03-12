@@ -37,6 +37,9 @@ class builder {
     typedef typename parser::stored<
         grammar::meta::Module>::type  module_type;
 
+    typedef typename parser::stored<
+        grammar::nyah::Class>::type   class_type;
+
     typedef std::vector<range>  ns_type;
 
     options const& opts() const { return options_; }
@@ -55,6 +58,7 @@ class builder {
     void parse_file(std::string const& file_path);
 
     void operator()(module_type& module);
+    void operator()(class_type& clss, module_type& module);
 
     void print_ast() const;
     void generate_code();

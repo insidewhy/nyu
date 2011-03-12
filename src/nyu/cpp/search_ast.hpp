@@ -10,6 +10,7 @@ namespace nyu { namespace cpp {
 struct search_ast {
     typedef builder::ast_t                       ast_t;
     typedef builder::module_type                 module_type;
+    typedef builder::class_type                  class_type;
     typedef output_file::ns_type                 scope_type;
     typedef module_type::value_type::value_type  module_scope_type;
 

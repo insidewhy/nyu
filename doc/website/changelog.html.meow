@@ -13,16 +13,22 @@ head {
     %li {
         .inprogress in progress
         %ul {
-            %li c++0x output for release 0.9
+            %li {
+                c++0x output for release 0.5
+                %ul {
+                    %li print file location errors discovered during code generation.
+                    %li "|? rules"
+                }
+            }
             %li javascript output for release 1.0
         }
-	}
+    }
     %li {
         release 0.3
         %ul {
-			%li Partial code generation of classes and enumerations.
-			%li Add documentation.
-			%li Code simplifications and fixes.
+            %li Partial code generation of classes and enumerations.
+            %li Add documentation.
+            %li Code simplifications and fixes.
             %li Upgrade chilon to fix missing include.
         }
     }

@@ -53,6 +53,17 @@ class compilation_unit : public output_file {
                 dep.first, &dep.second));
     }
 
+    template <class T>
+    void register_and_build_dep(T& dep, module_type& module) {
+        builder_(dep, module);
+
+        scope_type scope = module.first;
+        scope.push_back(dep.first);
+        dependencies_.insert(
+            chilon::key_value<scope_type, decltype(dep.second) *>(
+                scope, &dep.second));
+    }
+
     void close();
 
     compilation_unit(builder& builder, decltype(module_)& module)

@@ -2,8 +2,8 @@
 #define nyu_grammar_nyah_HPP
 
 #include <nyu/grammar/nyu.hpp>
-// include not generated yet
-#include <nyu/grammar.hpp>
+
+#include <nyu/grammar/WithStatus.hpp>
 
 namespace nyu { namespace grammar { namespace nyah {
 

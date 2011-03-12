@@ -6,21 +6,6 @@
 
 namespace nyu { namespace cpp {
 
-void build_module::subnamespace(class_type& clss) {
-    if (clss.second.status_ == grammar::Status::PROCESSED) return;
-    else if (clss.second.status_ == grammar::Status::PROCESSING)
-        throw error::dep_cycle(clss.first);
-
-    cpp::build_class class_builder(builder_, module_, clss);
-    for (auto it = clss.second.value_.begin();
-         it != clss.second.value_.end(); ++it)
-    {
-        chilon::variant_apply(*it, class_builder);
-    }
-
-    class_builder.close();
-}
-
 void build_module::close() {
     if (! stream_.is_open()) return;
 

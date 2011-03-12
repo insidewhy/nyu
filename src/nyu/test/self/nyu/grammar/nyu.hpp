@@ -3,6 +3,8 @@
 
 #include <chilon/parser.hpp>
 
+#include <nyu/grammar/NyuRule.hpp>
+
 namespace nyu { namespace grammar { namespace nyu {
 
 namespace chpar = chilon::parser;

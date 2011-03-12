@@ -1,5 +1,6 @@
 #include <nyu/cpp/builder.hpp>
 #include <nyu/cpp/build_module.hpp>
+#include <nyu/cpp/build_class.hpp>
 #include <nyu/error/not_found.hpp>
 #include <nyu/error/include_not_found.hpp>
 #include <nyu/error/dep_cycle.hpp>
@@ -72,6 +73,21 @@ void builder::operator()(module_type& module) {
         chilon::variant_apply(*it, namespace_builder(module_builder));
 
     module_builder.close();
+}
+
+void builder::operator()(class_type& clss, module_type& module) {
+    if (clss.second.status_ == grammar::Status::PROCESSED) return;
+    else if (clss.second.status_ == grammar::Status::PROCESSING)
+        throw error::dep_cycle(clss.first);
+
+    cpp::build_class class_builder(*this, module, clss);
+    for (auto it = clss.second.value_.begin();
+         it != clss.second.value_.end(); ++it)
+    {
+        chilon::variant_apply(*it, class_builder);
+    }
+
+    class_builder.close();
 }
 
 void builder::print_ast() const {
