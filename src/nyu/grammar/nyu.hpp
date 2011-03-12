@@ -37,7 +37,7 @@ struct CharacterRange : simple_node<CharacterRange, lexeme<
             lexeme<
                 store<char_<'\\'>>,
                 char_from<'\\',']',s,S,n,N,t,T> >,
-            sequence< not_char<']'>, char_<'-'>, not_char<']'> >,
+            lexeme< not_char<']'>, char_<'-'>, not_char<']'> >,
             not_char<']'> > >,
     char_<']'>
 > > {};

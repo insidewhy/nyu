@@ -15,7 +15,7 @@ order/stdout: order.nyah ${nyu}
 	rm -rf .$$dir; \
 	mkdir -p .$$dir; \
 	${nyu}  2>.$$dir/stderr >.$@ -I. -I../grammar -p -o .$$dir $<; \
-	diff -r $$dir .$$dir
+	diff -r $$dir .$$dir && rm -rf .$$dir
 	@touch $@
 	@echo $< succeeded
 
