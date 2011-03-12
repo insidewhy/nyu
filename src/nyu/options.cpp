@@ -58,7 +58,7 @@ int options::parse_command_line(char const *header, int argc, char *argv[]) {
         return 0;
     }
 
-    include_paths_.push_back(std::string(MOUSEDEER_SYSTEM_INCLUDE_PATH));
+    include_paths_.push_back(std::string(NYU_SYSTEM_INCLUDE_PATH));
 
     if (nPositionals < 1) {
         std::cerr << "please supply at least one grammar to parse\n";

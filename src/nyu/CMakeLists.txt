@@ -26,7 +26,7 @@ install(FILES ${headers} DESTINATION ${HEADER_DIR}/nyu)
 install(DIRECTORY ${CHILON_DIR} DESTINATION ${HEADER_DIR}
         REGEX /\(.git|doc|test|bin|TODO|README\)\(/|$\) EXCLUDE)
 
-set(MOUSEDEER_SYSTEM_INCLUDE_PATH
+set(NYU_SYSTEM_INCLUDE_PATH
     "${CMAKE_INSTALL_PREFIX}/include/nyu"
     CACHE STRING "nyu default include path")
 
