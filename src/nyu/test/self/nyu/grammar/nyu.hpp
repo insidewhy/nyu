@@ -48,11 +48,11 @@ struct CharacterRange : chpar::simple_node<
                     >
                 >,
                 chpar::lexeme<
-                    chpar::char_<'.'>,
+                    chpar::any_char<>,
                     chpar::char_<'-'>,
-                    chpar::char_<'.'>
+                    chpar::any_char<>
                 >,
-                chpar::char_<'.'>
+                chpar::any_char<>
             >
         >,
         chpar::char_<']'>

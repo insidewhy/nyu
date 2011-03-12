@@ -61,6 +61,8 @@ class build_rule {
     void end_node_rule();
 
   private:
+    class char_range_element;
+
     // a small subparser that will be on a single line
     inline void line_subparser(char const * const name);
     inline void subparser(char const * const name);

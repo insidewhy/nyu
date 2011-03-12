@@ -234,6 +234,21 @@ void build_rule::operator()(String& sub) {
     stream_ << '>';
 }
 
+struct build_rule::char_range_element {
+    template <class T>
+    void operator()(T& t) { builder_(t); }
+
+    void operator()(char const t) {
+        builder_.line_subparser("char_");
+        print_char(builder_.stream_, t);
+        builder_.stream_ << '>';
+    }
+
+    char_range_element(build_rule& builder) : builder_(builder) {}
+  private:
+    build_rule& builder_;
+};
+
 void build_rule::operator()(CharacterRange& sub) {
     typedef std::tuple<char, char> char_range_t;
 
@@ -295,7 +310,14 @@ void build_rule::operator()(CharacterRange& sub) {
     }
 
     subparser("choice");
-    nested_parser(sub.value_);
+    it = sub.value_.begin();
+    char_range_element build_char_range(*this);
+    chilon::variant_apply(*it, build_char_range);
+    for (++it; it != sub.value_.end(); ++it) {
+        stream_ << ",\n";
+        chilon::variant_apply(*it, build_char_range);
+    }
+    end_subparser();
 }
 
 void build_rule::operator()(chilon::range& sub) {
@@ -394,8 +416,7 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
 }
 
 void build_rule::operator()(char const sub) {
-    line_subparser("char_");
-    print_char(stream_, sub);
+    line_subparser("any_char");
     stream_ << '>';
 }
 
