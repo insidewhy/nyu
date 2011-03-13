@@ -18,3 +18,13 @@ This project is organised like this:
             grammar/      - nyu chilon::parser grammar
 
 Please see http://chilon.net/nyu for documentation.
+
+blurb:
+
+nyu is a combination of modern academic approaches to parsing formal grammars that represents the new state of the art in parser generators. nyu grammars are written in a powerful language based on PEGs (parsing expression grammars) but with modifications to allow both the AST and the parser to be specified intuitively in a single grammar.
+
+nyu outputs parsers that take advantage of the chilon::parser meta-programming library for c++. Generated parsers are almost as concise and readable as the input grammars yet perform as well as hand-written C code.
+
+nyu ASTs are built using tuples, variant types and lists and allow self referential parse rules and AST nodes to be manipulated.
+
+Advanced features such as hashed nodes and grammar inheritance are also possible and well tested. nyu is currently complete enough to deal with complex grammars and bootstraps its own parser.
