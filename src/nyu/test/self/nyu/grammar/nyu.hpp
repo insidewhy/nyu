@@ -161,7 +161,7 @@ struct Suffix : chpar::simple_node<
     Suffix,
     chpar::sequence<
         Primary,
-        chpar::TODO_suffix_|?<
+        chpar::tree_optional<
             chpar::choice<
                 chpar::char_from<'?', '*', '+'>,
                 chpar::char_<'^', '+'>,
@@ -176,7 +176,7 @@ struct Suffix : chpar::simple_node<
 struct Prefix : chpar::simple_node<
     Prefix,
     chpar::sequence<
-        chpar::TODO_suffix_|?<
+        chpar::tree_optional<
             chpar::choice<
                 chpar::char_<'&', '!'>,
                 chpar::char_<'#', '+'>,

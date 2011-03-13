@@ -10,6 +10,7 @@ include(C++0x)
 include(Installer)
 
 include_directories(..)
+include_directories(test/self)
 add_definitions(-Wall)
 
 add_executable(nyu nyu.cpp options.cpp

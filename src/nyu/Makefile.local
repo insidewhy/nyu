@@ -1,9 +1,4 @@
-.PHONY: regenerate accept
-
-regenerate:
-	@cp test/.self/nyu/grammar/*.hpp grammar
-	@cp test/.self/nyu/grammar.hpp .
-	@echo regenerated C++ parser and AST from nyah
+.PHONY: accept
 
 accept:
 	${MAKE} -C test accept
