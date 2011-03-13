@@ -22,8 +22,8 @@
 // #define NYU_VERSION "0.1 (displacing nyu)"
 // #define NYU_VERSION "0.2 (sweet island)"
 // #define NYU_VERSION "0.3 (kuchenfest)"
-#define NYU_VERSION "0.4 (spesiel bee friend)"
-// #define NYU_VERSION "0.5 (suggested mouse name: crunchy)"
+// #define NYU_VERSION "0.4 (spesiel bee friend)"
+#define NYU_VERSION "0.8 (suggested mouse name: crunchy)"
 
 namespace nyu {
 
