@@ -288,12 +288,9 @@ void build_rule::operator()(CharacterRange& sub) {
     typedef std::tuple<char, char> char_range_t;
 
     if (1 == sub.value_.size() && ! sub.value_.front().is<char_range_t>()) {
-        line_subparser("store");
-        stream_ << " char_<\n";
-        ++indent_;
+        subparser("store");
         chilon::variant_apply(sub.value_.front(), *this);
         end_subparser();
-        stream_ << " >";
         return;
     }
 
