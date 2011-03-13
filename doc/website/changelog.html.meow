@@ -14,13 +14,12 @@ head {
         .inprogress in progress
         %ul {
             %li {
-                c++0x output for release 0.5
+                c++0x output for release 0.9
                 %ul {
                     %li print file location errors discovered during code generation.
-                    %li "|? rules"
+                    %li allow use of types from parent modules and grandparent grammars.
                 }
             }
-            %li javascript output for release 1.0
         }
     }
     %li {

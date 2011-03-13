@@ -48,11 +48,13 @@ struct CharacterRange : chpar::simple_node<
                     >
                 >,
                 chpar::lexeme<
-                    chpar::any_char<>,
+                    chpar::any_char,
                     chpar::char_<'-'>,
-                    chpar::any_char<>
+                    chpar::any_char
                 >,
-                chpar::any_char<>
+                chpar::tbpeg_not<
+                    chpar::char_<']'>
+                >
             >
         >,
         chpar::char_<']'>
@@ -86,7 +88,7 @@ struct String : chpar::simple_node<
     chpar::choice<
         chpar::lexeme<
             chpar::char_<'"'>,
-            chpar::many_plus<
+            chpar::many_range<
                 chpar::choice<
                     Escape,
                     chpar::tbpeg_not<
@@ -98,7 +100,7 @@ struct String : chpar::simple_node<
         >,
         chpar::lexeme<
             chpar::char_<'\''>,
-            chpar::many_plus<
+            chpar::many_range<
                 chpar::choice<
                     Escape,
                     chpar::tbpeg_not<
@@ -117,7 +119,7 @@ typedef chpar::lexeme<
         chpar::char_range<'A','Z'>,
         chpar::char_<'_'>
     >,
-    chpar::many_plus<
+    chpar::many<
         chpar::choice<
             chpar::char_range<'a','z'>,
             chpar::char_range<'A','Z'>,

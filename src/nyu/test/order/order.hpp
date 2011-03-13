@@ -27,8 +27,8 @@ typedef chpar::sequence<
 struct D : chpar::simple_node<
     D,
     chpar::sequence<
-        chpar::any_char<>,
-        chpar::any_char<>
+        chpar::any_char,
+        chpar::any_char
     >
 > {};
 

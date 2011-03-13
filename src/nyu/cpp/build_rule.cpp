@@ -228,15 +228,9 @@ void build_rule::operator()(Suffix& sub) {
         if (suffix_str == "^+")
             subparser("many_plus_range");
         else if (suffix_str == "^*")
-            subparser("many_plus");
-        // TODO: replace last else with this
-        // else throw error::file_location(
-        //     "many type not allowed at this scope", suffix_str);
-        else {
-            std::string tmp = "TODO_suffix_";
-            tmp.append(suffix_str);
-            subparser(tmp.c_str());
-        }
+            subparser("many_range");
+        else throw error::file_location(
+            "suffix type only allowed in top-level of a node rule", suffix_str);
     }
 
     chilon::variant_apply(std::get<0>(sub.value_), *this);
@@ -448,8 +442,8 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
 }
 
 void build_rule::operator()(char const sub) {
-    line_subparser("any_char");
-    stream_ << '>';
+    print_indent();
+    stream_ << grammar_builder_.namespace_alias() << "::any_char";
 }
 
 void build_rule::operator()(Expression& sub) {
