@@ -7,6 +7,8 @@
 namespace nyu { namespace cpp {
 
 struct is_tree_node {
+    typedef grammar::nyu::Suffix Suffix;
+
     template <class T>
     bool operator()(T&) const { return false; }
 
@@ -16,14 +18,22 @@ struct is_tree_node {
                op.at<chilon::range>().front() == '|';
     }
 
-    bool operator()(grammar::nyu::Suffix& sub) const {
+    bool operator()(Suffix& sub) const {
         auto& op = std::get<1>(sub.value_);
         return op.is<chilon::range>() && op.at<chilon::range>().front() == '|';
     }
 
-    // mega TODO: specialise operator() on sequence also to look for
-    //            |?
-
+    bool operator()(grammar::nyu::Sequence& sub) const {
+        for (auto it = sub.value_.begin(); it != sub.value_.end(); ++it) {
+            if (it->is<Suffix>()) {
+                auto& suffix = std::get<1>(it->at<Suffix>().value_);
+                if (suffix.is<chilon::range>() &&
+                    suffix.at<chilon::range>() == "|?")
+                { return true; }
+            }
+        }
+        return false;
+    }
 };
 
 struct build_rule::build_tree_node {
@@ -60,9 +70,34 @@ struct build_rule::build_tree_node {
         rule_.second.status_ = RuleStatus::PROCESSED;
     }
 
+
+    template <class T>
+    void build_tree_sequence(T& sub) {
+        if (sub.template is<Suffix>()) {
+            auto& suffix = std::get<1>(sub.template at<Suffix>().value_);
+            if (suffix.template is<chilon::range>() &&
+                suffix.template at<chilon::range>() == "|?")
+            {
+                rule_builder_.subparser("tree_optional");
+                chilon::variant_apply(
+                    std::get<0>(sub.template at<Suffix>().value_),
+                    rule_builder_);
+                rule_builder_.end_subparser();
+                return;
+            }
+        }
+        chilon::variant_apply(sub, rule_builder_);
+    }
+
     void operator()(grammar::nyu::Sequence& sub) {
-        rule_builder_.print_indent();
-        rule_builder_.stream_ << "TODO_tree_optional_sequence";
+        rule_builder_.subparser("sequence");
+        auto it = sub.value_.begin();
+        build_tree_sequence(*it);
+        for (++it; it != sub.value_.end(); ++it) {
+            rule_builder_.stream_ << ",\n";
+            build_tree_sequence(*it);
+        }
+        rule_builder_.end_subparser();
     }
 
     build_tree_node(decltype(rule_builder_)& rule_builder,
