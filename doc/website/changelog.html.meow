@@ -23,6 +23,14 @@ head {
         }
     }
     %li {
+        release 0.8
+        %ul {
+            %li Fully generates C++0x parsers that use chilon::parser.
+            %li Many fixes, tests, improvements and documentation updates.
+            %li nyu now bootstraps its own parser/AST.
+        }
+    }
+    %li {
         release 0.3
         %ul {
             %li Partial code generation of classes and enumerations.
