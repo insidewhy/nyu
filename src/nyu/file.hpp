@@ -23,8 +23,8 @@ class file {
     file() : processed_(false) {};
 
     bool has_range(chilon::range const& data) const {
-        return data.begin() > stream_.file_begin_ &&
-               data.end() < stream_.end();
+        return data.begin() >= stream_.file_begin_ &&
+               data.end() <= stream_.end();
     }
 
     bool parse_succeeded() const {
