@@ -14,7 +14,6 @@ head {
     %a(href=https://sourceforge.net/projects/nyu/files/) download
     %a(href=tutorial.html) tutorial
     %a(href=changelog.html) changelog
-    %a(href=#status) status
 }
 
 %p {
@@ -68,18 +67,6 @@ EOF
 %h2 Further Reading
 
 %p { The syntax of nyu is described in the paper on tree building parser expression grammars which can be found | %a(href=http://chilon.net/papers/tbpeg.pdf) "here." | nyu also includes support for storing hashed containers which is not described in this paper. }
-
-%h2#status Status
-
-%ul.status {
-    %li { .completed completed | Research new notation to extend PEG to include &ldquo;AST-building&rdquo; parsers. Read paper | a(href=http://chilon.net/papers/tbpeg.pdf) TBPEGs }
-    %li { .completed completed | chilon::parser, a C++0x implementation of TBPEGs, to be used for C++0x generated parsers. Project website | a(href=http://chilon.net/library.html) chilon::parser }
-    %li { .completed completed | nyu parser written in nyu. }
-    %li { .completed completed | nyu parser in chilon::parser to be used for bootstrapping the above parser. }
-    %li { .inprogress in progress | C++0x chilon::parser output. }
-    %li { .yettostart yet to start | javascript parser output for use in live nyu demo on website. }
-    %li { .yettostart yet to start | More output languages: java, ruby, C, C++ as boost::spirit. }
-}
 
 %h2 Contributing
 
