@@ -14,18 +14,18 @@ head {
         .inprogress in progress
         %ul {
             %li {
-                for release 0.8.1
-                %ul {
-                    %li Print file location errors discovered during code generation.
-                }
-            }
-            %li {
                 for release 0.9
                 %ul {
                     %li Allow use of types from parent modules and grandparent grammars.
                     %li Lookup missing rule references in parent and grandparent grammars.
                 }
             }
+        }
+    }
+    %li {
+        release 0.8.1
+        %ul {
+            %li Print file location of errors discovered during code generation.
         }
     }
     %li {

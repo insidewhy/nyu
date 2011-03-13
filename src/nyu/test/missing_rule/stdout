@@ -1,0 +1,3 @@
+missing_rule.nyah:3:16:rule not found
+Grammar <- 'p' Jumbo
+               [1;31m^[0;m

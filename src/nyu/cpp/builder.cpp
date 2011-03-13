@@ -30,6 +30,18 @@ void builder::generate_code() {
     }
 }
 
+void builder::file_error(chilon::range location, std::string const& error) {
+    for (auto it = files_.begin(); it != files_.end(); ++it) {
+        if (it->second.has_range(location)) {
+            it->second.set_begin(location.begin());
+            it->second.print_parse_error(std::cout, it->first, error);
+            return;
+        }
+    }
+
+    std::cout << "parse error:<unknown path>:" << error << std::endl;
+}
+
 void builder::parse_file(std::string const& file_path) {
     auto& file = add_file(file_path);
 
@@ -40,7 +52,7 @@ void builder::parse_file(std::string const& file_path) {
     char const *fileData = file_path.c_str();
     if (file.parse(fileData, ast_)) {
         if (! file.parse_succeeded()) {
-            file.print_parse_error(std::cout, file_path);
+            file.print_parse_error(std::cout, file_path, "parse error");
             throw error::parsing(file_path);
         }
         else

@@ -2,13 +2,15 @@
 
 nyu    = ../.obj/nyu
 
-test: self/stdout fail/stdout bad_include/stdout class/stdout order/stdout
+test: self/stdout parse_fail/stdout bad_include/stdout class/stdout \
+	  order/stdout missing_rule/stdout
 
 self/stdout: self.nyah $(wildcard ../grammar/*.nyah) ${nyu}
-fail/stdout: fail.nyah ${nyu}
+parse_fail/stdout: parse_fail.nyah ${nyu}
 class/stdout: class.nyah ${nyu}
 bad_include/stdout: bad_include.nyah ${nyu}
 order/stdout: order.nyah ${nyu}
+missing_rule/stdout: missing_rule.nyah ${nyu}
 
 %/stdout:
 	@dir=`dirname $@`; \

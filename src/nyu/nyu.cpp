@@ -3,6 +3,7 @@
 #include <nyu/error/output_file.hpp>
 #include <nyu/error/grammar_not_found.hpp>
 #include <nyu/error/include_not_found.hpp>
+#include <nyu/error/file_location.hpp>
 
 #include <chilon/print.hpp>
 
@@ -23,7 +24,8 @@
 // #define NYU_VERSION "0.2 (sweet island)"
 // #define NYU_VERSION "0.3 (kuchenfest)"
 // #define NYU_VERSION "0.4 (spesiel bee friend)"
-#define NYU_VERSION "0.8 (suggested mouse name: crunchy)"
+// #define NYU_VERSION "0.8 (suggested mouse name: crunchy yore)"
+#define NYU_VERSION "0.8.1 (suggested mouse name: crunchy)"
 
 namespace nyu {
 
@@ -56,6 +58,10 @@ inline int main(int argc, char *argv[]) {
     }
     catch (error::parsing const& e) {
         chilon::println(std::cerr, e.what(), ": ", e.file_path_);
+    }
+    catch (error::file_location const& e) {
+        build_source.file_error(e.location_, e.what());
+        return 1;
     }
     catch (std::runtime_error const& e) {
         chilon::println(std::cerr, e.what());

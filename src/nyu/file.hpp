@@ -22,12 +22,22 @@ class file {
   public:
     file() : processed_(false) {};
 
+    bool has_range(chilon::range const& data) const {
+        return data.begin() > stream_.file_begin_ &&
+               data.end() < stream_.end();
+    }
+
     bool parse_succeeded() const {
         return stream_.file_loaded() && stream_.empty();
     }
 
+    void set_begin(char const *begin) { stream_.begin() = begin; }
+
     template <class Stream>
-    void print_parse_error(Stream& out, std::string const& file_path) {
+    void print_parse_error(Stream& out,
+                           std::string const& file_path,
+                           std::string const& message)
+    {
         unsigned int column = 0;
         auto it = stream_.begin();
         for (; it != stream_.file_begin_ && *it != '\n'; --it) {
@@ -42,7 +52,8 @@ class file {
         auto line_end = stream_.begin();
         for (; line_end != stream_.end() && *line_end != '\n'; ++line_end) {}
 
-        out << file_path << ':' << line_count << ':' << column << '\n' <<
+        out << file_path << ':' << line_count << ':' << column << ':'
+            << message << '\n' <<
             chilon::range(stream_.begin() - column + 1, line_end) << std::endl;
 
         // TODO: modulus number of columns in display

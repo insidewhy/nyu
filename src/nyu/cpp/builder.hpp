@@ -63,6 +63,8 @@ class builder {
     void print_ast() const;
     void generate_code();
 
+    void file_error(chilon::range location, std::string const& error);
+
     builder(decltype(options_)& options) : options_(options) {}
 };
 
