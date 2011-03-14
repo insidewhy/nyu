@@ -25,3 +25,5 @@ head {
     // variant that stores a single type is collapsed to that type.
     Grammar <- (FuncCall / Id)+
 EOF
+
+%a(href=joined.html) previous | " | " | %a(href=node.html) next

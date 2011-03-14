@@ -6,7 +6,7 @@ head {
 
 !body
 
-%h1 Tutorial 2 - Parsing Sequences
+%h1 Tutorial - Parsing Sequences
 
 %p { Unlike PEGs whitespace is optional between elements in a sequence. The &ldquo;Spacing&ldquo; rule is used to determine what is considered whitespace (and thus should contain no sequences itself). The symbol ^ can be used to seperate elements where spacing is not permitted. }
 
@@ -17,3 +17,4 @@ head {
     VarDeclaration <- "var" Identifier
 EOF
 
+%a(href=begin.html) previous | " | " | %a(href=joined.html) next

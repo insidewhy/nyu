@@ -9,3 +9,5 @@ head {
 %h1 Tutorial - Creating Classes
 
 %pre TODO
+
+%a(href=enumeration.html) previous

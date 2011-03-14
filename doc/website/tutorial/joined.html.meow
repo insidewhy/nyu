@@ -33,3 +33,4 @@ head {
     //             as: vector<string>("hello", "king")
 EOF
 
+%a(href=sequences.html) previous | " | " | %a(href=choice.html) next

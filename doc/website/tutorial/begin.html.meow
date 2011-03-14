@@ -30,3 +30,4 @@ head {
        a star followed by a slash */
 EOF
 
+%a(href=index.html) previous | " | " | %a(href=sequences.html) next

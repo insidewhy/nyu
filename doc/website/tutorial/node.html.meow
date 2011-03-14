@@ -62,3 +62,5 @@ EOF
     Expression <= Addition
     Grammar    <- Expression+
 EOF
+
+%a(href=choice.html) previous | " | " | %a(href=hash.html) next

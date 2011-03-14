@@ -33,3 +33,5 @@ head {
     //     "second" -> "bye"
     // }
 EOF
+
+%a(href=node.html) previous | " | " | %a(href=tree.html) next

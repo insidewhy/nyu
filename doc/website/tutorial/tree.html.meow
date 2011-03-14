@@ -48,3 +48,5 @@ head {
     // parses: 4 + 2 * 7
     // as:     [ Addition[4, Product[2, 7]] ]
 EOF
+
+%a(href=hash.html) previous | " | " | %a(href=inheritence.html) next
