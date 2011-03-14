@@ -20,3 +20,5 @@ ol {
     %li %a(href=enumeration.html) Enumerations
     %li %a(href=class.html) Classes
 }
+
+%a(href=../index.html) previous | " | " | %a(href=begin.html) next
