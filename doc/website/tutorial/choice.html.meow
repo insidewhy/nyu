@@ -1,0 +1,27 @@
+!html
+head {
+    %title nyu - PEG based parser generator tutorial
+    link(rel=stylesheet, type=text/css, href=../css/global.css)
+}
+
+!body
+
+%h1 Tutorial - Choice
+
+%pre <<EOF
+    @grammar js
+    Spacing     <- \s
+    Id          <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
+
+    // Sequences store tuples.  sub-tuples are broken down into the parent
+    // tuple type, and a tuple that stores a single type is broken down into
+    // that type.
+    // FuncCall stores tuple<string, string>.
+    FuncCall <- Id "(" Id ")"
+
+    // FuncCall stores tuple<string, string> and Id stores string so
+    // Grammar stores vector< variant<string, tuple<string, string> > >
+    // Duplicate types are collapsed into a single entry in a variant, and a
+    // variant that stores a single type is collapsed to that type.
+    Grammar <- (FuncCall / Id)+
+EOF

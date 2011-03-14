@@ -1,0 +1,35 @@
+!html
+head {
+    %title nyu - PEG based parser generator tutorial
+    link(rel=stylesheet, type=text/css, href=../css/global.css)
+}
+
+!body
+
+%h1 Tutorial - Parsing joined rules
+
+%pre <<EOF
+    @grammar list
+    Spacing    <- \s
+
+    // * or + repetitions of a character storing parser store a string.
+    IdSuffix <- [0-9a-zA-Z_]*
+
+    // Spacing* is allowed between parsers in a sequence. Spacing* is not
+    // allowed between parsers joined with ^.
+    // The storage types of adjacent string/char storing parsers joined with ^
+    // are collapsed to store a single string, so Id stores a string.
+    Id <- [a-zA-Z_] ^ IdSuffix
+
+    // (P % Q) matches many P joined with Q (with optional Spacing* around
+    // the Q) and stores vector[storage type of P]
+    // In Grammar "[", "," and "]" are not stored as they always match the
+    // same data. (P ^% Q) is the same as (P % Q) but does not allow
+    // Spacing* to match around Q.
+    Grammar    <- "[" (Id % ",") "]"
+
+    // Grammar stores: vector<string>
+    //         parses: [ hello, king ]
+    //             as: vector<string>("hello", "king")
+EOF
+

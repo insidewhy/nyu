@@ -12,7 +12,7 @@ head {
     links:
     %a(href=http://github.com/tuxjay/nyu) source
     %a(href=https://sourceforge.net/projects/nyu/files/) download
-    %a(href=tutorial.html) tutorial
+    %a(href=tutorial/index.html) tutorial
     %a(href=changelog.html) changelog
 }
 

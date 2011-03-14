@@ -1,0 +1,11 @@
+!html
+head {
+    %title nyu - PEG based parser generator tutorial
+    link(rel=stylesheet, type=text/css, href=../css/global.css)
+}
+
+!body
+
+%h1 Tutorial - Grammar Inheritance
+
+%pre TODO

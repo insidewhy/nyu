@@ -1,0 +1,64 @@
+!html
+head {
+    %title nyu - PEG based parser generator tutorial
+    link(rel=stylesheet, type=text/css, href=../css/global.css)
+}
+
+!body
+
+%h1 Tutorial - Node Rules
+
+%h2 Use &lt;= to create node parsers which store new types
+%pre <<EOF
+    @grammar mathematics_basic
+    Spacing   <- \s
+
+    // <int- stores resulting parsed string as int
+    Number    < int - [0-9]+
+
+    // <= creates a "node parser". Node parsers store a new type with the same
+    // name as the parsing rule. The storage types of node parsers are not
+    // flattened into the storage type of including parsers.
+    Product   <= Number %+ "*"
+
+    // %+ is like % but at least one join item must be stored.
+    // P %+ Q matches P (Q P)* and stores vector[storage type of P]
+    Addition  <= Product %+ "+"
+
+    // Spacing* is allowed between elements in each P in P+ or P* unless
+    // P stores a character. P^+ is the same as P+ with no spacing allowed.
+    Grammar   <- Addition+
+
+    // These examples uses [ .. ] to represent a stored list/vector type.
+    // stores: vector<Addition>
+    // creates:
+    //     class Product {
+    //          vector<int> value_;
+    //     }
+    //     class Addition {
+    //          vector<Product> value_;
+    //     }
+    // parses: 4 + 2
+    // as:     [ Addition[Product[4], Product[2]] ]
+    // parses: 4
+    // as:     [ Addition[Product[4]] ]
+    // parses: 4 7
+    // as:     [ Addition[Product[4]], Addition[Product[7]]]
+EOF
+
+%h2 Node parsers can refer to themselves
+%pre <<EOF
+    @grammar mathematics_basic
+    Spacing    <- \s
+    Number     < int - [0-9]+
+
+    // Expression recursively refers to itself through Term. This would not be
+    // possible if Expression was not a node parser as in this case the type of
+    // Expression would recursively depend on its own storage type.
+    // Term stores variant<int, Expression>
+    Term       <= Number / "(" Expression ")"
+    Product    <= Number %+ "*"
+    Addition   <= Product %+ "+"
+    Expression <= Addition
+    Grammar    <- Expression+
+EOF

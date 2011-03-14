@@ -1,0 +1,32 @@
+!html
+head {
+    %title nyu - PEG based parser generator tutorial
+    link(rel=stylesheet, type=text/css, href=../css/global.css)
+}
+
+!body
+
+%h1 Tutorial - Creating a grammar
+
+%p { Grammars must begin with a &ldquo;@grammar&rdquo; statement which is used to determines the namespace the output grammar lives within. }
+
+%pre {
+    @grammar MyGrammar
+}
+
+%p { Grammars can be nested within other namespaces in the output code. }
+
+%pre {
+    @module grandparent_namespace.parent_namespace
+    @grammar MyGrammar
+}
+
+%p { Comments are C++-style. }
+
+%pre <<EOF
+    // a single line comment
+
+    /* a comment that ends at
+       a star followed by a slash */
+EOF
+

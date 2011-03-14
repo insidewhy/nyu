@@ -1,0 +1,19 @@
+!html
+head {
+    %title nyu - PEG based parser generator tutorial
+    link(rel=stylesheet, type=text/css, href=../css/global.css)
+}
+
+!body
+
+%h1 Tutorial 2 - Parsing Sequences
+
+%p { Unlike PEGs whitespace is optional between elements in a sequence. The &ldquo;Spacing&ldquo; rule is used to determine what is considered whitespace (and thus should contain no sequences itself). The symbol ^ can be used to seperate elements where spacing is not permitted. }
+
+%pre <<EOF
+    @grammar javascript
+    Spacing        <- \s+  // \s matches tabs, vertical tabs and spaces.
+    Identifier     <- [a-zA-Z_] ^ [a-zA-Z0-9_]*
+    VarDeclaration <- "var" Identifier
+EOF
+
