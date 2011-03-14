@@ -9,14 +9,14 @@ head {
 %h1 Nyu Tutorial
 
 ol {
-    %li %a(href=begin.html) Creating a grammar.
-    %li %a(href=sequences.html) "Sequences."
-    %li %a(href=joined.html) Joined rules.
-    %li %a(href=choice.html) Ordered choice.
-    %li %a(href=node.html) Node rules: Introducing new types and self-referential AST nodes.
-    %li %a(href=hash.html) Key rules and creating hashed container AST nodes.
-    %li %a(href=tree.html) Using tree operators to cut unnecessary nodes out of operator trees.
-    %li %a(href=inheritence.html) Grammar inheritance.
-    %li %a(href=enumeration.html) "Enumerations."
-    %li %a(href=class.html) "Classes."
+    %li %a(href=begin.html) Creating a grammar
+    %li %a(href=sequences.html) Sequences
+    %li %a(href=joined.html) Joined rules
+    %li %a(href=choice.html) Ordered choice
+    %li %a(href=node.html) Node rules: Introducing new types and self-referential AST nodes
+    %li %a(href=hash.html) Key rules and creating hashed container AST nodes
+    %li %a(href=tree.html) Using tree operators to cut unnecessary nodes out of operator trees
+    %li %a(href=inheritence.html) Grammar inheritance
+    %li %a(href=enumeration.html) Enumerations
+    %li %a(href=class.html) Classes
 }
