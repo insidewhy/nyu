@@ -42,4 +42,39 @@ module {
             )
         }
     )
+    "order2" -> NyuGrammar: (
+        []
+        {
+            "Id" -> Rule: (
+                []
+                '-'
+                Expression: Suffix: (
+                    CharacterRange: [ (
+                        'a'
+                        'z'
+                    ) ]
+                    '+'
+                )
+            )
+            "C" -> Rule: (
+                []
+                '='
+                Expression: Sequence: [
+                    [ "B" ]
+                    [ "Id" ]
+                ]
+            )
+            "B" -> Rule: (
+                []
+                '='
+                Expression: Sequence: [
+                    [ "C" ]
+                    Suffix: (
+                        [ "Id" ]
+                        "|?"
+                    )
+                ]
+            )
+        }
+    )
 }

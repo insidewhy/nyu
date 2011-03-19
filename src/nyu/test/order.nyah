@@ -5,3 +5,9 @@ C <- "t" B D
 B <- "i" A D
 A <- "p"
 D <= ..
+
+@grammar order2
+
+Id <- [a-z]+
+C <= B Id
+B <= C Id |?

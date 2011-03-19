@@ -49,7 +49,20 @@ struct Enum : chpar::simple_node<
 
 typedef ScopedId AssignExpression;
 
-typedef ScopedId Type;
+struct TypeSuffix : chpar::simple_node<
+    TypeSuffix,
+    chpar::sequence<
+        ScopedId,
+        chpar::tree_optional<
+            chpar::char_<'*'>
+        >
+    >
+> {};
+
+struct Type : chpar::simple_node<
+    Type,
+    TypeSuffix
+> {};
 
 struct Attribute : chpar::simple_node<
     Attribute,

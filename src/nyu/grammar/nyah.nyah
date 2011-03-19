@@ -20,7 +20,9 @@ Enum       <= 'enum' #Id '{' EnumEntry % ',' '}'
 
 // todo: add more to these
 AssignExpression <- ScopedId
-Type             <- ScopedId
+
+TypeSuffix       <= ScopedId '*' |?
+Type             <= TypeSuffix
 
 Attribute         <= #Id ':' Type
 AssignedAttribute <= #Id ':' Type? '=' AssignExpression

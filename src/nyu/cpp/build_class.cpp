@@ -7,7 +7,11 @@ void build_class::operator()(attr_type& attr) {
 }
 
 void build_class::operator()(assigned_attr_type& attr) {
-    // TODO: check for type in std::get<1>(attr.second.value_)
+    auto const& type = std::get<0>(attr.second.value_);
+    if (! type.empty()) {
+        // mega TODO: use get_value and get_type seperately
+        return;
+    }
 
     // current rhs can only be a scoped id.. vector of range
     get_type_and_value resolver(std::get<1>(attr.second.value_));

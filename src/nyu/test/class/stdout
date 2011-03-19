@@ -11,14 +11,14 @@ module {
             "KOPANDA" -> empty
         }
         "status_" -> AssignedAttribute: (
-            []
+            empty
             [
                 "Status"
                 "GOOD"
             ]
         )
         "panda_" -> AssignedAttribute: (
-            []
+            empty
             [
                 "Panda"
                 "KOPANDA"

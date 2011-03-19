@@ -124,7 +124,7 @@ module {
     }
     "WithStatus" -> Class: {
         "status_" -> AssignedAttribute: (
-            []
+            empty
             [
                 "Status"
                 "UNKNOWN"
@@ -209,10 +209,21 @@ module {
                 '-'
                 Expression: [ "ScopedId" ]
             )
+            "TypeSuffix" -> Rule: (
+                []
+                '='
+                Expression: Sequence: [
+                    [ "ScopedId" ]
+                    Suffix: (
+                        String: "*"
+                        "|?"
+                    )
+                ]
+            )
             "Type" -> Rule: (
                 []
-                '-'
-                Expression: [ "ScopedId" ]
+                '='
+                Expression: [ "TypeSuffix" ]
             )
             "Attribute" -> Rule: (
                 []
@@ -282,7 +293,7 @@ module {
             "PROCESSED" -> empty
         }
         "status_" -> AssignedAttribute: (
-            []
+            empty
             [
                 "Status"
                 "UNKNOWN"
