@@ -67,10 +67,10 @@ class file {
             throw error::cannot_open_file(file_path);
         }
 
-        stream_.skip_whitespace();
+        stream_.optional_spacing();
 
         if (chilon::parser::parse<grammar_t>::skip(stream_, ast)) {
-            stream_.skip_whitespace();
+            stream_.optional_spacing();
             return true;
         }
         else return false;
