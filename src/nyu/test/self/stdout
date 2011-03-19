@@ -123,10 +123,13 @@ module {
         "PROCESSED" -> empty
     }
     "WithStatus" -> Class: {
-        "status_" -> AssignedAttribute: [
-            "Status"
-            "UNKNOWN"
-        ]
+        "status_" -> AssignedAttribute: (
+            []
+            [
+                "Status"
+                "UNKNOWN"
+            ]
+        )
     }
     "nyah" -> NyuGrammar: (
         [ "nyu" ]
@@ -232,6 +235,10 @@ module {
                         [ "Id" ]
                     )
                     String: ":"
+                    Suffix: (
+                        [ "Type" ]
+                        '?'
+                    )
                     String: "="
                     [ "AssignExpression" ]
                 ]
@@ -274,10 +281,13 @@ module {
             "NODE" -> empty
             "PROCESSED" -> empty
         }
-        "status_" -> AssignedAttribute: [
-            "Status"
-            "UNKNOWN"
-        ]
+        "status_" -> AssignedAttribute: (
+            []
+            [
+                "Status"
+                "UNKNOWN"
+            ]
+        )
     }
     "nyu" -> NyuGrammar: (
         []

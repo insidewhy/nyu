@@ -69,6 +69,9 @@ struct AssignedAttribute : chpar::simple_node<
             Id
         >,
         chpar::char_<':'>,
+        chpar::optional<
+            Type
+        >,
         chpar::char_<'='>,
         AssignExpression
     >

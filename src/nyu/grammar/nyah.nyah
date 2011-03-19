@@ -23,7 +23,7 @@ AssignExpression <- ScopedId
 Type             <- ScopedId
 
 Attribute         <= #Id ':' Type
-AssignedAttribute <= #Id ':' '=' AssignExpression
+AssignedAttribute <= #Id ':' Type? '=' AssignExpression
 
 Class             < WithStatus =
     'class' #Id '{' (Attribute / AssignedAttribute / Enum)* '}'

@@ -10,13 +10,19 @@ module {
             "PAPANDA" -> empty
             "KOPANDA" -> empty
         }
-        "status_" -> AssignedAttribute: [
-            "Status"
-            "GOOD"
-        ]
-        "panda_" -> AssignedAttribute: [
-            "Panda"
-            "KOPANDA"
-        ]
+        "status_" -> AssignedAttribute: (
+            []
+            [
+                "Status"
+                "GOOD"
+            ]
+        )
+        "panda_" -> AssignedAttribute: (
+            []
+            [
+                "Panda"
+                "KOPANDA"
+            ]
+        )
     }
 }
