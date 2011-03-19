@@ -90,6 +90,7 @@ struct build_rule::build_tree_node {
     }
 
     void operator()(grammar::nyu::Sequence& sub) {
+        rule_.second.status_ = RuleStatus::NORMAL;
         rule_builder_.subparser("sequence");
         auto it = sub.value_.begin();
         build_tree_sequence(*it);
@@ -98,6 +99,7 @@ struct build_rule::build_tree_node {
             build_tree_sequence(*it);
         }
         rule_builder_.end_subparser();
+        rule_.second.status_ = RuleStatus::PROCESSED;
     }
 
     build_tree_node(decltype(rule_builder_)& rule_builder,
@@ -398,9 +400,12 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
                     std::get<2>(it->second.value_).value_, is_tree_node()))
             {
                 build_rule build_this_tree(grammar_builder_);
+
+                build_this_tree.begin_node_rule(*it);
                 chilon::variant_apply(
                     std::get<2>(it->second.value_).value_,
                     build_tree_node(build_this_tree, *it));
+                build_this_tree.end_node_rule();
 
                 print_indent();
                 stream_ << sub.front();
