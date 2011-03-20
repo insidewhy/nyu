@@ -21,13 +21,50 @@ head {
     @grammar MyGrammar
 }
 
-%p { Comments are C++-style. }
+%p Comments are C++-style.
 
 %pre <<EOF
     // a single line comment
 
     /* a comment that ends at
        a star followed by a slash */
+EOF
+
+%p An output file is created for each grammar with parent directories for any enclosing namespaces. Assume the following file contents are in a file in the current working directory called &ldquo;test.nyah&rdquo;:
+
+%pre <<EOF
+    @module project
+
+    @grammar grammar1
+    // grammar1 rules go here...
+
+    @grammar grammar2
+    // grammar2 rules go here...
+EOF
+
+%p One would invoke nyu to generate C++ output and view the generated source as such:
+
+%code(source=shell) <<EOF
+user@host % nyu test.nyah
+user@host % ls project
+grammar1.hpp  grammar2.hpp
+EOF
+
+%p Note that nyu files have the file extension &ldquo;nyah&rdquo; as the &ldquo;nyu&rdquo; layer encompasses parsing grammar support only, whereas the &ldquo;nyah&rdquo; layer supports defining modules, multiple grammars, grammar inheritance and class creation. Grammars not within any module are output into the current working directory, but the &ldquo;-o&rdquo; option can be used to change the root path nyu outputs files and directories to.
+
+%p These are the nyu command-line arguments:
+
+%code(source=shell) <<EOF
+    user@host % nyu -h
+    nyu 0.8.1 (suggested mouse name: crunchy)
+    usage: nyu [arguments] <grammar files to process>
+     -h [ --help ]         display help
+     -p [ --print ]        print AST of grammar
+     -v [ --verbose ]      increase verbosity
+     -o [ --output-dir ]   directory to output code
+     -n [ --namespace ]    chilon parser namespace alias, default: chpar
+     -V                    print lots of comments to generated parser
+     -I [ --include ]      include paths
 EOF
 
 %a(href=index.html) previous | " | " | %a(href=sequences.html) next
