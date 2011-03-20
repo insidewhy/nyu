@@ -29,11 +29,11 @@ head {
 }
 
 %h2 An example grammar - basic maths.
-%p The following Grammar stores list&lt; variant&lt;Addition, Product, int&gt; &gt;
+%p The following Grammar stores std::vector&lt; chilon::variant&lt;Addition, Product, chilon::range&gt; &gt;
 %pre <<EOF
     @grammar mathematics
     Spacing   <- \s
-    Number    < int - [0-9]+
+    Number    <- [0-9]+
     Product   <= Number  |% "*"
     Addition  <= Product |% "+"
     Grammar   <- Addition+

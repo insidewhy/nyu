@@ -11,33 +11,33 @@ head {
 %pre <<EOF
     @grammar mathematics
     Spacing   <- \s+
-    Number    < int - [0-9]+
+    Number    <- [0-9]+
 
     // |% parses the same data as %+ but stores parsed data differently.
     // The node type is only created if the join matches more than one item,
     // otherwise it stores the item to the left of the |%. The resulting type
     // of the whole expression is a variant that can store either type.
-    // In this case Product stores variant<int, Product> which is populated
-    // with either int or Product depending on whether Number matches one or
-    // many times.
+    // In this case Product stores variant<range, Product> which is populated
+    // with range or Product depending on whether Number matches one
+    // or many times.
     Product   <= Number  |% "*"
 
     // Node parsers that use |+, |* or |% cannot refer to themselves.
 
     // Addition stores: variant<Addition, storage type of Product>
-    //          expand: variant<Addition, variant<Product, int>>
-    //        collapse: variant<Addition, Product, int>
+    //          expand: variant<Addition, variant<Product, range>>
+    //        collapse: variant<Addition, Product, range>
     Addition  <= Product |% "+"
 
     Grammar   <- Addition+
 
-    // stores: vector< variant<int, Product, Addition> >
+    // stores: vector< variant<range, Product, Addition> >
     // creates:
     //     class Product {
-    //          vector<int> value_;
+    //          vector<range> value_;
     //     }
     //     class Addition {
-    //          vector<variant<int, Product>> value_;
+    //          vector<variant<range, Product>> value_;
     //     }
     // parses: 4 + 2
     // as:     [ Addition[4, 2] ]
