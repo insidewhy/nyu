@@ -51,7 +51,7 @@ void build_grammar::operator()(rule_type& rule) {
             rule_builder(rule);
             break;
         }
-        case RuleStatus::NODE: {
+        case RuleStatus::DECLARED_NODE: {
             build_rule rule_builder(*this);
             rule_builder.begin_node_rule(rule);
             chilon::variant_apply(

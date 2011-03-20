@@ -290,6 +290,7 @@ module {
             "UNKNOWN" -> empty
             "NORMAL" -> empty
             "NODE" -> empty
+            "DECLARED_NODE" -> empty
             "PROCESSED" -> empty
         }
         "status_" -> AssignedAttribute: (

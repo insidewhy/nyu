@@ -8,6 +8,7 @@ struct NyuRule {
         UNKNOWN,
         NORMAL,
         NODE,
+        DECLARED_NODE,
         PROCESSED
     };
 

@@ -387,7 +387,14 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
             stream_ << sub.front();
             grammar_builder_(*it);
         }
+        else if (it->second.status_ == RuleStatus::DECLARED_NODE) {
+            line_subparser("node");
+            stream_ << sub.front() << '>';
+            // already marked as a node
+        }
         else if (it->second.status_ == RuleStatus::NODE) {
+            it->second.status_ = RuleStatus::DECLARED_NODE;
+            grammar_builder_.body_ << "\nstruct " << sub.front() << ";\n";
             line_subparser("node");
             stream_ << sub.front() << '>';
             // already marked as a node
@@ -411,7 +418,7 @@ void build_rule::operator()(std::vector<chilon::range>& sub) {
                 stream_ << sub.front();
             }
             else {
-                it->second.status_ = RuleStatus::NODE;
+                it->second.status_ = RuleStatus::DECLARED_NODE;
                 grammar_builder_.body_ << "\nstruct " << sub.front() << ";\n";
                 line_subparser("node");
                 stream_ << sub.front() << '>';
