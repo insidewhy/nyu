@@ -66,7 +66,7 @@ EOF
 
 %h2 Further Reading
 
-%p { The syntax of nyu is described in the paper on tree building parser expression grammars which can be found | %a(href=http://chilon.net/papers/tbpeg.pdf) "here." | nyu also includes support for storing hashed containers which is not described in this paper. }
+%p { The | %a(href=tutorial/index.html) tutorial | is currently missing detail on many operator types and missing information on some of the advanced features of nyu but is in the process of rapid expansion. The | %a(href=http://chilon.net/tutorial/index.html) chilon::parser tutorial | is a good reference to the chilon::parser library that the generated parsers use. The syntax of nyu is described in the paper on tree building parser expression grammars which can be found | %a(href=http://chilon.net/papers/tbpeg.pdf) "here." | nyu also includes support for storing hashed containers which is not described in this paper. }
 
 %h2 Contributing
 
