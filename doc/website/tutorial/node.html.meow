@@ -11,7 +11,7 @@ head {
 %h2 Use &lt;= to create node parsers which store new types
 %pre <<EOF
     @grammar mathematics_basic
-    Spacing   <- \s
+    Spacing   <- \s+
 
     // <int- stores resulting parsed string as int
     Number    < int - [0-9]+
@@ -25,7 +25,7 @@ head {
     // P %+ Q matches P (Q P)* and stores vector[storage type of P]
     Addition  <= Product %+ "+"
 
-    // Spacing* is allowed between elements in each P in P+ or P* unless
+    // Spacing? is allowed between elements in each P in P+ or P* unless
     // P stores a character. P^+ is the same as P+ with no spacing allowed.
     Grammar   <- Addition+
 
@@ -49,7 +49,7 @@ EOF
 %h2 Node parsers can refer to themselves
 %pre <<EOF
     @grammar mathematics_basic
-    Spacing    <- \s
+    Spacing    <- \s+
     Number     < int - [0-9]+
 
     // Expression recursively refers to itself through Term. This would not be

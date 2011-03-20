@@ -10,7 +10,7 @@ head {
 
 %pre <<EOF
     @grammar js
-    Spacing     <- \s
+    Spacing     <- \s+
     Id          <- [a-zA-Z_] ^ [0-9a-zA-Z_]*
 
     // Sequences store tuples.  sub-tuples are broken down into the parent

@@ -10,7 +10,7 @@ head {
 
 %pre <<EOF
     @grammar mathematics
-    Spacing   <- \s
+    Spacing   <- \s+
     Number    < int - [0-9]+
 
     // |% parses the same data as %+ but stores parsed data differently.

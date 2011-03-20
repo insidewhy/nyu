@@ -23,6 +23,14 @@ head {
         }
     }
     %li {
+        release 0.8.2
+        %ul {
+            %li Upgrade to latest chilon, speeds up parsing.
+            %li Spacing? is now optional between expressions in a sequnce rather than Spacing*.
+            %li Fix output rule order when using tree operators.
+        }
+    }
+    %li {
         release 0.8.1
         %ul {
             %li Print file location of errors discovered during code generation.
