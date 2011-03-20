@@ -25,9 +25,9 @@ head {
     %li {
         release 0.8.2
         %ul {
-            %li Upgrade to latest chilon, speeds up parsing.
-            %li Spacing? is now optional between expressions in a sequnce rather than Spacing*.
-            %li Fix output rule order when using tree operators.
+            %li Speed up parsing by upgrading to chilon 1.5.
+            %li Spacing? is now parsed between expressions in a sequence rather than Spacing*.
+            %li Fix possible incorrect ordering of generated rules when using tree operators.
         }
     }
     %li {
